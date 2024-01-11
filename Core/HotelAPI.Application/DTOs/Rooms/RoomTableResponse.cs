@@ -1,4 +1,7 @@
-﻿using HotelAPI.Application.DTOs.Reservations;
+﻿using HotelAPI.Application.DTOs.Equipments;
+using HotelAPI.Application.DTOs.Hotels;
+using HotelAPI.Application.DTOs.Reservations;
+using HotelAPI.Application.DTOs.RoomTypes;
 
 namespace HotelAPI.Application.DTOs.Rooms
 {
@@ -13,7 +16,7 @@ namespace HotelAPI.Application.DTOs.Rooms
 
         //Relations
         public RoomTypeTableResponse RoomType { get; set; }
-        public RoomTypeTableResponse Hotel { get; set; }
+        public HotelTableResponse Hotel { get; set; }
         public List<EquipmentTableResponse> Equipments { get; set; }
         public List<ReservationTableResponse> Reservations { get; set; }
 

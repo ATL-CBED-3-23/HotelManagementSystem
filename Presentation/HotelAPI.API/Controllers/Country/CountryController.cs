@@ -1,9 +1,6 @@
 ﻿using HotelAPI.Application.DTOs.Countries;
-using HotelAPI.Application.DTOs.Country;
 using HotelAPI.Application.Services.Abstract;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace HotelAPI.API.Controllers.Country
 {
@@ -19,9 +16,9 @@ namespace HotelAPI.API.Controllers.Country
         }
 
         [HttpPost("Add")]
-        public async Task<IActionResult> Add(CountryAddRequest createCountryDto)
+        public async Task<IActionResult> Add(CountryAddRequest countryAddRequest)
         {
-            await _countryService.AddAsync(createCountryDto);
+            await _countryService.AddAsync(countryAddRequest);
             return Ok();
         }
 

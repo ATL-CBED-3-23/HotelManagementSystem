@@ -1,4 +1,5 @@
 ﻿using HotelAPI.Application.DTOs.Reservations;
+using HotelAPI.Application.DTOs.Reviews;
 
 namespace HotelAPI.Application.DTOs.Reservators
 {

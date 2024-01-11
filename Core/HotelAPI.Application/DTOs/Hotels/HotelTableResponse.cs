@@ -1,4 +1,5 @@
 ﻿using HotelAPI.Application.DTOs.Cities;
+using HotelAPI.Application.DTOs.Reviews;
 using HotelAPI.Application.DTOs.Rooms;
 
 namespace HotelAPI.Application.DTOs.Hotels
