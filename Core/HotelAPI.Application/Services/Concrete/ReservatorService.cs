@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
+using HotelAPI.Application.DTOs.Reservators;
 using HotelAPI.Application.Services.Abstract;
+using HotelAPI.Domain.Entities;
 using HotelAPI.Domain.Interfaces;
 
 namespace HotelAPI.Application.Services.Concrete
@@ -15,5 +17,36 @@ namespace HotelAPI.Application.Services.Concrete
             _reservatorRepository = reservatorRepository;
         }
 
+        public async Task AddAsync(ReservatorAddRequest reservatorAddRequest)
+        {
+            var map = _mapper.Map<Reservator>(reservatorAddRequest);
+
+            await _reservatorRepository.CreateAsync(map);
+        }
+
+        public async Task DeleteByIdAsync(int id)
+        {
+            Reservator reservator = await _reservatorRepository.FindByIdAsync(id);
+            await _reservatorRepository.DeActivate(reservator);
+        }
+
+        public async Task EditAsync(ReservatorUpdateRequest reservatorUpdateRequest)
+        {
+            var map = _mapper.Map<Reservator>(reservatorUpdateRequest);
+            await _reservatorRepository.UpdateAsync(map);
+        }
+
+        public async Task<ReservatorUpdateRequest> GetForUpdateById(int id)
+        {
+            Reservator reservator = await _reservatorRepository.FindByIdAsync(id);
+            ReservatorUpdateRequest reservatorUpdateRequest= _mapper.Map<ReservatorUpdateRequest>(reservator);
+            return reservatorUpdateRequest;
+        }
+
+        public async Task<List<ReservatorTableResponse>> GetTable()
+        {
+            var reservators = _reservatorRepository.FindAllAsync();
+            return _mapper.Map<List<ReservatorTableResponse>>(reservators);
+        }
     }
 }

@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using HotelAPI.Application.DTOs.Cities;
 using HotelAPI.Application.DTOs.Countries;
-using HotelAPI.Application.DTOs.Country;
 using HotelAPI.Application.Services.Abstract;
 using HotelAPI.Domain.Entities;
 using HotelAPI.Domain.Interfaces;
@@ -29,10 +28,8 @@ namespace HotelAPI.Application.Services.Concrete
         public async Task<CountryUpdateRequest> GetForUpdateById(int id)
         {
             Country country = await _countryRepository.FindByIdAsync(id);
-            return _mapper.Map<CountryUpdateRequest>(country);
-
-
-
+            CountryUpdateRequest countryUpdateRequest = _mapper.Map<CountryUpdateRequest>(country);
+            return countryUpdateRequest;
         }
         public async Task EditAsync(CountryUpdateRequest countryUpdateRequest)
         {

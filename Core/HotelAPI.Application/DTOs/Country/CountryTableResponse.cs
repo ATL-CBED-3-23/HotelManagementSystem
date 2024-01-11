@@ -1,8 +1,4 @@
-﻿using AutoMapper;
-using HotelAPI.Application.DTOs.Cities;
-using HotelAPI.Application.DTOs.City;
-using HotelAPI.Application.Mappings;
-using HotelAPI.Domain.Entities;
+﻿using HotelAPI.Application.DTOs.Cities;
 
 namespace HotelAPI.Application.DTOs.Countries
 {
