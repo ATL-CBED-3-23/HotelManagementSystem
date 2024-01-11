@@ -2,6 +2,7 @@
 using HotelAPI.Domain.Interfaces;
 using HotelAPI.Persistence.AppDbContext;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,9 +32,10 @@ namespace HotelAPI.Infrastructure.Repositories
         public async Task<List<TEntity>> FindAllActiveAsync()
         {
             List<TEntity> entities;
-            entities = await repositoryContextBase.Set<TEntity>().Where(x => x.entityStatus == EntityStatus.Active).ToListAsync();
+            entities = await repositoryContextBase.Set<TEntity>().Where(x => x.EntityStatus == EntityStatus.Active).ToListAsync();
             return entities;
         }
+       
         public async Task<List<TEntity>> FindAllAsync()
         {
             List<TEntity> entities;
@@ -43,7 +45,7 @@ namespace HotelAPI.Infrastructure.Repositories
         public async Task<List<TEntity>> FindAllActiveAsNoTrackingAsync()
         {
             IQueryable<TEntity> entities;
-            entities = repositoryContextBase.Set<TEntity>().Where(x => x.entityStatus == EntityStatus.Active).AsNoTracking();
+            entities = repositoryContextBase.Set<TEntity>().Where(x => x.EntityStatus == EntityStatus.Active).AsNoTracking();
             return await entities.ToListAsync();
         }
         public async Task<List<TEntity>> FindAllAsNoTrackingAsync()
@@ -84,7 +86,7 @@ namespace HotelAPI.Infrastructure.Repositories
 
         public async Task DeActivate(TEntity entity)
         {
-            entity.entityStatus = EntityStatus.InActive;
+            entity.EntityStatus = EntityStatus.InActive;
             repositoryContextBase.Set<TEntity>().Update(entity);
             await repositoryContextBase.SaveChangesAsync();
         }

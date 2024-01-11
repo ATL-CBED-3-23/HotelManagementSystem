@@ -7,6 +7,5 @@ namespace HotelAPI.Application.DTOs.Countries
     public class CountryAddRequest : IMapTo<Country>
     {
         public string Name { get; set; }
-        public List<CityAddRequest> Cities { get; set; }
     }
 }

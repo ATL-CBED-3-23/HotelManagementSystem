@@ -17,7 +17,7 @@ namespace HotelAPI.Persistence.Configurations
 
             builder.HasKey(b => b.Id);
             builder.Property(b => b.Name).IsRequired().HasMaxLength(50);
-            builder.Property(b => b.entityStatus).HasColumnName("IsDeleted");
+            builder.Property(b => b.EntityStatus).HasColumnName("IsDeleted");
 
             //Relations
             builder.HasMany(b => b.Cities).WithOne(b => b.Country).HasForeignKey(b => b.CountryId);

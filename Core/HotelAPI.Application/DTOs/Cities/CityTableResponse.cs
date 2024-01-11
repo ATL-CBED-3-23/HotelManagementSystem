@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using HotelAPI.Application.DTOs.Countries;
+using HotelAPI.Application.DTOs.Hotels;
+using HotelAPI.Domain.Entities;
 
 namespace HotelAPI.Application.DTOs.Cities
 {
@@ -11,5 +9,9 @@ namespace HotelAPI.Application.DTOs.Cities
         public int Id { get; set; }
         public string Name { get; set; }
         public string PostalCode { get; set; }
+
+        //Relations
+        public CountryTableResponse Country { get; set; }
+        public List<HotelTableResponse> Hotels { get; set; }
     }
 }

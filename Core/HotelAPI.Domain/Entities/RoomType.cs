@@ -8,6 +8,6 @@ public class RoomType:BaseEntity
     public string Description { get; set; }
 
     //Relations
-    public List<Room>Rooms { get; set; }
+    public List<Room> Rooms { get; set; }
 
 }
