@@ -5,7 +5,7 @@ namespace HotelAPI.Application.Services.Abstract
 {
     public interface ICityService
     {
-        Task AddAsync(CityAddRequest createCityDto);
+        Task AddAsync(CityAddRequest cityAddRequest);
 
     }
 }

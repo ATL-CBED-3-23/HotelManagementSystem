@@ -22,9 +22,9 @@ namespace HotelAPI.Application.Services.Concrete
             _mapper = mapper;
             _cityRepository = cityRepository;
         }
-        public async Task AddAsync(CityAddRequest createCityDto)
+        public async Task AddAsync(CityAddRequest cityAddRequest)
         {
-            var map = _mapper.Map<City>(createCityDto);
+            var map = _mapper.Map<City>(cityAddRequest);
 
             await _cityRepository.CreateAsync(map);
         }
