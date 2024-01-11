@@ -4,10 +4,9 @@ using HotelAPI.Domain.Entities;
 
 namespace HotelAPI.Application.DTOs.Countries
 {
-    public class CountryUpdateRequest:IMapTo<Country>
+    public class CountryUpdateRequest : IMapTo<Country>
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public List<CityUpdateRequest> Cities { get; set; }
     }
 }

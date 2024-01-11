@@ -1,4 +1,5 @@
 ﻿using HotelAPI.Application.DTOs.Countries;
+using HotelAPI.Application.DTOs.Country;
 using HotelAPI.Domain.Entities;
 using System;
 using System.Collections.Generic;

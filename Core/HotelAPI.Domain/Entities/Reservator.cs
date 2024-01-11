@@ -10,6 +10,6 @@ public class Reservator:BaseEntity
     public string PhoneNumber { get; set; }
 
     //Relations
-    public List<Reservation>Reservations { get; set; }
+    public List<Reservation> Reservations { get; set; }
     public List<Review> Reviews { get; set; }
 }

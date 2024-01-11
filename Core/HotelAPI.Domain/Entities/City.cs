@@ -10,5 +10,5 @@ public class City : BaseEntity
     //Relations
     public int CountryId { get; set; }
     public Country Country { get; set; }
-    public List<Hotel>Hotels { get; set; }
+    public List<Hotel> Hotels { get; set; }
 }

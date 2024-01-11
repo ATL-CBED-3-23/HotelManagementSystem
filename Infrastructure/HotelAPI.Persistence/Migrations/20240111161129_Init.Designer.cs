@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HotelAPI.Persistence.Migrations
 {
     [DbContext(typeof(HotelAppContext))]
-    [Migration("20240109155456_mig_3")]
-    partial class mig_3
+    [Migration("20240111161129_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -39,6 +39,10 @@ namespace HotelAPI.Persistence.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("EntityStatus")
+                        .HasColumnType("int")
+                        .HasColumnName("IsDeleted");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -48,10 +52,6 @@ namespace HotelAPI.Persistence.Migrations
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
-
-                    b.Property<int>("entityStatus")
-                        .HasColumnType("int")
-                        .HasColumnName("IsDeleted");
 
                     b.HasKey("Id");
 
@@ -71,14 +71,14 @@ namespace HotelAPI.Persistence.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("EntityStatus")
+                        .HasColumnType("int")
+                        .HasColumnName("IsDeleted");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
-
-                    b.Property<int>("entityStatus")
-                        .HasColumnType("int")
-                        .HasColumnName("IsDeleted");
 
                     b.HasKey("Id");
 
@@ -99,14 +99,16 @@ namespace HotelAPI.Persistence.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("EntityStatus")
+                        .HasColumnType("int")
+                        .HasColumnName("IsDeleted");
+
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
-                    b.Property<int?>("RoomId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("entityStatus")
+                    b.Property<int>("RoomId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -126,7 +128,8 @@ namespace HotelAPI.Persistence.Migrations
 
                     b.Property<string>("Address")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<int>("CityId")
                         .HasColumnType("int");
@@ -136,25 +139,30 @@ namespace HotelAPI.Persistence.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<int>("EntityStatus")
+                        .HasColumnType("int")
+                        .HasColumnName("IsDeleted");
 
                     b.Property<int>("Grade")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("WebSite")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("entityStatus")
-                        .HasColumnType("int");
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
 
                     b.HasKey("Id");
 
@@ -180,13 +188,14 @@ namespace HotelAPI.Persistence.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("EntityStatus")
+                        .HasColumnType("int")
+                        .HasColumnName("IsDeleted");
+
                     b.Property<int>("ReservatorId")
                         .HasColumnType("int");
 
                     b.Property<int>("RoomId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("entityStatus")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -211,22 +220,27 @@ namespace HotelAPI.Persistence.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<int>("EntityStatus")
+                        .HasColumnType("int")
+                        .HasColumnName("IsDeleted");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<string>("LastName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("entityStatus")
-                        .HasColumnType("int");
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.HasKey("Id");
 
@@ -243,18 +257,20 @@ namespace HotelAPI.Persistence.Migrations
 
                     b.Property<string>("Content")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("EntityStatus")
+                        .HasColumnType("int")
+                        .HasColumnName("IsDeleted");
 
                     b.Property<int>("HotelId")
                         .HasColumnType("int");
 
                     b.Property<int>("ReservatorId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("entityStatus")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -277,29 +293,34 @@ namespace HotelAPI.Persistence.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("EntityStatus")
+                        .HasColumnType("int")
+                        .HasColumnName("IsDeleted");
+
                     b.Property<int>("Floor")
+                        .HasMaxLength(25)
                         .HasColumnType("int");
 
                     b.Property<int>("HotelId")
                         .HasColumnType("int");
 
                     b.Property<int>("Number")
+                        .HasMaxLength(25)
                         .HasColumnType("int");
 
                     b.Property<string>("Phone")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(400)
+                        .HasColumnType("nvarchar(400)");
 
                     b.Property<double>("Price")
+                        .HasMaxLength(100)
                         .HasColumnType("float");
 
                     b.Property<int>("RoomState")
                         .HasColumnType("int");
 
                     b.Property<int>("RoomTypeId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("entityStatus")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -324,14 +345,17 @@ namespace HotelAPI.Persistence.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
+
+                    b.Property<int>("EntityStatus")
+                        .HasColumnType("int")
+                        .HasColumnName("IsDeleted");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("entityStatus")
-                        .HasColumnType("int");
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.HasKey("Id");
 
@@ -351,9 +375,13 @@ namespace HotelAPI.Persistence.Migrations
 
             modelBuilder.Entity("HotelAPI.Domain.Entities.Equipment", b =>
                 {
-                    b.HasOne("HotelAPI.Domain.Entities.Room", null)
+                    b.HasOne("HotelAPI.Domain.Entities.Room", "Room")
                         .WithMany("Equipments")
-                        .HasForeignKey("RoomId");
+                        .HasForeignKey("RoomId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Room");
                 });
 
             modelBuilder.Entity("HotelAPI.Domain.Entities.Hotel", b =>

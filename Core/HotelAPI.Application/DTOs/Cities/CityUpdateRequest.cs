@@ -8,13 +8,14 @@ using System.Threading.Tasks;
 
 namespace HotelAPI.Application.DTOs.Cities
 {
-    public class CityUpdateRequest:IMapTo<City>
+    public class CityUpdateRequest : IMapTo<City>
     {
         public int Id { get; set; }
         public string Name { get; set; }
         public string PostalCode { get; set; }
 
         //Relations
-        
+        public int CountryId { get; set; }
+
     }
 }
