@@ -19,7 +19,7 @@ namespace HotelAPI.Application
            .AsImplementedInterfaces()
            .WithScopedLifetime());
 
-            return services;
+           return services;
 
         }
     }

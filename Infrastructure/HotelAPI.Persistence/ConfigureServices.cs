@@ -1,4 +1,4 @@
-﻿using HotelAPI.Domain.Interfaces;
+﻿using HotelAPI.Domain.Entities;
 using HotelAPI.Persistence.AppDbContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -15,6 +15,7 @@ namespace HotelAPI.Persistence
             services.AddDbContext<HotelAppContext>(options =>
             options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
+           
 
             return services;
         }

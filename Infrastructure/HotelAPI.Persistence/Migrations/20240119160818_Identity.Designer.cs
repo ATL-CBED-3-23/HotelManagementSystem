@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HotelAPI.Persistence.Migrations
 {
     [DbContext(typeof(HotelAppContext))]
-    [Migration("20240119155111_mig1")]
-    partial class mig1
+    [Migration("20240119160818_Identity")]
+    partial class Identity
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
