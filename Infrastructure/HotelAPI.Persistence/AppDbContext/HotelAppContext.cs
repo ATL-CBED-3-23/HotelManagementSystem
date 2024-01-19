@@ -1,5 +1,6 @@
 ﻿using HotelAPI.Domain.Entities;
 using HotelAPI.Persistence.Extensions;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace HotelAPI.Persistence.AppDbContext
 {
-    public class HotelAppContext : DbContext
+    public class HotelAppContext : IdentityDbContext<HotelUser,HotelUserRole,int>
     {
         public HotelAppContext(DbContextOptions<HotelAppContext> options) : base(options)
         {
