@@ -1,10 +1,8 @@
-﻿using HotelAPI.Application.Mappings;
+﻿
+
+using HotelAPI.Application.DTOs.HotelUserRoles;
+using HotelAPI.Application.Mappings;
 using HotelAPI.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HotelAPI.Application.DTOs.HotelUsers
 {
@@ -15,6 +13,6 @@ namespace HotelAPI.Application.DTOs.HotelUsers
         public string Email { get; set; }
         public string Password { get; set; }
         public string UserName { get; set; }
-
+        public List<RoleAddRequest> Roles { get; set; }
     }
 }

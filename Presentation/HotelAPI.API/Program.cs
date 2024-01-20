@@ -1,8 +1,7 @@
 ﻿using HotelAPI.Application;
-using HotelAPI.Persistence;
-using HotelAPI.Infrastructure;
-using System.Reflection;
 using HotelAPI.Domain.Entities;
+using HotelAPI.Infrastructure;
+using HotelAPI.Persistence;
 using HotelAPI.Persistence.AppDbContext;
 using Microsoft.AspNetCore.Identity;
 
