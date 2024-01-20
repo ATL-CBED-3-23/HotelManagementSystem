@@ -6,10 +6,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HotelAPI.Application.DTOs.HotelUserRoles
+namespace HotelAPI.Application.DTOs.HotelUsers
 {
-    public class RoleAddRequest:IMapTo<HotelUserRole>
+    public class UserResetPasswordRequest 
     {
-        public string Name { get; set; }
+        public int Id { get; set; }
+        public string NewPassword { get; set; }
     }
 }

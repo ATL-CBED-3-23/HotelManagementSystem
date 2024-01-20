@@ -24,6 +24,50 @@ namespace HotelAPI.API.Controllers.HotelUser
             return Ok();
         }
 
+        [HttpGet("GetAllUsers")]
+        public IActionResult GetAllUsers()
+        {
+            var result = _accountService.GetAllUsers();
+            return Ok(result);
+        }
+
+        [HttpGet("GetUserById")]
+        public async Task<IActionResult> GetUserById(int id)
+        {
+            var result = await _accountService.GetUserForUpdateById(id);
+            return Ok(result);
+        }
+
+        [HttpPost("EditUser")]
+        public async Task<IActionResult> EditUser(UserUpdateRequest userUpdateRequest)
+        {
+            await _accountService.EditUserAsync(userUpdateRequest);
+            return Ok();
+        }
+
+        [HttpPost("DeleteUser")]
+        public async Task<IActionResult> DeleteUser(int id)
+        {
+            await _accountService.DeactivateUser(id);
+            return Ok();
+        }
+
+        [HttpPost("ChangePassword")]
+        public async Task<IActionResult> ChangePassword(UserChangePasswordRequest userChangePasswordRequest)
+        {
+            await _accountService.ChangePasswordAsync(userChangePasswordRequest);
+            return Ok();
+        }
+
+        [HttpPost("ResetPassword")]
+        public async Task<IActionResult> ResetPassword(UserResetPasswordRequest userResetPasswordRequest)
+        {
+            await _accountService.ResetPasswordAsync(userResetPasswordRequest);
+            return Ok();
+        }
+
+
+
         [HttpPost("CreateRole")]
         public async Task<IActionResult> CreateRole(RoleAddRequest roleAddRequest)
         {
@@ -32,9 +76,9 @@ namespace HotelAPI.API.Controllers.HotelUser
         }
 
         [HttpGet("GetAllRoles")]
-        public async Task<IActionResult> GetAllRoles()
+        public IActionResult GetAllRoles()
         {
-            var result = await _accountService.GetAllRolesAsync();
+            var result =  _accountService.GetAllRoles();
             return Ok(result);
         }
     }
