@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HotelAPI.Persistence.Migrations
 {
     [DbContext(typeof(HotelAppContext))]
-    [Migration("20240119160818_Identity")]
+    [Migration("20240120064230_Identity")]
     partial class Identity
     {
         /// <inheritdoc />
