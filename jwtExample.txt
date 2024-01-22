@@ -54,3 +54,17 @@ var userName = "john.doe"; // Replace with the actual user name
 var token = tokenGenerator.GenerateToken(userId, userName);
 
 Console.WriteLine($"Generated JWT token: {token}");
+
+
+
+-- to appsettings.json   IOptionsSnapshot<JWTOptions>
+"JWTOptions": {
+    "Audience": "BestQMS",
+    "Issuer": "BestQMS",
+    "SecretKey": "E9819FD8-BestCompQms-426D-8A02-6E0405E161F4",
+    "ExpirationInYears": 10
+  },
+  public interface IJWTTokenService
+    {
+        string GenerateJwt(IUserClaimsOptions userModelForTokenGen, IList<string> roles, IJWTOptions jwtSettings);
+    }
