@@ -1,6 +1,4 @@
-﻿
-
-using HotelAPI.Application.DTOs.HotelUserRoles;
+﻿using HotelAPI.Application.DTOs.HotelUserRoles;
 
 namespace HotelAPI.Application.DTOs.HotelUsers
 {
@@ -10,6 +8,6 @@ namespace HotelAPI.Application.DTOs.HotelUsers
         public string FullName { get; set; }
         public string Email { get; set; }
         public string UserName { get; set; }
-        public IList<string> Roles { get; set; }
+        public List<string> Roles { get; set; }
     }
 }

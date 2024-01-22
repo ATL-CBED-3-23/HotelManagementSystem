@@ -5,8 +5,6 @@ using HotelAPI.Application.Services.Abstract;
 using HotelAPI.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity;
-using HotelAPI.Application.DTOs.Countries;
 
 namespace HotelAPI.Application.Services.Concrete
 {
@@ -15,7 +13,6 @@ namespace HotelAPI.Application.Services.Concrete
         private readonly UserManager<HotelUser> _userManager;
         private readonly RoleManager<HotelUserRole> _roleManager;
         private readonly IMapper _mapper;
-
         public AccountService(UserManager<HotelUser> userManager, IMapper mapper, RoleManager<HotelUserRole> roleManager)
         {
             _userManager = userManager;
@@ -39,8 +36,6 @@ namespace HotelAPI.Application.Services.Concrete
             }
             return result;
         }
-
-
         public async Task<UserDto> GetUserForUpdateById(int id)
         {
             HotelUser user = await _userManager.FindByIdAsync(id.ToString());
@@ -49,7 +44,6 @@ namespace HotelAPI.Application.Services.Concrete
             userDto.Roles = _userManager.GetRolesAsync(user).Result;
             return userDto;
         }
-
         public async Task<IdentityResult> EditUserAsync(UserUpdateRequest userUpdateRequest)
         {
             HotelUser user = await _userManager.Users.SingleOrDefaultAsync(u => u.Id == userUpdateRequest.Id && u.EntityStatus == EntityStatus.Active);
@@ -61,8 +55,6 @@ namespace HotelAPI.Application.Services.Concrete
             IdentityResult result = await _userManager.UpdateAsync(user);
             return result;
         }
-
-
         public async Task<IdentityResult> DeactivateUser(int id)
         {
             HotelUser user = await _userManager.Users.SingleOrDefaultAsync(u => u.Id == id && u.EntityStatus == EntityStatus.Active);
@@ -71,7 +63,6 @@ namespace HotelAPI.Application.Services.Concrete
 
             return result;
         }
-
         public async Task<IdentityResult> ChangePasswordAsync(UserChangePasswordRequest userChangePasswordRequest)
         {
             HotelUser user = await _userManager.Users.SingleOrDefaultAsync(u => u.Id == userChangePasswordRequest.Id && u.EntityStatus == EntityStatus.Active);
@@ -80,47 +71,30 @@ namespace HotelAPI.Application.Services.Concrete
             return result;
 
         }
-
         public async Task<IdentityResult> ResetPasswordAsync(UserResetPasswordRequest userResetPasswordRequest)
         {
             HotelUser user = await _userManager.Users.SingleOrDefaultAsync(u => u.Id == userResetPasswordRequest.Id && u.EntityStatus == EntityStatus.Active);
-
             string resetToken = await _userManager.GeneratePasswordResetTokenAsync(user);
             IdentityResult result = await _userManager.ResetPasswordAsync(user, resetToken, userResetPasswordRequest.NewPassword);
             return result;
 
         }
-
         public async Task<IdentityResult> CreateRoleAsync(RoleAddRequest roleAddRequest)
         {
             HotelUserRole role = _mapper.Map<HotelUserRole>(roleAddRequest);
             IdentityResult result = await _roleManager.CreateAsync(role);
             return result;
         }
-
-        //public async Task<List<RoleTableResponse>> GetAllRolesAsync()
-        //{
-
-        //    List<HotelUserRole> roles = await _roleManager.Roles.Where(x => x.EntityStatus == EntityStatus.Active).ToListAsync();
-        //    List<RoleTableResponse> rolesTable = _mapper.Map<List<RoleTableResponse>>(roles);
-        //    return rolesTable;
-        //}
-
         public List<RoleTableResponse> GetAllRoles()
         {
             var query = from o in _roleManager.Roles.Where(x => x.EntityStatus == EntityStatus.Active)
-
                         select new RoleTableResponse
                         {
                             Name = o.Name,
                             Id = o.Id,
-
                         };
-
             return query.ToList();
-
         }
-
         public List<UserTableResponse> GetAllUsers()
         {
             var query = from u in _userManager.Users.ToList()
@@ -131,12 +105,23 @@ namespace HotelAPI.Application.Services.Concrete
                             FullName = $"{u.FirstName} {u.LastName}",
                             Email = u.Email,
                             UserName = u.UserName,
-                            Roles = _userManager.GetRolesAsync(u).Result
-
+                            Roles = _userManager.GetRolesAsync(u).Result.ToList()
                         };
 
             return query.ToList();
-
         }
+
+
+        // TO DO LIST 
+        /*
+        CreateRole
+        DeactivateRole
+        AddUserToRole
+        AddUserToRoles
+        RemoveUserFromRole
+        UpdateUserRoles
+        UserRoles
+        LOGIN user with password and get JWT token
+         */
     }
 }

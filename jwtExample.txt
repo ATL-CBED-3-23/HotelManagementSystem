@@ -1,0 +1,56 @@
+using System;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using Microsoft.IdentityModel.Tokens;
+
+public class JwtTokenGenerator
+{
+    private readonly string _secretKey;
+    private readonly string _issuer;
+    private readonly string _audience;
+
+    public JwtTokenGenerator(string secretKey, string issuer, string audience)
+    {
+        _secretKey = secretKey;
+        _issuer = issuer;
+        _audience = audience;
+    }
+
+    public string GenerateToken(string userId, string userName, int expirationMinutes = 60)
+    {
+        var claims = new[]
+        {
+            new Claim(JwtRegisteredClaimNames.Sub, userId),
+            new Claim(ClaimTypes.Name, userName),
+            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+        };
+
+        var key = new SymmetricSecurityKey(Convert.FromBase64String(_secretKey));
+        var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+        var token = new JwtSecurityToken(
+            issuer: _issuer,
+            audience: _audience,
+            claims: claims,
+            expires: DateTime.UtcNow.AddMinutes(expirationMinutes),
+            signingCredentials: credentials
+        );
+
+        var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
+
+        return tokenString;
+    }
+}
+
+// Example usage:
+var secretKey = "your-secret-key"; // Replace with your actual secret key
+var issuer = "your-issuer"; // Replace with your actual issuer
+var audience = "your-audience"; // Replace with your actual audience
+
+var tokenGenerator = new JwtTokenGenerator(secretKey, issuer, audience);
+var userId = "123"; // Replace with the actual user ID
+var userName = "john.doe"; // Replace with the actual user name
+
+var token = tokenGenerator.GenerateToken(userId, userName);
+
+Console.WriteLine($"Generated JWT token: {token}");
