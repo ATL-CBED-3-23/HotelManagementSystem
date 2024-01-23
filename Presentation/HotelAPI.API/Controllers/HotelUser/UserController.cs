@@ -1,6 +1,7 @@
 ﻿using HotelAPI.Application.DTOs.HotelUserRoles;
 using HotelAPI.Application.DTOs.HotelUsers;
 using HotelAPI.Application.Services.Abstract;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HotelAPI.API.Controllers.HotelUser
@@ -74,12 +75,30 @@ namespace HotelAPI.API.Controllers.HotelUser
             await _accountService.CreateRoleAsync(roleAddRequest);
             return Ok();
         }
+        [HttpPost("DeleteRole")]
+        public async Task<IActionResult> DeleteRole(int id)
+        {
+            await _accountService.DeactivateRole(id);
+            return Ok();
+        }
 
         [HttpGet("GetAllRoles")]
         public IActionResult GetAllRoles()
         {
             var result =  _accountService.GetAllRoles();
             return Ok(result);
+        }
+        [HttpPost("AddUserToRole")]
+        public async Task<IActionResult> AddUserToRole(int UserId,int RoleId)
+        {
+            await _accountService.AddUserToRoleAsync( UserId, RoleId);
+            return Ok();
+        }
+        [HttpPost("AddUSerToRoles")]
+        public async Task<IActionResult> AddUserToRoles(int UserId, List<int>  RoleId)
+        {
+            await _accountService.AddUserToRolesAsync(UserId, RoleId);
+            return Ok();
         }
     }
 }

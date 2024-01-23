@@ -5,8 +5,6 @@ using HotelAPI.Application.Services.Abstract;
 using HotelAPI.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity;
-using HotelAPI.Application.DTOs.Countries;
 
 namespace HotelAPI.Application.Services.Concrete
 {
@@ -98,14 +96,13 @@ namespace HotelAPI.Application.Services.Concrete
             return result;
         }
 
-        //public async Task<List<RoleTableResponse>> GetAllRolesAsync()
-        //{
-
-        //    List<HotelUserRole> roles = await _roleManager.Roles.Where(x => x.EntityStatus == EntityStatus.Active).ToListAsync();
-        //    List<RoleTableResponse> rolesTable = _mapper.Map<List<RoleTableResponse>>(roles);
-        //    return rolesTable;
-        //}
-
+        public async Task<IdentityResult> DeactivateRole(int id)
+        {
+            HotelUserRole role = await _roleManager.Roles.SingleOrDefaultAsync(r => r.Id == id && r.EntityStatus == EntityStatus.Active);
+            role.EntityStatus = EntityStatus.InActive;
+            IdentityResult result = await _roleManager.UpdateAsync(role);
+            return result;
+        }
         public List<RoleTableResponse> GetAllRoles()
         {
             var query = from o in _roleManager.Roles.Where(x => x.EntityStatus == EntityStatus.Active)
@@ -137,6 +134,47 @@ namespace HotelAPI.Application.Services.Concrete
 
             return query.ToList();
 
+        }
+
+        public async Task<IdentityResult> AddUserToRoleAsync(int UserId, int RoleId)
+        {
+            IdentityResult result;
+            HotelUser hotelUser = _userManager.Users.SingleOrDefault(u => u.Id == UserId && u.EntityStatus == EntityStatus.Active);
+            HotelUserRole hotelUserRole = _roleManager.Roles.SingleOrDefault(r => r.Id == RoleId && r.EntityStatus == EntityStatus.Active);
+            result = await _userManager.AddToRoleAsync(hotelUser, hotelUserRole.Name);
+            return result;
+        }
+
+        public async Task<IdentityResult> AddUserToRolesAsync(int UserId, List<int> RoleIds)
+        {
+            IdentityResult result = null;
+            HotelUser hotelUser = _userManager.Users.SingleOrDefault(u => u.Id == UserId && u.EntityStatus == EntityStatus.Active);
+            IList<string> userRoles = await _userManager.GetRolesAsync(hotelUser);
+            result = await _userManager.RemoveFromRolesAsync(hotelUser, userRoles);
+            List<string> rolesByIds = _roleManager.Roles.Where(x => RoleIds.Contains(x.Id)).Select(n => n.Name).ToList();
+            result = await _userManager.AddToRolesAsync(hotelUser, rolesByIds);
+            return result;
+
+
+        }
+
+        public async Task<IdentityResult> RemoveUserFromRoleAsync(int UserId, int RoleId)
+        {
+            IdentityResult result;
+            HotelUser hotelUser = _userManager.Users.SingleOrDefault(u => u.Id == UserId && u.EntityStatus == EntityStatus.Active);
+            HotelUserRole hotelUserRole = _roleManager.Roles.SingleOrDefault(r => r.Id == RoleId && r.EntityStatus == EntityStatus.Active);
+            result = await _userManager.RemoveFromRoleAsync(hotelUser, hotelUserRole.Name);
+            return result;
+        }
+
+        public Task<IdentityResult> RemoveUserFromRolesAsync(int UserId, List<int> RoleId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<LoginedUser> Login(string username, string password)
+        {
+            throw new NotImplementedException();
         }
     }
 }

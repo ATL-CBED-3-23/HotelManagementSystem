@@ -52,7 +52,7 @@ namespace HotelAPI.Application.Services.Concrete
                     {
                         Id = city.Id,
                         Name = city.Name,
-                        PostalCode = city.PostalCode
+                        PostalCode = city.PostalCode,
                     })
                     .ToList()
             }).ToList();
