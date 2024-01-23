@@ -114,14 +114,14 @@ namespace HotelAPI.Application.Services.Concrete
 
         // TO DO LIST 
         /*
-        CreateRole
-        DeactivateRole
-        AddUserToRole
-        AddUserToRoles
-        RemoveUserFromRole
-        UpdateUserRoles
-        UserRoles
-        LOGIN user with password and get JWT token
+        CreateRole +
+        DeactivateRole +
+        AddUserToRole +
+        AddUserToRoles+
+        RemoveUserFromRole+
+        UpdateUserRoles+
+        UserRoles+
+        LOGIN user with password and get JWT token-
          */
     }
 }
