@@ -100,5 +100,12 @@ namespace HotelAPI.API.Controllers.HotelUser
             await _accountService.AddUserToRolesAsync(UserId, RoleId);
             return Ok();
         }
+
+        [HttpPost("RemoveUserFromRoles")]
+        public async Task<IActionResult> RemoveUserFromRoles(int UserId,List<int> RoleId)
+        {
+            await _accountService.RemoveUserFromRolesAsync(UserId, RoleId);
+            return Ok();
+        }
     }
 }

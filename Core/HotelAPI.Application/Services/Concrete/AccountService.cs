@@ -167,14 +167,33 @@ namespace HotelAPI.Application.Services.Concrete
             return result;
         }
 
-        public Task<IdentityResult> RemoveUserFromRolesAsync(int UserId, List<int> RoleId)
-        {
-            throw new NotImplementedException();
-        }
+
 
         public Task<LoginedUser> Login(string username, string password)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<IdentityResult> RemoveUserFromRolesAsync(int UserId, List<int> RoleId)
+        {
+            var hotelUser = _userManager.Users.SingleOrDefault(u => u.Id == UserId && u.EntityStatus == EntityStatus.Active);
+            if (hotelUser == null)
+            {
+                return IdentityResult.Failed(new IdentityError { Description = "User not found." });
+            }
+
+            var roles = await _userManager.GetRolesAsync(hotelUser);
+            foreach (var role in roles)
+            {
+                var result = await _userManager.RemoveFromRoleAsync(hotelUser, role);
+                if (!result.Succeeded)
+                {
+                    return IdentityResult.Failed(new IdentityError { Description = "Failed to remove user from role." });
+                }
+            }
+
+            return IdentityResult.Success;
+
         }
     }
 }
