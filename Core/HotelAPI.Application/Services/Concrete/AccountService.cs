@@ -12,14 +12,12 @@ namespace HotelAPI.Application.Services.Concrete
     {
         private readonly UserManager<HotelUser> _userManager;
         private readonly RoleManager<HotelUserRole> _roleManager;
-        private readonly SignInManager<HotelUser> _signInManager;
         private readonly IMapper _mapper;
 
-        public AccountService(UserManager<HotelUser> userManager, IMapper mapper, RoleManager<HotelUserRole> roleManager , SignInManager<HotelUser> signInManager)
+        public AccountService(UserManager<HotelUser> userManager, IMapper mapper, RoleManager<HotelUserRole> roleManager)
         {
             _userManager = userManager;
             _roleManager = roleManager;
-            _signInManager = signInManager;
             _mapper = mapper;
         }
 
