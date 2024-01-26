@@ -12,12 +12,14 @@ namespace HotelAPI.Application.Services.Concrete
     {
         private readonly UserManager<HotelUser> _userManager;
         private readonly RoleManager<HotelUserRole> _roleManager;
+        private readonly SignInManager<HotelUser> _signInManager;
         private readonly IMapper _mapper;
 
-        public AccountService(UserManager<HotelUser> userManager, IMapper mapper, RoleManager<HotelUserRole> roleManager)
+        public AccountService(UserManager<HotelUser> userManager, IMapper mapper, RoleManager<HotelUserRole> roleManager , SignInManager<HotelUser> signInManager)
         {
             _userManager = userManager;
             _roleManager = roleManager;
+            _signInManager = signInManager;
             _mapper = mapper;
         }
 
@@ -167,33 +169,14 @@ namespace HotelAPI.Application.Services.Concrete
             return result;
         }
 
-
-
-        public Task<LoginedUser> Login(string username, string password)
+        public Task<IdentityResult> Login(string username, string password)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<IdentityResult> RemoveUserFromRolesAsync(int UserId, List<int> RoleId)
+        public Task<IdentityResult> RemoveUserFromRolesAsync(int UserId, List<int> RoleId)
         {
-            var hotelUser = _userManager.Users.SingleOrDefault(u => u.Id == UserId && u.EntityStatus == EntityStatus.Active);
-            if (hotelUser == null)
-            {
-                return IdentityResult.Failed(new IdentityError { Description = "User not found." });
-            }
-
-            var roles = await _userManager.GetRolesAsync(hotelUser);
-            foreach (var role in roles)
-            {
-                var result = await _userManager.RemoveFromRoleAsync(hotelUser, role);
-                if (!result.Succeeded)
-                {
-                    return IdentityResult.Failed(new IdentityError { Description = "Failed to remove user from role." });
-                }
-            }
-
-            return IdentityResult.Success;
-
+            throw new NotImplementedException();
         }
     }
 }
