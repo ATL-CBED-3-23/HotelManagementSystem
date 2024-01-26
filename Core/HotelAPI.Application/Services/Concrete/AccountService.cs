@@ -152,13 +152,26 @@ public class AccountService : IAccountService
         return result;
     }
 
-    public async Task<IdentityResult> Login(string username, string password)
-    {
-        throw new NotImplementedException();
-    }
+        public async Task<IdentityResult> Login(LoginRequest loginRequest)
+        {
+            var user = await _userManager.FindByNameAsync(loginRequest.UserName);
+            if (user != null && await _userManager.CheckPasswordAsync(user, loginRequest.Password))
+            {
+                return IdentityResult.Success;
+            }
+            else
+            {
+                return IdentityResult.Failed(new IdentityError
+                {
+                    Description = "Invalid username or password."
+                });
+            }
+        }
+        public Task<IdentityResult> RemoveUserFromRolesAsync(int UserId, List<int> RoleId)
+        {
+            throw new NotImplementedException();
+        }
 
-    public async Task<IdentityResult> RemoveUserFromRolesAsync(int UserId, List<int> RoleId)
-    {
-        throw new NotImplementedException();
+        
     }
 }

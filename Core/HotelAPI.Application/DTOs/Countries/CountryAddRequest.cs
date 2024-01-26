@@ -1,5 +1,4 @@
-﻿using HotelAPI.Application.DTOs.Cities;
-using HotelAPI.Application.Mappings;
+﻿using HotelAPI.Application.Mappings;
 using HotelAPI.Domain.Entities;
 
 namespace HotelAPI.Application.DTOs.Countries
