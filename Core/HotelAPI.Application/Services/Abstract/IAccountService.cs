@@ -1,6 +1,5 @@
 ﻿using HotelAPI.Application.DTOs.HotelUserRoles;
 using HotelAPI.Application.DTOs.HotelUsers;
-using HotelAPI.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 
 namespace HotelAPI.Application.Services.Abstract
@@ -8,7 +7,7 @@ namespace HotelAPI.Application.Services.Abstract
     public interface IAccountService
     {
         Task<IdentityResult> RegisterUserAsync(UserAddRequest userAddRequest);
-        Task<IdentityResult> Login(string username, string password); // Novbeti ders davam elemek ve JWT
+        Task<IdentityResult> Login(LoginRequest loginRequest); // Novbeti ders davam elemek ve JWT
         Task<UserDto> GetUserForUpdateById(int id);
         Task<IdentityResult> EditUserAsync(UserUpdateRequest userUpdateRequest);
         List<UserTableResponse> GetAllUsers();

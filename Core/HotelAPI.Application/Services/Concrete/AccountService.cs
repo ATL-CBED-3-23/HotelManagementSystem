@@ -167,14 +167,26 @@ namespace HotelAPI.Application.Services.Concrete
             return result;
         }
 
-        public Task<IdentityResult> Login(string username, string password)
+        public async Task<IdentityResult> Login(LoginRequest loginRequest)
         {
-            throw new NotImplementedException();
+            var user = await _userManager.FindByNameAsync(loginRequest.UserName);
+            if (user != null && await _userManager.CheckPasswordAsync(user, loginRequest.Password))
+            {
+                return IdentityResult.Success;
+            }
+            else
+            {
+                return IdentityResult.Failed(new IdentityError
+                {
+                    Description = "Invalid username or password."
+                });
+            }
         }
-
         public Task<IdentityResult> RemoveUserFromRolesAsync(int UserId, List<int> RoleId)
         {
             throw new NotImplementedException();
         }
+
+        
     }
 }

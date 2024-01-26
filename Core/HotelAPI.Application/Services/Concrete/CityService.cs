@@ -64,7 +64,7 @@ namespace HotelAPI.Application.Services.Concrete
                 Name = city.Name,
                 PostalCode = city.PostalCode,
                Country = city.Country.Name,
-                Hotels = hotels
+                HotelTable = hotels
                     .Where(hotel => hotel.CityId == city.Id)
                     .Select(hotel => new HotelTableResponse
                     {

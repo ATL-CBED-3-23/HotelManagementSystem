@@ -1,9 +1,13 @@
 ﻿using AutoMapper;
 using HotelAPI.Application.DTOs.Cities;
 using HotelAPI.Application.DTOs.Countries;
+using HotelAPI.Application.DTOs.Hotels;
 using HotelAPI.Application.Services.Abstract;
 using HotelAPI.Domain.Entities;
 using HotelAPI.Domain.Interfaces;
+using System.Diagnostics.Metrics;
+using System.Linq;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace HotelAPI.Application.Services.Concrete
 {
@@ -11,13 +15,15 @@ namespace HotelAPI.Application.Services.Concrete
     {
         private readonly ICountryRepository _countryRepository;
         private readonly ICityRepository _cityRepository;
+        private readonly IHotelRepository _hotelRepository;
         private readonly IMapper _mapper;
 
-        public CountryService(ICountryRepository countryRepository, ICityRepository cityRepository, IMapper mapper)
+        public CountryService(ICountryRepository countryRepository, ICityRepository cityRepository, IMapper mapper, IHotelRepository hotelRepository)
         {
             _cityRepository = cityRepository;
             _countryRepository = countryRepository;
             _mapper = mapper;
+            _hotelRepository = hotelRepository;
         }
         public async Task AddAsync(CountryAddRequest countryAddRequest)
         {
@@ -41,21 +47,40 @@ namespace HotelAPI.Application.Services.Concrete
         {
             List<Country> countries = await _countryRepository.FindAllAsync();
             List<City> cities = await _cityRepository.FindAllAsync();
+            List<Hotel> hotels = await _hotelRepository.FindAllAsync();
+            var result = from country in countries
+                         join city in cities on country.Id equals city.CountryId
+                         join hotel in hotels on city.Id equals hotel.CityId
+                         select new CountryTableResponse
+                         {
+                             Id = country.Id,
+                             Name = country.Name,
+                             Cities = new List<CityTableResponse>
+                         {
+                     new CityTableResponse
+                     {
+                         Id = city.Id,
+                         Name = city.Name,
+                         PostalCode = city.PostalCode,
+                         Country = country.Name,
+                         HotelTable = hotels
+                         .Select(hotel => new HotelTableResponse
+                             {
+                                 Name = hotel.Name,
+                                 Address = hotel.Address,
+                                 PhoneNumber = hotel.PhoneNumber,
+                                 Email = hotel.Email,
+                                 Grade = hotel.Grade,
+                             })
+                             .ToList()
+                     }
+                         }
+                         };
 
-            return countries.Select(country => new CountryTableResponse
-            {
-                Id = country.Id,
-                Name = country.Name,
-                Cities = cities
-                    .Where(city => city.CountryId == country.Id)
-                    .Select(city => new CityTableResponse
-                    {
-                        Id = city.Id,
-                        Name = city.Name,
-                        PostalCode = city.PostalCode,
-                    })
-                    .ToList()
-            }).ToList();
+            List<CountryTableResponse> finalResult = result.ToList();
+
+
+            return result.ToList();
 
         }
         public async Task DeleteByIdAsync(int id)
