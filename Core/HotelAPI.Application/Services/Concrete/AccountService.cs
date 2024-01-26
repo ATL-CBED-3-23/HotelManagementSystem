@@ -185,8 +185,6 @@ namespace HotelAPI.Application.Services.Concrete //
         public Task<IdentityResult> RemoveUserFromRolesAsync(int UserId, List<int> RoleId)
         {
             throw new NotImplementedException();
-        }
-
-        
+        }     
     }
 }
