@@ -6,7 +6,7 @@ using HotelAPI.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-namespace HotelAPI.Application.Services.Concrete
+namespace HotelAPI.Application.Services.Concrete //
 {
     public class AccountService : IAccountService
     {
