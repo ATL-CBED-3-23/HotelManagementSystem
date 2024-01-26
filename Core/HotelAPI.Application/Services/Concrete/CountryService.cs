@@ -5,9 +5,6 @@ using HotelAPI.Application.DTOs.Hotels;
 using HotelAPI.Application.Services.Abstract;
 using HotelAPI.Domain.Entities;
 using HotelAPI.Domain.Interfaces;
-using System.Diagnostics.Metrics;
-using System.Linq;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace HotelAPI.Application.Services.Concrete
 {
