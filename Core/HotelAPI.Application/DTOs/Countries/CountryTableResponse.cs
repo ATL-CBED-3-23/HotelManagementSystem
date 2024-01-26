@@ -10,6 +10,6 @@ namespace HotelAPI.Application.DTOs.Countries
         //Relations
         public List<CityTableResponse> Cities { get; set; }
 
-
+       
     }
 }

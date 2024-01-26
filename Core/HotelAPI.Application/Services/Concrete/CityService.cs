@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using HotelAPI.Application.DTOs.Cities;
+using HotelAPI.Application.DTOs.Countries;
 using HotelAPI.Application.DTOs.Hotels;
 using HotelAPI.Application.Services.Abstract;
 using HotelAPI.Domain.Entities;
@@ -11,13 +12,18 @@ namespace HotelAPI.Application.Services.Concrete
     {
         private readonly ICityRepository _cityRepository;
         private readonly IHotelRepository _hotelRepository;
+        private readonly ICountryRepository _countryRepository;
+
+
         private readonly IMapper _mapper;
 
-        public CityService(ICityRepository cityRepository, IMapper mapper, IHotelRepository hotelRepository)
+
+        public CityService(ICityRepository cityRepository, IMapper mapper, IHotelRepository hotelRepository, ICountryRepository countryRepository)
         {
             _mapper = mapper;
             _cityRepository = cityRepository;
             _hotelRepository = hotelRepository;
+            _countryRepository = countryRepository;
         }
         public async Task AddAsync(CityAddRequest cityAddRequest)
         {
@@ -49,12 +55,15 @@ namespace HotelAPI.Application.Services.Concrete
         {
             List<City> cities = await _cityRepository.FindAllAsync();
             List<Hotel> hotels = await _hotelRepository.FindAllAsync();
+            List<Country> countries = await _countryRepository.FindAllAsync();
+
 
             return cities.Select(city => new CityTableResponse
             {
                 Id = city.Id,
                 Name = city.Name,
                 PostalCode = city.PostalCode,
+               Country = city.Country.Name,
                 Hotels = hotels
                     .Where(hotel => hotel.CityId == city.Id)
                     .Select(hotel => new HotelTableResponse

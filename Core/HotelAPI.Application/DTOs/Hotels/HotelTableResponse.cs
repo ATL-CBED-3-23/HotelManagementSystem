@@ -13,9 +13,10 @@ namespace HotelAPI.Application.DTOs.Hotels
         public string Email { get; set; }
         public string WebSite { get; set; }
         public Grade Grade { get; set; }
+        public string City {  get; set; }
 
         //Relations
-        public CityTableResponse City { get; set; }
+      // public CityTableResponse City { get; set; }
         public List<ReviewTableResponse> Reviews { get; set; }
         public List<RoomTableResponse> Rooms { get; set; }
 
