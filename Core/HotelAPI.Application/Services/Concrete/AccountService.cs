@@ -36,13 +36,13 @@ public class AccountService : IAccountService
         }
         return result;
     }
-    public async Task<UserDto> GetUserForUpdateById(int id)
+    public async Task<UserUpdateRequest> GetUserForUpdateById(int id)
     {
         HotelUser user = await _userManager.FindByIdAsync(id.ToString());
 
-        UserDto userDto = _mapper.Map<UserDto>(user);
-        userDto.Roles = _userManager.GetRolesAsync(user).Result;
-        return userDto;
+        UserUpdateRequest userUpdateRequest = _mapper.Map<UserUpdateRequest>(user);
+        userUpdateRequest.Roles = _userManager.GetRolesAsync(user).Result;
+        return userUpdateRequest;
     }
     public async Task<IdentityResult> EditUserAsync(UserUpdateRequest userUpdateRequest)
     {
@@ -55,7 +55,7 @@ public class AccountService : IAccountService
         IdentityResult result = await _userManager.UpdateAsync(user);
         return result;
     }
-    public async Task<IdentityResult> DeactivateUser(int id)
+    public async Task<IdentityResult> DeActivateUser(int id)
     {
         HotelUser user = await _userManager.Users.SingleOrDefaultAsync(u => u.Id == id && u.EntityStatus == EntityStatus.Active);
         user.EntityStatus = EntityStatus.InActive;
@@ -85,15 +85,13 @@ public class AccountService : IAccountService
         IdentityResult result = await _roleManager.CreateAsync(role);
         return result;
     }
-
-    public async Task<IdentityResult> DeactivateRole(int id)
+    public async Task<IdentityResult> DeActivateRole(int id)
     {
         HotelUserRole role = await _roleManager.Roles.SingleOrDefaultAsync(r => r.Id == id && r.EntityStatus == EntityStatus.Active);
         role.EntityStatus = EntityStatus.InActive;
         IdentityResult result = await _roleManager.UpdateAsync(role);
         return result;
     }
-
     public List<RoleTableResponse> GetAllRoles()
     {
         var query = from o in _roleManager.Roles.Where(x => x.EntityStatus == EntityStatus.Active)
@@ -119,58 +117,59 @@ public class AccountService : IAccountService
 
         return query.ToList();
     }
-
-
-    public async Task<IdentityResult> AddUserToRoleAsync(int UserId, int RoleId)
+    public async Task<IdentityResult> AddUserToRoleAsync(int userId, int roleId)
     {
         IdentityResult result;
-        HotelUser hotelUser = _userManager.Users.SingleOrDefault(u => u.Id == UserId && u.EntityStatus == EntityStatus.Active);
-        HotelUserRole hotelUserRole = _roleManager.Roles.SingleOrDefault(r => r.Id == RoleId && r.EntityStatus == EntityStatus.Active);
+        HotelUser hotelUser = _userManager.Users.SingleOrDefault(u => u.Id == userId && u.EntityStatus == EntityStatus.Active);
+        HotelUserRole hotelUserRole = _roleManager.Roles.SingleOrDefault(r => r.Id == roleId && r.EntityStatus == EntityStatus.Active);
         result = await _userManager.AddToRoleAsync(hotelUser, hotelUserRole.Name);
         return result;
     }
-
-    public async Task<IdentityResult> AddUserToRolesAsync(int UserId, List<int> RoleIds)
+    public async Task<IdentityResult> AddUserToRolesAsync(int userId, List<int> roleIds)
     {
         IdentityResult result = null;
-        HotelUser hotelUser = _userManager.Users.SingleOrDefault(u => u.Id == UserId && u.EntityStatus == EntityStatus.Active);
+        HotelUser hotelUser = _userManager.Users.SingleOrDefault(u => u.Id == userId && u.EntityStatus == EntityStatus.Active);
         IList<string> userRoles = await _userManager.GetRolesAsync(hotelUser);
         result = await _userManager.RemoveFromRolesAsync(hotelUser, userRoles);
-        List<string> rolesByIds = _roleManager.Roles.Where(x => RoleIds.Contains(x.Id)).Select(n => n.Name).ToList();
+        List<string> rolesByIds = _roleManager.Roles.Where(x => roleIds.Contains(x.Id)).Select(n => n.Name).ToList();
         result = await _userManager.AddToRolesAsync(hotelUser, rolesByIds);
         return result;
 
 
     }
-
-    public async Task<IdentityResult> RemoveUserFromRoleAsync(int UserId, int RoleId)
+    public async Task<IdentityResult> RemoveUserFromRoleAsync(int userId, int roleId)
     {
         IdentityResult result;
-        HotelUser hotelUser = _userManager.Users.SingleOrDefault(u => u.Id == UserId && u.EntityStatus == EntityStatus.Active);
-        HotelUserRole hotelUserRole = _roleManager.Roles.SingleOrDefault(r => r.Id == RoleId && r.EntityStatus == EntityStatus.Active);
+        HotelUser hotelUser = _userManager.Users.SingleOrDefault(u => u.Id == userId && u.EntityStatus == EntityStatus.Active);
+        HotelUserRole hotelUserRole = _roleManager.Roles.SingleOrDefault(r => r.Id == roleId && r.EntityStatus == EntityStatus.Active);
         result = await _userManager.RemoveFromRoleAsync(hotelUser, hotelUserRole.Name);
         return result;
     }
-
-        public async Task<IdentityResult> Login(LoginRequest loginRequest)
-        {
-            var user = await _userManager.FindByNameAsync(loginRequest.UserName);
-            if (user != null && await _userManager.CheckPasswordAsync(user, loginRequest.Password))
-            {
-                return IdentityResult.Success;
-            }
-            else
-            {
-                return IdentityResult.Failed(new IdentityError
-                {
-                    Description = "Invalid username or password."
-                });
-            }
-        }
-        public Task<IdentityResult> RemoveUserFromRolesAsync(int UserId, List<int> RoleId)
-        {
-            throw new NotImplementedException();
-        }
-
-        
+    public async Task<IdentityResult> RemoveUserFromRolesAsync(int userId, List<int> roleIds)
+    {
+        IdentityResult result;
+        HotelUser hotelUser = _userManager.Users.SingleOrDefault(u => u.Id == userId && u.EntityStatus == EntityStatus.Active);
+        IList<string> userRoles = await _userManager.GetRolesAsync(hotelUser);
+        List<string> rolesByIds = _roleManager.Roles.Where(x => roleIds.Contains(x.Id)).Select(n => n.Name).ToList();
+        result = await _userManager.RemoveFromRolesAsync(hotelUser, rolesByIds);
+        return result;
     }
+    public async Task<IdentityResult> Login(LoginRequest loginRequest)
+    {
+        var user = await _userManager.FindByNameAsync(loginRequest.UserName);
+        if (user != null && await _userManager.CheckPasswordAsync(user, loginRequest.Password))
+        {
+            return IdentityResult.Success;
+        }
+        else
+        {
+            return IdentityResult.Failed(new IdentityError
+            {
+                Description = "Invalid username or password."
+            });
+        }
+    }
+
+
+
+}

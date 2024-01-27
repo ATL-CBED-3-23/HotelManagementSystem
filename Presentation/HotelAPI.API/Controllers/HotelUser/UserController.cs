@@ -49,7 +49,7 @@ namespace HotelAPI.API.Controllers.HotelUser
         [HttpPost("DeleteUser")]
         public async Task<IActionResult> DeleteUser(int id)
         {
-            await _accountService.DeactivateUser(id);
+            await _accountService.DeActivateUser(id);
             return Ok();
         }
 
@@ -67,40 +67,60 @@ namespace HotelAPI.API.Controllers.HotelUser
             return Ok();
         }
 
-
-
         [HttpPost("CreateRole")]
         public async Task<IActionResult> CreateRole(RoleAddRequest roleAddRequest)
         {
             await _accountService.CreateRoleAsync(roleAddRequest);
             return Ok();
         }
+
         [HttpPost("DeleteRole")]
         public async Task<IActionResult> DeleteRole(int id)
         {
-            await _accountService.DeactivateRole(id);
+            await _accountService.DeActivateRole(id);
             return Ok();
         }
 
         [HttpGet("GetAllRoles")]
         public IActionResult GetAllRoles()
         {
-            var result =  _accountService.GetAllRoles();
+            var result = _accountService.GetAllRoles();
             return Ok(result);
         }
+
         [HttpPost("AddUserToRole")]
-        public async Task<IActionResult> AddUserToRole(int UserId,int RoleId)
+        public async Task<IActionResult> AddUserToRole(int userId, int roleId)
         {
-            await _accountService.AddUserToRoleAsync( UserId, RoleId);
-            return Ok();
-        }
-        [HttpPost("AddUSerToRoles")]
-        public async Task<IActionResult> AddUserToRoles(int UserId, List<int>  RoleId)
-        {
-            await _accountService.AddUserToRolesAsync(UserId, RoleId);
+            await _accountService.AddUserToRoleAsync(userId, roleId);
             return Ok();
         }
 
+        [HttpPost("AddUserToRoles")]
+        public async Task<IActionResult> AddUserToRoles(int userId, List<int> roleIds)
+        {
+            await _accountService.AddUserToRolesAsync(userId, roleIds);
+            return Ok();
+        }
 
+        [HttpPost("RemoveUserFromRole")]
+        public async Task<IActionResult> RemoveUserFromRole(int userId, int roleId)
+        {
+            await _accountService.RemoveUserFromRoleAsync(userId, roleId);
+            return Ok();
+        }
+
+        [HttpPost("RemoveUserFromRoles")]
+        public async Task<IActionResult> RemoveUserFromRoles(int userId, List<int> roleIds)
+        {
+            await _accountService.RemoveUserFromRolesAsync(userId, roleIds);
+            return Ok();
+        }
+
+        [HttpPost("Login")]
+        public async Task<IActionResult> Login(LoginRequest loginRequest)
+        {
+            await _accountService.Login(loginRequest);
+            return Ok();
+        }
     }
 }
