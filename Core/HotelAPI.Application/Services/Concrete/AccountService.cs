@@ -1,10 +1,13 @@
 ﻿using AutoMapper;
 using HotelAPI.Application.DTOs.HotelUserRoles;
 using HotelAPI.Application.DTOs.HotelUsers;
+using HotelAPI.Application.Identity;
+using HotelAPI.Application.Identity.Concrete;
 using HotelAPI.Application.Services.Abstract;
 using HotelAPI.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 
 namespace HotelAPI.Application.Services.Concrete;
 
@@ -12,12 +15,16 @@ public class AccountService : IAccountService
 {
     private readonly UserManager<HotelUser> _userManager;
     private readonly RoleManager<HotelUserRole> _roleManager;
+    private readonly JWTOptions _jwtSettings;
+    private readonly IJWTTokenService _jwtTokenService;
     private readonly IMapper _mapper;
-    public AccountService(UserManager<HotelUser> userManager, IMapper mapper, RoleManager<HotelUserRole> roleManager)
+    public AccountService(UserManager<HotelUser> userManager, IMapper mapper, RoleManager<HotelUserRole> roleManager, IOptionsSnapshot<JWTOptions> jwtSettings, IJWTTokenService jwtTokenService)
     {
         _userManager = userManager;
         _roleManager = roleManager;
         _mapper = mapper;
+        _jwtSettings = jwtSettings.Value;
+        _jwtTokenService = jwtTokenService;
     }
 
     public async Task<IdentityResult> RegisterUserAsync(UserAddRequest userAddRequest)
@@ -154,20 +161,37 @@ public class AccountService : IAccountService
         result = await _userManager.RemoveFromRolesAsync(hotelUser, rolesByIds);
         return result;
     }
-    public async Task<IdentityResult> Login(LoginRequest loginRequest)
+    public async Task<LoginedUserResponse> Login(LoginRequest loginRequest)
     {
-        var user = await _userManager.FindByNameAsync(loginRequest.UserName);
-        if (user != null && await _userManager.CheckPasswordAsync(user, loginRequest.Password))
+        IdentityResult result;
+        HotelUser user = await _userManager.Users.SingleOrDefaultAsync(x => x.UserName == loginRequest.UserName && x.EntityStatus == EntityStatus.Active);
+        bool checkPassword = await _userManager.CheckPasswordAsync(user, loginRequest.Password);
+        IList<string> roles = await _userManager.GetRolesAsync(user);
+
+        UserClaimsOptions userModelForTokenGen = new UserClaimsOptions() { Id = user.Id, UserName = user.UserName };
+        string jwt = _jwtTokenService.GenerateJwt(userModelForTokenGen, roles, _jwtSettings);
+
+        LoginedUserResponse loginedUserResponse = new LoginedUserResponse()
         {
-            return IdentityResult.Success;
-        }
-        else
-        {
-            return IdentityResult.Failed(new IdentityError
-            {
-                Description = "Invalid username or password."
-            });
-        }
+            UserFullName = $"{user.FirstName} {user.LastName}",
+            UserName = user.UserName,
+            UserRoles = roles,
+            SecurityToken = jwt
+
+        };
+
+        return loginedUserResponse;
+        //if (checkPassword)
+        //{
+        //    return IdentityResult.Success;
+        //}
+        //else
+        //{
+        //    return IdentityResult.Failed(new IdentityError
+        //    {
+        //        Description = "Invalid username or password."
+        //    });
+        //}
     }
 
 

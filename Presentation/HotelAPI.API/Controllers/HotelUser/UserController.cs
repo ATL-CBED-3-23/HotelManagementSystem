@@ -1,6 +1,7 @@
 ﻿using HotelAPI.Application.DTOs.HotelUserRoles;
 using HotelAPI.Application.DTOs.HotelUsers;
 using HotelAPI.Application.Services.Abstract;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,6 +9,7 @@ namespace HotelAPI.API.Controllers.HotelUser
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = "Bearer")]
 
     public class UserController : ControllerBase
     {
@@ -118,10 +120,11 @@ namespace HotelAPI.API.Controllers.HotelUser
         }
 
         [HttpPost("Login")]
+        [AllowAnonymous]
         public async Task<IActionResult> Login(LoginRequest loginRequest)
         {
-            await _accountService.Login(loginRequest);
-            return Ok();
+            LoginedUserResponse loginedUser = await _accountService.Login(loginRequest);
+            return Ok(loginedUser);
         }
     }
 }
