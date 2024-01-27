@@ -114,6 +114,7 @@ namespace HotelAPI.API.Controllers.HotelUser
         {
             await _accountService.RemoveUserFromRolesAsync(userId, roleIds);
             return Ok();
+
         }
 
         [HttpPost("Login")]
