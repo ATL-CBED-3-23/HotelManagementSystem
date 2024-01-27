@@ -67,6 +67,7 @@ namespace HotelAPI.Application.Services.Concrete
                                      HotelTable = hotels
                          .Select(hotel => new HotelTableResponse
                          {
+                             Id= hotel.Id,
                              Name = hotel.Name,
                              Address = hotel.Address,
                              PhoneNumber = hotel.PhoneNumber,

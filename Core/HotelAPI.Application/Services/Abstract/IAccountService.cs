@@ -7,7 +7,7 @@ namespace HotelAPI.Application.Services.Abstract
     public interface IAccountService
     {
         Task<IdentityResult> RegisterUserAsync(UserAddRequest userAddRequest);
-        Task<IdentityResult> Login(LoginRequest loginRequest); // Novbeti ders davam elemek ve JWT
+        Task<LoginedUserResponse> Login(LoginRequest loginRequest); // Novbeti ders davam elemek ve JWT
         Task<UserUpdateRequest> GetUserForUpdateById(int id);
         Task<IdentityResult> EditUserAsync(UserUpdateRequest userUpdateRequest);
         List<UserTableResponse> GetAllUsers();
