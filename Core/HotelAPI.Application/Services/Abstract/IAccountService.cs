@@ -8,19 +8,19 @@ namespace HotelAPI.Application.Services.Abstract
     {
         Task<IdentityResult> RegisterUserAsync(UserAddRequest userAddRequest);
         Task<IdentityResult> Login(LoginRequest loginRequest); // Novbeti ders davam elemek ve JWT
-        Task<UserDto> GetUserForUpdateById(int id);
+        Task<UserUpdateRequest> GetUserForUpdateById(int id);
         Task<IdentityResult> EditUserAsync(UserUpdateRequest userUpdateRequest);
         List<UserTableResponse> GetAllUsers();
-        Task<IdentityResult> DeactivateUser(int id);
+        Task<IdentityResult> DeActivateUser(int id);
         Task<IdentityResult> ChangePasswordAsync(UserChangePasswordRequest userChangePasswordRequest);
         Task<IdentityResult> ResetPasswordAsync(UserResetPasswordRequest userResetPasswordRequest);
         Task<IdentityResult> CreateRoleAsync(RoleAddRequest roleAddRequest);
-        Task<IdentityResult> AddUserToRoleAsync(int UserId, int RoleId);
-        Task<IdentityResult> AddUserToRolesAsync(int UserId,List<int> RoleId);
-        Task<IdentityResult> RemoveUserFromRoleAsync(int UserId,int RoleId);
-        Task<IdentityResult> RemoveUserFromRolesAsync(int UserId,List<int> RoleId);
+        Task<IdentityResult> AddUserToRoleAsync(int userId, int roleId);
+        Task<IdentityResult> AddUserToRolesAsync(int userId, List<int> roleIds);
+        Task<IdentityResult> RemoveUserFromRoleAsync(int userId, int roleIds);
+        Task<IdentityResult> RemoveUserFromRolesAsync(int userId, List<int> roleIds);
         //Task<UserDto> UserRoles(int UserId);
-        Task<IdentityResult> DeactivateRole(int id);
+        Task<IdentityResult> DeActivateRole(int id);
         //Task<List<RoleTableResponse>> GetAllRolesAsync();
         List<RoleTableResponse> GetAllRoles();
     }
