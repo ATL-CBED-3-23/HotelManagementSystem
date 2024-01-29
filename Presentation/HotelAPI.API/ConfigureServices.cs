@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using System.Reflection;
 using System.Text;
 
 namespace HotelAPI.API
@@ -31,22 +30,21 @@ namespace HotelAPI.API
                 });
 
                 c.AddSecurityRequirement(new OpenApiSecurityRequirement()
-         {
-             {
-               new OpenApiSecurityScheme
-               {
-                 Reference = new OpenApiReference
-                   {
-                     Type = ReferenceType.SecurityScheme,
-                     Id = "Bearer"
-                   },
-                   Scheme = "Bearer",
-                   Name = "Authorization",
-                   In = ParameterLocation.Header,
-                 },
-                 new List<string>()
-               }
-         });
+                {
+                    {  new OpenApiSecurityScheme
+                       {
+                        Reference = new OpenApiReference
+                        {
+                            Type = ReferenceType.SecurityScheme,
+                            Id = "Bearer"
+                        },
+                        Scheme = "Bearer",
+                        Name = "Authorization",
+                        In = ParameterLocation.Header,
+                    },
+                     new List<string>()
+                    }
+                });
 
             });
         }

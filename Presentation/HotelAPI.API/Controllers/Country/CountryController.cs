@@ -1,11 +1,13 @@
 ﻿using HotelAPI.Application.DTOs.Countries;
 using HotelAPI.Application.Services.Abstract;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HotelAPI.API.Controllers.Country
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = "Bearer")]
     public class CountryController : ControllerBase
     {
         private readonly ICountryService _countryService;

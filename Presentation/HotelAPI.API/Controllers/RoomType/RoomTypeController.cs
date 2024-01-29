@@ -1,11 +1,13 @@
 ﻿using HotelAPI.Application.DTOs.RoomTypes;
 using HotelAPI.Application.Services.Abstract;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace RoomTypeAPI.API.Controllers.RoomType
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = "Bearer")]
     public class RoomTypeController : ControllerBase
     {
         private readonly IRoomTypeService _roomTypeService;

@@ -163,7 +163,6 @@ public class AccountService : IAccountService
     }
     public async Task<LoginedUserResponse> Login(LoginRequest loginRequest)
     {
-        IdentityResult result;
         HotelUser user = await _userManager.Users.SingleOrDefaultAsync(x => x.UserName == loginRequest.UserName && x.EntityStatus == EntityStatus.Active);
         bool checkPassword = await _userManager.CheckPasswordAsync(user, loginRequest.Password);
         IList<string> roles = await _userManager.GetRolesAsync(user);
