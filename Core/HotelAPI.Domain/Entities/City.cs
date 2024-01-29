@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
-namespace HotelAPI.Domain.Entities;
+﻿namespace HotelAPI.Domain.Entities;
 public class City : BaseEntity
 {
     

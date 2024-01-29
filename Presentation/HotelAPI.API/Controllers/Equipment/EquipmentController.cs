@@ -1,13 +1,13 @@
-﻿using HotelAPI.Application.DTOs.Countries;
-using HotelAPI.Application.DTOs.Equipments;
+﻿using HotelAPI.Application.DTOs.Equipments;
 using HotelAPI.Application.Services.Abstract;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HotelAPI.API.Controllers.Equipment
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = "Bearer")]
     public class EquipmentController : ControllerBase
     {
         private readonly IEquipmentService _equipmentService;

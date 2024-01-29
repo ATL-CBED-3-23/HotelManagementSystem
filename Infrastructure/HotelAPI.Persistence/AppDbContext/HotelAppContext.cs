@@ -19,6 +19,11 @@ namespace HotelAPI.Persistence.AppDbContext
             var entitiesAssembly = typeof(BaseEntity).Assembly;
             modelBuilder.RegisterAllEntities<BaseEntity>(entitiesAssembly);
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+
+
+            //Data seeding burada olacaq
+
+
         }
     }
 }
