@@ -1,13 +1,9 @@
 ﻿using HotelAPI.Domain.Entities;
+using HotelAPI.Persistence.AppDbContext.SeedData;
 using HotelAPI.Persistence.Extensions;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HotelAPI.Persistence.AppDbContext
 {
@@ -24,6 +20,12 @@ namespace HotelAPI.Persistence.AppDbContext
             var entitiesAssembly = typeof(BaseEntity).Assembly;
             modelBuilder.RegisterAllEntities<BaseEntity>(entitiesAssembly);
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+
+
+            //Data seeding burada olacaq
+            modelBuilder.SeedData();
+
+
         }
     }
 }

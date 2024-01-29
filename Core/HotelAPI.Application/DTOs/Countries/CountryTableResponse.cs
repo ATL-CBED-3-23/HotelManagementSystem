@@ -1,4 +1,5 @@
 ﻿using HotelAPI.Application.DTOs.Cities;
+using System.Text.Json.Serialization;
 
 namespace HotelAPI.Application.DTOs.Countries
 {
@@ -8,8 +9,9 @@ namespace HotelAPI.Application.DTOs.Countries
         public string Name { get; set; }
 
         //Relations
+       
         public List<CityTableResponse> Cities { get; set; }
 
-
+       
     }
 }

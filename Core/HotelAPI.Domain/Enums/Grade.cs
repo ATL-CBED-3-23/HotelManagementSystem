@@ -1,7 +1,7 @@
 ﻿public enum Grade
 {
     Hostel,
-    ThreeStar,
+    ThreeStar=3,
     FourStar,
     FiveStar,
 

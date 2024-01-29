@@ -1,11 +1,13 @@
 ﻿using HotelAPI.Application.DTOs.Reservators;
 using HotelAPI.Application.Services.Abstract;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ReservatorAPI.API.Controllers.Reservator
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = "Bearer")]
     public class ReservatorController : ControllerBase
     {
         private readonly IReservatorService _reservatorService;

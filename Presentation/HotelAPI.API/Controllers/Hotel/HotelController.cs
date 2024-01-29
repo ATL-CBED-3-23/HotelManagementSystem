@@ -1,13 +1,13 @@
-﻿using HotelAPI.Application.DTOs.Cities;
-using HotelAPI.Application.DTOs.Hotels;
+﻿using HotelAPI.Application.DTOs.Hotels;
 using HotelAPI.Application.Services.Abstract;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HotelAPI.API.Controllers.Hotel
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = "Bearer")]
     public class HotelController : ControllerBase
     {
         private readonly IHotelService _hotelService;

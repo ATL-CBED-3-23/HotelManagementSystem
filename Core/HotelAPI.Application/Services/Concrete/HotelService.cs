@@ -9,12 +9,16 @@ namespace HotelAPI.Application.Services.Concrete
     public class HotelService : IHotelService
     {
         private readonly IHotelRepository _hotelRepository;
+        private readonly ICountryRepository _countryRepository;
+        private readonly ICityRepository _cityRepository;
         private readonly IMapper _mapper;
 
-        public HotelService(IHotelRepository hotelRepository, IMapper mapper)
+        public HotelService(IHotelRepository hotelRepository, IMapper mapper, ICityRepository cityRepository, ICountryRepository countryRepository)
         {
             _mapper = mapper;
             _hotelRepository = hotelRepository;
+            _cityRepository = cityRepository;
+            _countryRepository = countryRepository;
         }
 
         public async Task AddAsync(HotelAddRequest hotelAddRequest)
@@ -46,8 +50,24 @@ namespace HotelAPI.Application.Services.Concrete
 
         public async Task<List<HotelTableResponse>> GetTable()
         {
-            var hotels= _hotelRepository.FindAllAsync();
-            return _mapper.Map<List<HotelTableResponse>>(hotels);
+            //var hotels= _hotelRepository.FindAllAsync();
+            //return _mapper.Map<List<HotelTableResponse>>(hotels);
+            List<Country> countries = await _countryRepository.FindAllAsync();
+            List<City> cities = await _cityRepository.FindAllAsync();
+            List<Hotel> hotels= await _hotelRepository.FindAllAsync();
+
+           return hotels.Select(hotel => new HotelTableResponse
+           {
+               Id = hotel.Id,
+               Address = hotel.Address,
+               Email = hotel.Email,
+               Name = hotel.Name,
+               PhoneNumber = hotel.PhoneNumber,
+               WebSite = hotel.WebSite,
+               Grade = hotel.Grade,
+              City= cities.FirstOrDefault(city => city.Id== hotel.CityId).Name
+              
+           }).ToList();
         }
     }
 }

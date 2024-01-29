@@ -1,11 +1,13 @@
 ﻿using HotelAPI.Application.DTOs.Reviews;
 using HotelAPI.Application.Services.Abstract;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ReviewAPI.API.Controllers.Review
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = "Bearer")]
     public class ReviewController : ControllerBase
     {
         private readonly IReviewService _reviewService;
