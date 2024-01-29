@@ -12,18 +12,69 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HotelAPI.Persistence.Migrations
 {
     [DbContext(typeof(HotelAppContext))]
-    [Migration("20240127063557_Init")]
-    partial class Init
+    [Migration("20240129162901_Seeding")]
+    partial class Seeding
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.0")
+                .HasAnnotation("ProductVersion", "8.0.1")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("HotelAPI.Domain.Entities.AboutApp", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("AppName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("AppVersion")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("EntityStatus")
+                        .HasColumnType("int")
+                        .HasColumnName("IsDeleted");
+
+                    b.Property<string>("Site")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AboutApps", "Hotel");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            AppName = "Hotel Management System",
+                            AppVersion = "1.0.1",
+                            Content = "Hotel Management System Application",
+                            CreatedDate = new DateTime(2024, 1, 29, 20, 29, 0, 845, DateTimeKind.Local).AddTicks(969),
+                            EntityStatus = 0,
+                            Site = "www.hms.com"
+                        });
+                });
 
             modelBuilder.Entity("HotelAPI.Domain.Entities.City", b =>
                 {
@@ -58,6 +109,17 @@ namespace HotelAPI.Persistence.Migrations
                     b.HasIndex("CountryId");
 
                     b.ToTable("Cities", "Hotel");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CountryId = 1,
+                            CreatedDate = new DateTime(2024, 1, 29, 20, 29, 0, 933, DateTimeKind.Local).AddTicks(2949),
+                            EntityStatus = 0,
+                            Name = "Baku",
+                            PostalCode = "1000"
+                        });
                 });
 
             modelBuilder.Entity("HotelAPI.Domain.Entities.Country", b =>
@@ -83,6 +145,15 @@ namespace HotelAPI.Persistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Countries", "Hotel");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedDate = new DateTime(2024, 1, 29, 20, 29, 0, 933, DateTimeKind.Local).AddTicks(2472),
+                            EntityStatus = 0,
+                            Name = "Azerbaijan"
+                        });
                 });
 
             modelBuilder.Entity("HotelAPI.Domain.Entities.Equipment", b =>
@@ -116,6 +187,26 @@ namespace HotelAPI.Persistence.Migrations
                     b.HasIndex("RoomId");
 
                     b.ToTable("Equipments", "Hotel");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Count = 2,
+                            CreatedDate = new DateTime(2024, 1, 29, 20, 29, 0, 933, DateTimeKind.Local).AddTicks(6545),
+                            EntityStatus = 0,
+                            Name = "Bed",
+                            RoomId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Count = 1,
+                            CreatedDate = new DateTime(2024, 1, 29, 20, 29, 0, 933, DateTimeKind.Local).AddTicks(6942),
+                            EntityStatus = 0,
+                            Name = "Minibar",
+                            RoomId = 1
+                        });
                 });
 
             modelBuilder.Entity("HotelAPI.Domain.Entities.Hotel", b =>
@@ -169,6 +260,21 @@ namespace HotelAPI.Persistence.Migrations
                     b.HasIndex("CityId");
 
                     b.ToTable("Hotels", "Hotel");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Address = "Nizami street,45",
+                            CityId = 1,
+                            CreatedDate = new DateTime(2024, 1, 29, 20, 29, 0, 933, DateTimeKind.Local).AddTicks(3619),
+                            Email = "grandhayat@gmail.com",
+                            EntityStatus = 0,
+                            Grade = 5,
+                            Name = "Grand Hayat",
+                            PhoneNumber = "+994775005050",
+                            WebSite = "grandh.com"
+                        });
                 });
 
             modelBuilder.Entity("HotelAPI.Domain.Entities.HotelUser", b =>
@@ -251,6 +357,25 @@ namespace HotelAPI.Persistence.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "9693f5be-0b44-4b20-b6d8-44006981aa55",
+                            CreateDate = new DateTime(2024, 1, 29, 20, 29, 0, 846, DateTimeKind.Local).AddTicks(5207),
+                            Email = "arzu@gmail.com",
+                            EmailConfirmed = false,
+                            EntityStatus = 0,
+                            FirstName = "Arzu",
+                            LastName = "Teymurova",
+                            LockoutEnabled = false,
+                            PasswordHash = "AQAAAAIAAYagAAAAEFEnOfW3GGFpanCr1dGWyzR4e+FAICpFWG0iSz6aoIHC281pv+VGeJ7JL7RwXkyHEw==",
+                            PhoneNumberConfirmed = false,
+                            TwoFactorEnabled = false,
+                            UserName = "Arzu"
+                        });
                 });
 
             modelBuilder.Entity("HotelAPI.Domain.Entities.HotelUserRole", b =>
@@ -287,6 +412,24 @@ namespace HotelAPI.Persistence.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreateDate = new DateTime(2024, 1, 29, 20, 29, 0, 846, DateTimeKind.Local).AddTicks(3695),
+                            EntityStatus = 0,
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreateDate = new DateTime(2024, 1, 29, 20, 29, 0, 846, DateTimeKind.Local).AddTicks(4600),
+                            EntityStatus = 0,
+                            Name = "User",
+                            NormalizedName = "USER"
+                        });
                 });
 
             modelBuilder.Entity("HotelAPI.Domain.Entities.Reservation", b =>
@@ -448,6 +591,21 @@ namespace HotelAPI.Persistence.Migrations
                     b.HasIndex("RoomTypeId");
 
                     b.ToTable("Rooms", "Hotel");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedDate = new DateTime(2024, 1, 29, 20, 29, 0, 933, DateTimeKind.Local).AddTicks(5325),
+                            EntityStatus = 0,
+                            Floor = 3,
+                            HotelId = 1,
+                            Number = 100,
+                            Phone = "1240044444",
+                            Price = 150.0,
+                            RoomState = 0,
+                            RoomTypeId = 1
+                        });
                 });
 
             modelBuilder.Entity("HotelAPI.Domain.Entities.RoomType", b =>
@@ -478,6 +636,16 @@ namespace HotelAPI.Persistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("RoomTypes", "Hotel");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedDate = new DateTime(2024, 1, 29, 20, 29, 0, 933, DateTimeKind.Local).AddTicks(4816),
+                            Description = "Comfortable equipments, scenery",
+                            EntityStatus = 0,
+                            Name = "VIP"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
@@ -562,6 +730,13 @@ namespace HotelAPI.Persistence.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = 1,
+                            RoleId = 1
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>

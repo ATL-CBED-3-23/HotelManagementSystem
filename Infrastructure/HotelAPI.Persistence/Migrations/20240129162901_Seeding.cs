@@ -3,16 +3,37 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace HotelAPI.Persistence.Migrations
 {
     /// <inheritdoc />
-    public partial class Init : Migration
+    public partial class Seeding : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.EnsureSchema(
                 name: "Hotel");
+
+            migrationBuilder.CreateTable(
+                name: "AboutApps",
+                schema: "Hotel",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    AppName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Site = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    AppVersion = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsDeleted = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AboutApps", x => x.Id);
+                });
 
             migrationBuilder.CreateTable(
                 name: "AspNetRoles",
@@ -399,6 +420,71 @@ namespace HotelAPI.Persistence.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.InsertData(
+                schema: "Hotel",
+                table: "AboutApps",
+                columns: new[] { "Id", "AppName", "AppVersion", "Content", "CreatedDate", "IsDeleted", "Site" },
+                values: new object[] { 1, "Hotel Management System", "1.0.1", "Hotel Management System Application", new DateTime(2024, 1, 29, 20, 29, 0, 845, DateTimeKind.Local).AddTicks(969), 0, "www.hms.com" });
+
+            migrationBuilder.InsertData(
+                table: "AspNetRoles",
+                columns: new[] { "Id", "ConcurrencyStamp", "CreateDate", "EntityStatus", "Name", "NormalizedName" },
+                values: new object[,]
+                {
+                    { 1, null, new DateTime(2024, 1, 29, 20, 29, 0, 846, DateTimeKind.Local).AddTicks(3695), 0, "Admin", "ADMIN" },
+                    { 2, null, new DateTime(2024, 1, 29, 20, 29, 0, 846, DateTimeKind.Local).AddTicks(4600), 0, "User", "USER" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUsers",
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "CreateDate", "Email", "EmailConfirmed", "EntityStatus", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                values: new object[] { 1, 0, "9693f5be-0b44-4b20-b6d8-44006981aa55", new DateTime(2024, 1, 29, 20, 29, 0, 846, DateTimeKind.Local).AddTicks(5207), "arzu@gmail.com", false, 0, "Arzu", "Teymurova", false, null, null, null, "AQAAAAIAAYagAAAAEFEnOfW3GGFpanCr1dGWyzR4e+FAICpFWG0iSz6aoIHC281pv+VGeJ7JL7RwXkyHEw==", null, false, null, false, "Arzu" });
+
+            migrationBuilder.InsertData(
+                schema: "Hotel",
+                table: "Countries",
+                columns: new[] { "Id", "CreatedDate", "IsDeleted", "Name" },
+                values: new object[] { 1, new DateTime(2024, 1, 29, 20, 29, 0, 933, DateTimeKind.Local).AddTicks(2472), 0, "Azerbaijan" });
+
+            migrationBuilder.InsertData(
+                schema: "Hotel",
+                table: "RoomTypes",
+                columns: new[] { "Id", "CreatedDate", "Description", "IsDeleted", "Name" },
+                values: new object[] { 1, new DateTime(2024, 1, 29, 20, 29, 0, 933, DateTimeKind.Local).AddTicks(4816), "Comfortable equipments, scenery", 0, "VIP" });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUserRoles",
+                columns: new[] { "RoleId", "UserId" },
+                values: new object[] { 1, 1 });
+
+            migrationBuilder.InsertData(
+                schema: "Hotel",
+                table: "Cities",
+                columns: new[] { "Id", "CountryId", "CreatedDate", "IsDeleted", "Name", "PostalCode" },
+                values: new object[] { 1, 1, new DateTime(2024, 1, 29, 20, 29, 0, 933, DateTimeKind.Local).AddTicks(2949), 0, "Baku", "1000" });
+
+            migrationBuilder.InsertData(
+                schema: "Hotel",
+                table: "Hotels",
+                columns: new[] { "Id", "Address", "CityId", "CreatedDate", "Email", "IsDeleted", "Grade", "Name", "PhoneNumber", "WebSite" },
+                values: new object[] { 1, "Nizami street,45", 1, new DateTime(2024, 1, 29, 20, 29, 0, 933, DateTimeKind.Local).AddTicks(3619), "grandhayat@gmail.com", 0, 5, "Grand Hayat", "+994775005050", "grandh.com" });
+
+            migrationBuilder.InsertData(
+                schema: "Hotel",
+                table: "Rooms",
+                columns: new[] { "Id", "CreatedDate", "IsDeleted", "Floor", "HotelId", "Number", "Phone", "Price", "RoomState", "RoomTypeId" },
+                values: new object[] { 1, new DateTime(2024, 1, 29, 20, 29, 0, 933, DateTimeKind.Local).AddTicks(5325), 0, 3, 1, 100, "1240044444", 150.0, 0, 1 });
+
+            migrationBuilder.InsertData(
+                schema: "Hotel",
+                table: "Equipments",
+                columns: new[] { "Id", "Count", "CreatedDate", "IsDeleted", "Name", "RoomId" },
+                values: new object[,]
+                {
+                    { 1, 2, new DateTime(2024, 1, 29, 20, 29, 0, 933, DateTimeKind.Local).AddTicks(6545), 0, "Bed", 1 },
+                    { 2, 1, new DateTime(2024, 1, 29, 20, 29, 0, 933, DateTimeKind.Local).AddTicks(6942), 0, "Minibar", 1 }
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -496,6 +582,10 @@ namespace HotelAPI.Persistence.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "AboutApps",
+                schema: "Hotel");
+
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 

@@ -1,4 +1,5 @@
 ﻿using HotelAPI.Domain.Entities;
+using HotelAPI.Persistence.AppDbContext.SeedData;
 using HotelAPI.Persistence.Extensions;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -22,6 +23,7 @@ namespace HotelAPI.Persistence.AppDbContext
 
 
             //Data seeding burada olacaq
+            modelBuilder.SeedData();
 
 
         }
