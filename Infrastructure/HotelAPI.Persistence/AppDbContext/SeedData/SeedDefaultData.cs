@@ -25,9 +25,15 @@ namespace HotelAPI.Persistence.AppDbContext.SeedData
             },
             new HotelUserRole(){
                 Id = 2,
-                Name="User",
-                NormalizedName = "USER"
+                Name="Default",
+                NormalizedName = "DEFAULT"
             },
+            new HotelUserRole(){
+                Id = 3,
+                Name="Staff",
+                NormalizedName = "STAFF"
+            },
+
 
         };
 
@@ -42,6 +48,17 @@ namespace HotelAPI.Persistence.AppDbContext.SeedData
                 Email="arzu@gmail.com",
 
             },
+            new HotelUser()
+            {
+                Id=2,
+                FirstName="Guest",
+                LastName="Guest",
+                UserName="Guest",
+                PasswordHash=new PasswordHasher<IdentityUser>().HashPassword(null,"12345"),
+                Email="guest@com"
+
+            }
+
 
         };
 
@@ -51,7 +68,23 @@ namespace HotelAPI.Persistence.AppDbContext.SeedData
             {
                UserId = 1,
                RoleId=1,
-            }
+            },
+
+        new IdentityUserRole<int>()
+        {
+            UserId=1,
+            RoleId=2
+        },
+        new IdentityUserRole<int>()
+        {
+            UserId=1,
+            RoleId=3,
+        },
+        new IdentityUserRole<int>()
+        {
+            UserId=2,
+            RoleId=2
+        }
 
         };
 

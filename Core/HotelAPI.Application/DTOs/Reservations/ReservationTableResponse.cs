@@ -1,5 +1,4 @@
 ﻿using HotelAPI.Application.DTOs.HotelUsers;
-using HotelAPI.Application.DTOs.Reservators;
 using HotelAPI.Application.DTOs.Rooms;
 
 namespace HotelAPI.Application.DTOs.Reservations

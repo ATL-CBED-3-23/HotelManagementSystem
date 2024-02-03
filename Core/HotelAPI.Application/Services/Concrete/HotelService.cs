@@ -43,7 +43,7 @@ namespace HotelAPI.Application.Services.Concrete
         public async Task<HotelUpdateRequest> GetForUpdateById(int id)
         {
             Hotel hotel = await _hotelRepository.FindByIdAsync(id);
-            HotelUpdateRequest hotelUpdateRequest= _mapper.Map<HotelUpdateRequest>(hotel);
+            HotelUpdateRequest hotelUpdateRequest = _mapper.Map<HotelUpdateRequest>(hotel);
 
             return hotelUpdateRequest;
         }
@@ -54,26 +54,26 @@ namespace HotelAPI.Application.Services.Concrete
             //return _mapper.Map<List<HotelTableResponse>>(hotels);
             List<Country> countries = await _countryRepository.FindAllAsync();
             List<City> cities = await _cityRepository.FindAllAsync();
-            List<Hotel> hotels= await _hotelRepository.FindAllAsync();
+            List<Hotel> hotels = await _hotelRepository.FindAllAsync();
 
-           return hotels.Select(hotel => new HotelTableResponse
-           {
-               Id = hotel.Id,
-               Address = hotel.Address,
-               Email = hotel.Email,
-               Name = hotel.Name,
-               PhoneNumber = hotel.PhoneNumber,
-               WebSite = hotel.WebSite,
-               Grade = hotel.Grade,
-              City= cities.FirstOrDefault(city => city.Id== hotel.CityId).Name
-              
-           }).ToList();
+            return hotels.Select(hotel => new HotelTableResponse
+            {
+                Id = hotel.Id,
+                Address = hotel.Address,
+                Email = hotel.Email,
+                Name = hotel.Name,
+                PhoneNumber = hotel.PhoneNumber,
+                WebSite = hotel.WebSite,
+                Grade = hotel.Grade,
+                City = cities.FirstOrDefault(city => city.Id == hotel.CityId).Name
+
+            }).ToList();
         }
 
         public async Task<List<HotelTableResponse>> GetHotelsByCity(int cityId)
         {
             List<City> cities = await _cityRepository.FindAllAsync();
-            List<Hotel> hotels = await _hotelRepository.FindByConditionAsync(h=>h.CityId==cityId);
+            List<Hotel> hotels = await _hotelRepository.FindByConditionAsync(h => h.CityId == cityId);
             return hotels.Select(hotel => new HotelTableResponse
             {
                 Id = hotel.Id,
@@ -91,7 +91,7 @@ namespace HotelAPI.Application.Services.Concrete
         public async Task<List<HotelTableResponse>> GetHotelsByRoomCount(int roomCount)
         {
             List<City> cities = await _cityRepository.FindAllAsync();
-            List<Hotel> hotels = await _hotelRepository.FindByConditionAsync(h => h.Rooms.Count==roomCount);
+            List<Hotel> hotels = await _hotelRepository.FindByConditionAsync(h => h.Rooms.Count == roomCount);
             return hotels.Select(hotel => new HotelTableResponse
             {
                 Id = hotel.Id,

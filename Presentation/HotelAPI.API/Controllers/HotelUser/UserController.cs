@@ -21,11 +21,19 @@ namespace HotelAPI.API.Controllers.HotelUser
             _accountService = accountService;
         }
 
-        [AllowAnonymous]
+        
         [HttpPost("RegisterUser")]
         public async Task<IActionResult> RegisterUser(UserAddRequest userAddRequest)
         {
             await _accountService.RegisterUserAsync(userAddRequest);
+            return Ok();
+        }
+
+        [AllowAnonymous]
+        [HttpPost("RegisterGuestUser")]
+        public async Task<IActionResult> RegisterGuestUser(GuestUserAddRequest guestUserAddRequest)
+        {
+            await _accountService.RegisterGuestUserAsync(guestUserAddRequest);
             return Ok();
         }
 
