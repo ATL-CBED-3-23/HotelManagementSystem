@@ -43,6 +43,23 @@ public class AccountService : IAccountService
         }
         return result;
     }
+
+    public async Task<IdentityResult> RegisterGuestUserAsync(GuestUserAddRequest guestUserAddRequest)
+    {
+        HotelUser user = _mapper.Map<HotelUser>(guestUserAddRequest);
+        IdentityResult result = await _userManager.CreateAsync(user, guestUserAddRequest.Password);
+
+        if (result.Succeeded)
+        {
+            var role = _roleManager.Roles.Where(r => r.EntityStatus == EntityStatus.Active && r.Name == "Default").Select(x => x.Name).ToList();             
+            await _userManager.AddToRolesAsync(user, role);
+
+        }
+        return result;
+    }
+
+
+
     public async Task<UserUpdateRequest> GetUserForUpdateById(int id)
     {
         HotelUser user = await _userManager.FindByIdAsync(id.ToString());

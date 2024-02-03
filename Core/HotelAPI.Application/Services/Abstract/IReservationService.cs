@@ -10,5 +10,6 @@ namespace HotelAPI.Application.Services.Abstract
         Task<ReservationUpdateRequest> GetForUpdateById(int id);
         Task<List<ReservationTableResponse>> GetTable();
         Task DeleteByIdAsync(int id);
+        Task<List<ReservationTableResponse>> GetReservationsByUser(int userId);
     }
 }
