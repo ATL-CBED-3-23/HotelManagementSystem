@@ -9,7 +9,7 @@ namespace HotelAPI.API.Controllers.HotelUser
 {
     [Route("api/[controller]")]
     [ApiController]
-  //  [Authorize(AuthenticationSchemes = "Bearer")]
+    [Authorize(AuthenticationSchemes = "Bearer")]
     [Authorize]
 
     public class UserController : ControllerBase
@@ -21,6 +21,7 @@ namespace HotelAPI.API.Controllers.HotelUser
             _accountService = accountService;
         }
 
+        [AllowAnonymous]
         [HttpPost("RegisterUser")]
         public async Task<IActionResult> RegisterUser(UserAddRequest userAddRequest)
         {

@@ -67,7 +67,7 @@ namespace HotelAPI.Persistence.Migrations
                             AppName = "Hotel Management System",
                             AppVersion = "1.0.1",
                             Content = "Hotel Management System Application",
-                            CreatedDate = new DateTime(2024, 1, 30, 14, 43, 59, 539, DateTimeKind.Local).AddTicks(8205),
+                            CreatedDate = new DateTime(2024, 2, 2, 19, 6, 18, 584, DateTimeKind.Local).AddTicks(5302),
                             EntityStatus = 0,
                             Site = "www.hms.com"
                         });
@@ -112,7 +112,7 @@ namespace HotelAPI.Persistence.Migrations
                         {
                             Id = 1,
                             CountryId = 1,
-                            CreatedDate = new DateTime(2024, 1, 30, 14, 43, 59, 640, DateTimeKind.Local).AddTicks(2163),
+                            CreatedDate = new DateTime(2024, 2, 2, 19, 6, 18, 655, DateTimeKind.Local).AddTicks(3102),
                             EntityStatus = 0,
                             Name = "Baku",
                             PostalCode = "1000"
@@ -121,16 +121,16 @@ namespace HotelAPI.Persistence.Migrations
                         {
                             Id = 2,
                             CountryId = 2,
-                            CreatedDate = new DateTime(2024, 1, 30, 14, 43, 59, 640, DateTimeKind.Local).AddTicks(2582),
+                            CreatedDate = new DateTime(2024, 2, 2, 19, 6, 18, 655, DateTimeKind.Local).AddTicks(3509),
                             EntityStatus = 0,
-                            Name = "Isyanbul",
+                            Name = "Istanbul",
                             PostalCode = "2205"
                         },
                         new
                         {
                             Id = 3,
                             CountryId = 3,
-                            CreatedDate = new DateTime(2024, 1, 30, 14, 43, 59, 640, DateTimeKind.Local).AddTicks(2584),
+                            CreatedDate = new DateTime(2024, 2, 2, 19, 6, 18, 655, DateTimeKind.Local).AddTicks(3511),
                             EntityStatus = 0,
                             Name = "Roma",
                             PostalCode = "3001"
@@ -139,7 +139,7 @@ namespace HotelAPI.Persistence.Migrations
                         {
                             Id = 4,
                             CountryId = 4,
-                            CreatedDate = new DateTime(2024, 1, 30, 14, 43, 59, 640, DateTimeKind.Local).AddTicks(2585),
+                            CreatedDate = new DateTime(2024, 2, 2, 19, 6, 18, 655, DateTimeKind.Local).AddTicks(3512),
                             EntityStatus = 0,
                             Name = "Moscow",
                             PostalCode = "4140"
@@ -148,7 +148,7 @@ namespace HotelAPI.Persistence.Migrations
                         {
                             Id = 5,
                             CountryId = 5,
-                            CreatedDate = new DateTime(2024, 1, 30, 14, 43, 59, 640, DateTimeKind.Local).AddTicks(2586),
+                            CreatedDate = new DateTime(2024, 2, 2, 19, 6, 18, 655, DateTimeKind.Local).AddTicks(3513),
                             EntityStatus = 0,
                             Name = "Paris",
                             PostalCode = "5005"
@@ -183,35 +183,35 @@ namespace HotelAPI.Persistence.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedDate = new DateTime(2024, 1, 30, 14, 43, 59, 640, DateTimeKind.Local).AddTicks(1705),
+                            CreatedDate = new DateTime(2024, 2, 2, 19, 6, 18, 655, DateTimeKind.Local).AddTicks(2685),
                             EntityStatus = 0,
                             Name = "Azerbaijan"
                         },
                         new
                         {
                             Id = 2,
-                            CreatedDate = new DateTime(2024, 1, 30, 14, 43, 59, 640, DateTimeKind.Local).AddTicks(1965),
+                            CreatedDate = new DateTime(2024, 2, 2, 19, 6, 18, 655, DateTimeKind.Local).AddTicks(2904),
                             EntityStatus = 0,
                             Name = "Turkey"
                         },
                         new
                         {
                             Id = 3,
-                            CreatedDate = new DateTime(2024, 1, 30, 14, 43, 59, 640, DateTimeKind.Local).AddTicks(1966),
+                            CreatedDate = new DateTime(2024, 2, 2, 19, 6, 18, 655, DateTimeKind.Local).AddTicks(2906),
                             EntityStatus = 0,
                             Name = "Italy"
                         },
                         new
                         {
                             Id = 4,
-                            CreatedDate = new DateTime(2024, 1, 30, 14, 43, 59, 640, DateTimeKind.Local).AddTicks(1967),
+                            CreatedDate = new DateTime(2024, 2, 2, 19, 6, 18, 655, DateTimeKind.Local).AddTicks(2907),
                             EntityStatus = 0,
                             Name = "Russia"
                         },
                         new
                         {
                             Id = 5,
-                            CreatedDate = new DateTime(2024, 1, 30, 14, 43, 59, 640, DateTimeKind.Local).AddTicks(1968),
+                            CreatedDate = new DateTime(2024, 2, 2, 19, 6, 18, 655, DateTimeKind.Local).AddTicks(2907),
                             EntityStatus = 0,
                             Name = "France"
                         });
@@ -254,7 +254,7 @@ namespace HotelAPI.Persistence.Migrations
                         {
                             Id = 1,
                             Count = 2,
-                            CreatedDate = new DateTime(2024, 1, 30, 14, 43, 59, 640, DateTimeKind.Local).AddTicks(6023),
+                            CreatedDate = new DateTime(2024, 2, 2, 19, 6, 18, 655, DateTimeKind.Local).AddTicks(8201),
                             EntityStatus = 0,
                             Name = "Bed",
                             RoomId = 1
@@ -263,7 +263,7 @@ namespace HotelAPI.Persistence.Migrations
                         {
                             Id = 2,
                             Count = 2,
-                            CreatedDate = new DateTime(2024, 1, 30, 14, 43, 59, 640, DateTimeKind.Local).AddTicks(6566),
+                            CreatedDate = new DateTime(2024, 2, 2, 19, 6, 18, 655, DateTimeKind.Local).AddTicks(9326),
                             EntityStatus = 0,
                             Name = "Twin Beds",
                             RoomId = 2
@@ -272,7 +272,7 @@ namespace HotelAPI.Persistence.Migrations
                         {
                             Id = 3,
                             Count = 1,
-                            CreatedDate = new DateTime(2024, 1, 30, 14, 43, 59, 640, DateTimeKind.Local).AddTicks(6569),
+                            CreatedDate = new DateTime(2024, 2, 2, 19, 6, 18, 655, DateTimeKind.Local).AddTicks(9334),
                             EntityStatus = 0,
                             Name = "Minibar",
                             RoomId = 4
@@ -281,7 +281,7 @@ namespace HotelAPI.Persistence.Migrations
                         {
                             Id = 4,
                             Count = 1,
-                            CreatedDate = new DateTime(2024, 1, 30, 14, 43, 59, 640, DateTimeKind.Local).AddTicks(6570),
+                            CreatedDate = new DateTime(2024, 2, 2, 19, 6, 18, 655, DateTimeKind.Local).AddTicks(9336),
                             EntityStatus = 0,
                             Name = " LCD TV",
                             RoomId = 3
@@ -346,7 +346,7 @@ namespace HotelAPI.Persistence.Migrations
                             Id = 1,
                             Address = "Nizami street,45",
                             CityId = 1,
-                            CreatedDate = new DateTime(2024, 1, 30, 14, 43, 59, 640, DateTimeKind.Local).AddTicks(2762),
+                            CreatedDate = new DateTime(2024, 2, 2, 19, 6, 18, 655, DateTimeKind.Local).AddTicks(3686),
                             Email = "grandhayat@gmail.com",
                             EntityStatus = 0,
                             Grade = 5,
@@ -359,7 +359,7 @@ namespace HotelAPI.Persistence.Migrations
                             Id = 2,
                             Address = "Nasimi District",
                             CityId = 1,
-                            CreatedDate = new DateTime(2024, 1, 30, 14, 43, 59, 640, DateTimeKind.Local).AddTicks(3995),
+                            CreatedDate = new DateTime(2024, 2, 2, 19, 6, 18, 655, DateTimeKind.Local).AddTicks(5238),
                             Email = "marriotbaku@gmail.com",
                             EntityStatus = 0,
                             Grade = 5,
@@ -372,7 +372,7 @@ namespace HotelAPI.Persistence.Migrations
                             Id = 3,
                             Address = "Sultanahmet",
                             CityId = 2,
-                            CreatedDate = new DateTime(2024, 1, 30, 14, 43, 59, 640, DateTimeKind.Local).AddTicks(3998),
+                            CreatedDate = new DateTime(2024, 2, 2, 19, 6, 18, 655, DateTimeKind.Local).AddTicks(5242),
                             Email = "sarikonak@hot.com",
                             EntityStatus = 0,
                             Grade = 4,
@@ -468,15 +468,15 @@ namespace HotelAPI.Persistence.Migrations
                         {
                             Id = 1,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "d02e1981-58f9-4597-a9c5-4c78174ab4f7",
-                            CreateDate = new DateTime(2024, 1, 30, 14, 43, 59, 552, DateTimeKind.Local).AddTicks(2522),
+                            ConcurrencyStamp = "cda4953e-dbfc-4af5-9d35-cef7ea4a85eb",
+                            CreateDate = new DateTime(2024, 2, 2, 19, 6, 18, 585, DateTimeKind.Local).AddTicks(9109),
                             Email = "arzu@gmail.com",
                             EmailConfirmed = false,
                             EntityStatus = 0,
                             FirstName = "Arzu",
                             LastName = "Teymurova",
                             LockoutEnabled = false,
-                            PasswordHash = "AQAAAAIAAYagAAAAEMw6C3yi7J1Ll6OF0r9K1RB7S+efsqOgpERh/0ho5X+e3TK6yrDUsXFRJUaj4MPatA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEM/vbc1MYMg0Tsoq8poN7nfsLAWne8U5gCv9/qmhiPE+8+WwlpQV9NpEhCoBttgG5g==",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
                             UserName = "Arzu"
@@ -522,7 +522,7 @@ namespace HotelAPI.Persistence.Migrations
                         new
                         {
                             Id = 1,
-                            CreateDate = new DateTime(2024, 1, 30, 14, 43, 59, 552, DateTimeKind.Local).AddTicks(1595),
+                            CreateDate = new DateTime(2024, 2, 2, 19, 6, 18, 585, DateTimeKind.Local).AddTicks(7588),
                             EntityStatus = 0,
                             Name = "Admin",
                             NormalizedName = "ADMIN"
@@ -530,7 +530,7 @@ namespace HotelAPI.Persistence.Migrations
                         new
                         {
                             Id = 2,
-                            CreateDate = new DateTime(2024, 1, 30, 14, 43, 59, 552, DateTimeKind.Local).AddTicks(2168),
+                            CreateDate = new DateTime(2024, 2, 2, 19, 6, 18, 585, DateTimeKind.Local).AddTicks(8539),
                             EntityStatus = 0,
                             Name = "User",
                             NormalizedName = "USER"
@@ -558,7 +558,7 @@ namespace HotelAPI.Persistence.Migrations
                         .HasColumnType("int")
                         .HasColumnName("IsDeleted");
 
-                    b.Property<int>("ReservatorId")
+                    b.Property<int>("HotelUserId")
                         .HasColumnType("int");
 
                     b.Property<int>("RoomId")
@@ -566,7 +566,7 @@ namespace HotelAPI.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ReservatorId");
+                    b.HasIndex("HotelUserId");
 
                     b.HasIndex("RoomId");
 
@@ -636,14 +636,14 @@ namespace HotelAPI.Persistence.Migrations
                     b.Property<int>("HotelId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ReservatorId")
+                    b.Property<int>("HotelUserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("HotelId");
 
-                    b.HasIndex("ReservatorId");
+                    b.HasIndex("HotelUserId");
 
                     b.ToTable("Reviews", "Hotel");
                 });
@@ -701,7 +701,7 @@ namespace HotelAPI.Persistence.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedDate = new DateTime(2024, 1, 30, 14, 43, 59, 640, DateTimeKind.Local).AddTicks(4972),
+                            CreatedDate = new DateTime(2024, 2, 2, 19, 6, 18, 655, DateTimeKind.Local).AddTicks(6587),
                             EntityStatus = 0,
                             Floor = 3,
                             HotelId = 1,
@@ -714,7 +714,7 @@ namespace HotelAPI.Persistence.Migrations
                         new
                         {
                             Id = 2,
-                            CreatedDate = new DateTime(2024, 1, 30, 14, 43, 59, 640, DateTimeKind.Local).AddTicks(5837),
+                            CreatedDate = new DateTime(2024, 2, 2, 19, 6, 18, 655, DateTimeKind.Local).AddTicks(7896),
                             EntityStatus = 0,
                             Floor = 2,
                             HotelId = 2,
@@ -727,7 +727,7 @@ namespace HotelAPI.Persistence.Migrations
                         new
                         {
                             Id = 3,
-                            CreatedDate = new DateTime(2024, 1, 30, 14, 43, 59, 640, DateTimeKind.Local).AddTicks(5840),
+                            CreatedDate = new DateTime(2024, 2, 2, 19, 6, 18, 655, DateTimeKind.Local).AddTicks(7900),
                             EntityStatus = 0,
                             Floor = 4,
                             HotelId = 3,
@@ -740,7 +740,7 @@ namespace HotelAPI.Persistence.Migrations
                         new
                         {
                             Id = 4,
-                            CreatedDate = new DateTime(2024, 1, 30, 14, 43, 59, 640, DateTimeKind.Local).AddTicks(5845),
+                            CreatedDate = new DateTime(2024, 2, 2, 19, 6, 18, 655, DateTimeKind.Local).AddTicks(7902),
                             EntityStatus = 0,
                             Floor = 4,
                             HotelId = 3,
@@ -785,7 +785,7 @@ namespace HotelAPI.Persistence.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedDate = new DateTime(2024, 1, 30, 14, 43, 59, 640, DateTimeKind.Local).AddTicks(4271),
+                            CreatedDate = new DateTime(2024, 2, 2, 19, 6, 18, 655, DateTimeKind.Local).AddTicks(5700),
                             Description = " 1 King Bed, Smoking, Sea View",
                             EntityStatus = 0,
                             Name = "Deluxe Room"
@@ -793,7 +793,7 @@ namespace HotelAPI.Persistence.Migrations
                         new
                         {
                             Id = 2,
-                            CreatedDate = new DateTime(2024, 1, 30, 14, 43, 59, 640, DateTimeKind.Local).AddTicks(4530),
+                            CreatedDate = new DateTime(2024, 2, 2, 19, 6, 18, 655, DateTimeKind.Local).AddTicks(6294),
                             Description = "1 Double Bed",
                             EntityStatus = 0,
                             Name = "Family Room"
@@ -801,7 +801,7 @@ namespace HotelAPI.Persistence.Migrations
                         new
                         {
                             Id = 3,
-                            CreatedDate = new DateTime(2024, 1, 30, 14, 43, 59, 640, DateTimeKind.Local).AddTicks(4532),
+                            CreatedDate = new DateTime(2024, 2, 2, 19, 6, 18, 655, DateTimeKind.Local).AddTicks(6296),
                             Description = "1 Bedroom, Terrace, Sea View",
                             EntityStatus = 0,
                             Name = "Suite Room"
@@ -809,7 +809,7 @@ namespace HotelAPI.Persistence.Migrations
                         new
                         {
                             Id = 4,
-                            CreatedDate = new DateTime(2024, 1, 30, 14, 43, 59, 640, DateTimeKind.Local).AddTicks(4533),
+                            CreatedDate = new DateTime(2024, 2, 2, 19, 6, 18, 655, DateTimeKind.Local).AddTicks(6297),
                             Description = "1 King Bed, Sea View",
                             EntityStatus = 0,
                             Name = "King Room"
@@ -961,9 +961,9 @@ namespace HotelAPI.Persistence.Migrations
 
             modelBuilder.Entity("HotelAPI.Domain.Entities.Reservation", b =>
                 {
-                    b.HasOne("HotelAPI.Domain.Entities.Reservator", "Reservator")
+                    b.HasOne("HotelAPI.Domain.Entities.HotelUser", "HotelUser")
                         .WithMany("Reservations")
-                        .HasForeignKey("ReservatorId")
+                        .HasForeignKey("HotelUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -973,7 +973,7 @@ namespace HotelAPI.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Reservator");
+                    b.Navigation("HotelUser");
 
                     b.Navigation("Room");
                 });
@@ -986,15 +986,15 @@ namespace HotelAPI.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("HotelAPI.Domain.Entities.Reservator", "Reservator")
+                    b.HasOne("HotelAPI.Domain.Entities.HotelUser", "HotelUser")
                         .WithMany("Reviews")
-                        .HasForeignKey("ReservatorId")
+                        .HasForeignKey("HotelUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Hotel");
 
-                    b.Navigation("Reservator");
+                    b.Navigation("HotelUser");
                 });
 
             modelBuilder.Entity("HotelAPI.Domain.Entities.Room", b =>
@@ -1084,7 +1084,7 @@ namespace HotelAPI.Persistence.Migrations
                     b.Navigation("Rooms");
                 });
 
-            modelBuilder.Entity("HotelAPI.Domain.Entities.Reservator", b =>
+            modelBuilder.Entity("HotelAPI.Domain.Entities.HotelUser", b =>
                 {
                     b.Navigation("Reservations");
 

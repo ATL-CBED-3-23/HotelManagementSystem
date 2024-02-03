@@ -14,6 +14,11 @@ public class ReservationConfiguration : IEntityTypeConfiguration<Reservation>
         builder.Property(b => b.CheckInDate).IsRequired();
         builder.Property(b => b.EntityStatus).HasColumnName("IsDeleted");
 
-       
+
+        //Relations
+        builder.HasOne(b => b.HotelUser).WithMany(b => b.Reservations).HasForeignKey(b => b.HotelUserId);
+
+
+
     }
 }

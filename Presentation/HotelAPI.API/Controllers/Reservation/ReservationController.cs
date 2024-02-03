@@ -7,7 +7,7 @@ namespace ReservationAPI.API.Controllers.Reservation
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(AuthenticationSchemes = "Bearer")]
+    //[Authorize(AuthenticationSchemes = "Bearer")]
     public class ReservationController : ControllerBase
     {
         private readonly IReservationService _reservationService;
@@ -49,6 +49,13 @@ namespace ReservationAPI.API.Controllers.Reservation
         {
             await _reservationService.DeleteByIdAsync(id);
             return Ok();
+        }
+
+        [HttpGet("GetReseravtionsByUser")]
+        public async Task<IActionResult> GetReseravtionsByUser(int userId)
+        {
+            var data = await _reservationService.GetReservationsByUser(userId);
+            return Ok(data);
         }
     }
 }

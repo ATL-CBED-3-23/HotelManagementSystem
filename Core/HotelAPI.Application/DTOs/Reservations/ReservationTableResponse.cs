@@ -1,4 +1,5 @@
-﻿using HotelAPI.Application.DTOs.Reservators;
+﻿using HotelAPI.Application.DTOs.HotelUsers;
+using HotelAPI.Application.DTOs.Reservators;
 using HotelAPI.Application.DTOs.Rooms;
 
 namespace HotelAPI.Application.DTOs.Reservations
@@ -11,7 +12,7 @@ namespace HotelAPI.Application.DTOs.Reservations
 
         //Relations
         public RoomTableResponse Room { get; set; }
-        public ReservatorTableResponse Reservator { get; set; }
+        public UserTableResponse HotelUser { get; set; }
 
     }
 }

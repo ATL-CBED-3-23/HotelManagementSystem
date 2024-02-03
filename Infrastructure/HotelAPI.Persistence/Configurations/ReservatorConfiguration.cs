@@ -19,8 +19,8 @@ public class ReservatorConfiguration : IEntityTypeConfiguration<Reservator>
 
 
         //Relations
-        builder.HasMany(b => b.Reservations).WithOne(b => b.Reservator).HasForeignKey(b => b.ReservatorId);
-        builder.HasMany(b => b.Reviews).WithOne(b => b.Reservator).HasForeignKey(b => b.ReservatorId);
+        //builder.HasMany(b => b.Reservations).WithOne(b => b.Reservator).HasForeignKey(b => b.ReservatorId);
+       //builder.HasMany(b => b.Reviews).WithOne(b => b.Reservator).HasForeignKey(b => b.ReservatorId);
 
     }
 }
