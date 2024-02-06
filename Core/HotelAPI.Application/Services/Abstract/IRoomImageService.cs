@@ -5,7 +5,7 @@ namespace HotelAPI.Application.Services.Abstract
 {
     public interface IRoomImageService
     {
-        Task AddAsync(RoomImageAddRequest roomImageAddRequest, IFormFile formFile);
+        Task AddAsync(RoomImageAddRequest roomImageAddRequest);
 
 
     }

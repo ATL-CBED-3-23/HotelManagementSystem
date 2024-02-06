@@ -9,7 +9,7 @@ namespace HotelAPI.API.Controllers.HotelUser
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize(AuthenticationSchemes = "Bearer")]
+    [Authorize(AuthenticationSchemes = "Bearer")]
 
     public class UserController : ControllerBase
     {
@@ -150,6 +150,13 @@ namespace HotelAPI.API.Controllers.HotelUser
         public async Task<IActionResult> EditGuestUser(GuestUserUpdateRequest guestUserUpdateRequest)
         {
             await _accountService.EditGuestUserAsync(guestUserUpdateRequest);
+            return Ok();
+        }
+
+        [HttpPost("RemoveGuestUser")]
+        public async Task<IActionResult> RemoveGuestUser()
+        {
+            await _accountService.DeActivateGuestUser();
             return Ok();
         }
     }

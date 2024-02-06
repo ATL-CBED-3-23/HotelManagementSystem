@@ -1,11 +1,14 @@
 ﻿using HotelAPI.API;
+using HotelAPI.API.Middlewares;
 using HotelAPI.Application;
+using HotelAPI.Application.Helpers;
 using HotelAPI.Application.Identity.Concrete;
 using HotelAPI.Domain.Entities;
 using HotelAPI.Infrastructure;
 using HotelAPI.Persistence;
 using HotelAPI.Persistence.AppDbContext;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.DependencyInjection;
 
 
 
@@ -20,6 +23,10 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.Configure<JWTOptions>(builder.Configuration.GetSection("JWTOptions"));
 JWTOptions jwtSettings = builder.Configuration.GetSection("JWTOptions").Get<JWTOptions>();
+
+builder.Services.Configure<FileServerPath>(builder.Configuration.GetSection("FileServerPath"));
+FileServerPath filePath = builder.Configuration.GetSection("FileServerPath").Get<FileServerPath>();
+
 
 builder.Services.AddPersistence(builder.Configuration);
 builder.Services.AddApplication(builder.Configuration);
@@ -54,6 +61,8 @@ if (app.Environment.IsDevelopment())
 app.UseAuthentication();
 
 app.UseAuthorization();
+
+app.UseMiddleware<ErrorHandlerMiddleware>();
 
 app.MapControllers();
 

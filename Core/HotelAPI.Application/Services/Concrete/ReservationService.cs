@@ -44,6 +44,8 @@ namespace HotelAPI.Application.Services.Concrete
             }
 
             await _reservationRepository.CreateAsync(reservation);
+            reservation.Room.RoomState = RoomState.NoAvailable;
+
             return "Room is reserved successfully";
         }
 

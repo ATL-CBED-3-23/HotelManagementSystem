@@ -5,10 +5,12 @@ using HotelAPI.Application.Identity;
 using HotelAPI.Application.Identity.Concrete;
 using HotelAPI.Application.Services.Abstract;
 using HotelAPI.Domain.Entities;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using System.Data;
+using System.Security.Claims;
 
 namespace HotelAPI.Application.Services.Concrete;
 
@@ -19,13 +21,18 @@ public class AccountService : IAccountService
     private readonly JWTOptions _jwtSettings;
     private readonly IJWTTokenService _jwtTokenService;
     private readonly IMapper _mapper;
-    public AccountService(UserManager<HotelUser> userManager, IMapper mapper, RoleManager<HotelUserRole> roleManager, IOptionsSnapshot<JWTOptions> jwtSettings, IJWTTokenService jwtTokenService)
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly ClaimsPrincipal _user;
+    public AccountService(UserManager<HotelUser> userManager, IMapper mapper, RoleManager<HotelUserRole> roleManager,
+        IOptionsSnapshot<JWTOptions> jwtSettings, IJWTTokenService jwtTokenService, IHttpContextAccessor httpContextAccessor)
     {
         _userManager = userManager;
         _roleManager = roleManager;
         _mapper = mapper;
         _jwtSettings = jwtSettings.Value;
         _jwtTokenService = jwtTokenService;
+        _httpContextAccessor = httpContextAccessor;
+        _user = _httpContextAccessor.HttpContext.User;
     }
 
     #region User
@@ -197,12 +204,23 @@ public class AccountService : IAccountService
         IdentityResult result = await _userManager.UpdateAsync(user);
         return result;
     }
+    public async Task<IdentityResult> DeActivateGuestUser()
+    {
+        int x = Convert.ToInt32("A");
+        int userId = int.Parse(_user.FindFirstValue(ClaimTypes.NameIdentifier));
+        HotelUser user = await _userManager.Users.SingleOrDefaultAsync(u => u.Id == userId && u.EntityStatus == EntityStatus.Active);
+        user.SecurityStamp = "fhfdhfudhf";
+        user.EntityStatus = EntityStatus.InActive;
+        IdentityResult result = await _userManager.UpdateAsync(user);
+
+        return result;
+    }
     #endregion
 
-    
+
     public async Task<LoginedUserResponse> Login(LoginRequest loginRequest)
     {
-        
+
         HotelUser user = await _userManager.Users.SingleOrDefaultAsync(x => x.UserName == loginRequest.UserName && x.EntityStatus == EntityStatus.Active);
         bool checkPassword = await _userManager.CheckPasswordAsync(user, loginRequest.Password);
         IList<string> roles = await _userManager.GetRolesAsync(user);
