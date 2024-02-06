@@ -73,37 +73,44 @@ namespace HotelAPI.Application.Services.Concrete
         public async Task<List<HotelTableResponse>> GetHotelsByCity(int cityId)
         {
             List<City> cities = await _cityRepository.FindAllAsync();
-            List<Hotel> hotels = await _hotelRepository.FindByConditionAsync(h => h.CityId == cityId);
-            return hotels.Select(hotel => new HotelTableResponse
-            {
-                Id = hotel.Id,
-                Address = hotel.Address,
-                Email = hotel.Email,
-                Name = hotel.Name,
-                PhoneNumber = hotel.PhoneNumber,
-                WebSite = hotel.WebSite,
-                Grade = hotel.Grade,
-                City = cities.FirstOrDefault(city => city.Id == hotel.CityId).Name
-
-            }).ToList();
-
+            List<Hotel> hotels = await _hotelRepository.FindAllAsync();
+            
+            var result = from hotel in hotels
+                         join city in cities on hotel.CityId equals city.Id
+                         where city.Id == cityId
+                         select new HotelTableResponse
+                         {
+                             Id = hotel.Id,
+                             Address = hotel.Address,
+                             Email = hotel.Email,
+                             Name = hotel.Name,
+                             PhoneNumber = hotel.PhoneNumber,
+                             WebSite = hotel.WebSite,
+                             Grade = hotel.Grade,
+                             City = city.Name
+                         };
+            return result.ToList();
         }
+
         public async Task<List<HotelTableResponse>> GetHotelsByRoomCount(int roomCount)
         {
             List<City> cities = await _cityRepository.FindAllAsync();
             List<Hotel> hotels = await _hotelRepository.FindByConditionAsync(h => h.Rooms.Count == roomCount);
-            return hotels.Select(hotel => new HotelTableResponse
-            {
-                Id = hotel.Id,
-                Address = hotel.Address,
-                Email = hotel.Email,
-                Name = hotel.Name,
-                PhoneNumber = hotel.PhoneNumber,
-                WebSite = hotel.WebSite,
-                Grade = hotel.Grade,
-                City = cities.FirstOrDefault(city => city.Id == hotel.CityId).Name
 
-            }).ToList();
+            var result = from hotel in hotels
+                         join city in cities on hotel.CityId equals city.Id
+                         select new HotelTableResponse
+                         {
+                             Id = hotel.Id,
+                             Address = hotel.Address,
+                             Email = hotel.Email,
+                             Name = hotel.Name,
+                             PhoneNumber = hotel.PhoneNumber,
+                             WebSite = hotel.WebSite,
+                             Grade = hotel.Grade,
+                             City = city.Name
+                         };
+            return result.ToList();
 
         }
     }

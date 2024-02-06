@@ -9,8 +9,7 @@ namespace HotelAPI.API.Controllers.HotelUser
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(AuthenticationSchemes = "Bearer")]
-    [Authorize]
+    //[Authorize(AuthenticationSchemes = "Bearer")]
 
     public class UserController : ControllerBase
     {
@@ -21,19 +20,11 @@ namespace HotelAPI.API.Controllers.HotelUser
             _accountService = accountService;
         }
 
-        
+
         [HttpPost("RegisterUser")]
         public async Task<IActionResult> RegisterUser(UserAddRequest userAddRequest)
         {
             await _accountService.RegisterUserAsync(userAddRequest);
-            return Ok();
-        }
-
-        [AllowAnonymous]
-        [HttpPost("RegisterGuestUser")]
-        public async Task<IActionResult> RegisterGuestUser(GuestUserAddRequest guestUserAddRequest)
-        {
-            await _accountService.RegisterGuestUserAsync(guestUserAddRequest);
             return Ok();
         }
 
@@ -129,12 +120,37 @@ namespace HotelAPI.API.Controllers.HotelUser
 
         }
 
+
+
         [HttpPost("Login")]
         [AllowAnonymous]
         public async Task<IActionResult> Login(LoginRequest loginRequest)
         {
             LoginedUserResponse loginedUser = await _accountService.Login(loginRequest);
             return Ok(loginedUser);
+        }
+
+        [AllowAnonymous]
+        [HttpPost("RegisterForGuestUser")]
+        public async Task<IActionResult> RegisterGuestUser(GuestUserAddRequest guestUserAddRequest)
+        {
+            await _accountService.RegisterGuestUserAsync(guestUserAddRequest);
+            return Ok();
+        }
+
+
+        [HttpGet("GetGuestUserById")]
+        public async Task<IActionResult> GetGuestUserById(int id)
+        {
+            var result = await _accountService.GetGuestUserForUpdateById(id);
+            return Ok(result);
+        }
+
+        [HttpPost("EditGuestUser")]
+        public async Task<IActionResult> EditGuestUser(GuestUserUpdateRequest guestUserUpdateRequest)
+        {
+            await _accountService.EditGuestUserAsync(guestUserUpdateRequest);
+            return Ok();
         }
     }
 }

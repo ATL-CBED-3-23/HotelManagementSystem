@@ -11,5 +11,5 @@ namespace HotelAPI.Application.Services.Abstract
         Task DeleteByIdAsync(int id);
 
     }
-  
+
 }

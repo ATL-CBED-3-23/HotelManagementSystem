@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HotelAPI.Application.Constants
+namespace HotelAPI.Application.Utilities.Constants
 {
     public static class AllowedRolesForController
     {
@@ -16,6 +16,6 @@ namespace HotelAPI.Application.Constants
         /// List of roles that are allowed to access the resource => ADMIN and OPERATOR
         /// </summary>
         public const string ADMIN_and_USER = "ADMIN,USER";
-        
+
     }
 }
