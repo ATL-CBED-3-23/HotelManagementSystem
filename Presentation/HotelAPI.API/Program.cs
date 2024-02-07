@@ -1,13 +1,14 @@
 ﻿using HotelAPI.API;
+using HotelAPI.API.Middlewares;
 using HotelAPI.Application;
+using HotelAPI.Application.Helpers;
 using HotelAPI.Application.Identity.Concrete;
 using HotelAPI.Domain.Entities;
 using HotelAPI.Infrastructure;
 using HotelAPI.Persistence;
 using HotelAPI.Persistence.AppDbContext;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Configuration;
-using Microsoft.OpenApi.Models;
+using Microsoft.Extensions.DependencyInjection;
 
 
 
@@ -23,6 +24,10 @@ builder.Services.AddSwaggerGen();
 builder.Services.Configure<JWTOptions>(builder.Configuration.GetSection("JWTOptions"));
 JWTOptions jwtSettings = builder.Configuration.GetSection("JWTOptions").Get<JWTOptions>();
 
+builder.Services.Configure<FileServerPath>(builder.Configuration.GetSection("FileServerPath"));
+FileServerPath filePath = builder.Configuration.GetSection("FileServerPath").Get<FileServerPath>();
+
+
 builder.Services.AddPersistence(builder.Configuration);
 builder.Services.AddApplication(builder.Configuration);
 builder.Services.AddInfrastructure(builder.Configuration);
@@ -31,33 +36,6 @@ builder.Services.AuthenticationJwtSettings(jwtSettings);
 
 
 
-//builder.Services.AddSwaggerGen(option =>
-//{
-//    option.SwaggerDoc("v1", new OpenApiInfo { Title = "Demo API", Version = "v1" });
-//    option.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-//    {
-//        In = ParameterLocation.Header,
-//        Description = "Please enter a valid token",
-//        Name = "Authorization",
-//        Type = SecuritySchemeType.Http,
-//        BearerFormat = "JWT",
-//        Scheme = "Bearer"
-//    });
-//    option.AddSecurityRequirement(new OpenApiSecurityRequirement
-//    {
-//        {
-//            new OpenApiSecurityScheme
-//            {
-//                Reference = new OpenApiReference
-//                {
-//                    Type=ReferenceType.SecurityScheme,
-//                    Id="Bearer"
-//                }
-//            },
-//            new string[]{}
-//        }
-//    });
-//});
 
 builder.Services.AddIdentity<HotelUser, HotelUserRole>(options =>
 {
@@ -83,6 +61,8 @@ if (app.Environment.IsDevelopment())
 app.UseAuthentication();
 
 app.UseAuthorization();
+
+app.UseMiddleware<ErrorHandlerMiddleware>();
 
 app.MapControllers();
 

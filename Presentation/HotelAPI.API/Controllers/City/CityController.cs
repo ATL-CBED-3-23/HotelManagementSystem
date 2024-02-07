@@ -1,6 +1,6 @@
-﻿using HotelAPI.Application.Constants;
-using HotelAPI.Application.DTOs.Cities;
+﻿using HotelAPI.Application.DTOs.Cities;
 using HotelAPI.Application.Services.Abstract;
+using HotelAPI.Application.Utilities.Constants;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

@@ -7,7 +7,7 @@ namespace ReservationAPI.API.Controllers.Reservation
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize(AuthenticationSchemes = "Bearer")]
+    [Authorize(AuthenticationSchemes = "Bearer")]
     public class ReservationController : ControllerBase
     {
         private readonly IReservationService _reservationService;
@@ -19,8 +19,8 @@ namespace ReservationAPI.API.Controllers.Reservation
         [HttpPost("Add")]
         public async Task<IActionResult> Add(ReservationAddRequest reservationAddRequest)
         {
-            await _reservationService.AddAsync(reservationAddRequest);
-            return Ok();
+            string message=await _reservationService.AddAsync(reservationAddRequest);
+            return Ok(message);
         }
 
         [HttpGet("GetTable")]
@@ -51,10 +51,17 @@ namespace ReservationAPI.API.Controllers.Reservation
             return Ok();
         }
 
-        [HttpGet("GetReseravtionsByUser")]
-        public async Task<IActionResult> GetReseravtionsByUser(int userId)
+        [HttpGet("GetReservationsByUser")]
+        public async Task<IActionResult> GetReservationsByUser(int userId)
         {
             var data = await _reservationService.GetReservationsByUser(userId);
+            return Ok(data);
+        }
+
+        [HttpGet("GetReservationsByGuestUser")]
+        public async Task<IActionResult> GetReservationsByGuestUser()
+        {
+            var data = await _reservationService.GetReservationsByGuestUser();
             return Ok(data);
         }
     }

@@ -1,5 +1,7 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Scrutor;
 using System.Reflection;
 
@@ -19,7 +21,8 @@ namespace HotelAPI.Application
            .AsImplementedInterfaces()
            .WithScopedLifetime());
 
-           return services;
+            services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            return services;
 
         }
     }

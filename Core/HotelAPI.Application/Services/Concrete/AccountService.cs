@@ -5,9 +5,12 @@ using HotelAPI.Application.Identity;
 using HotelAPI.Application.Identity.Concrete;
 using HotelAPI.Application.Services.Abstract;
 using HotelAPI.Domain.Entities;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using System.Data;
+using System.Security.Claims;
 
 namespace HotelAPI.Application.Services.Concrete;
 
@@ -18,15 +21,21 @@ public class AccountService : IAccountService
     private readonly JWTOptions _jwtSettings;
     private readonly IJWTTokenService _jwtTokenService;
     private readonly IMapper _mapper;
-    public AccountService(UserManager<HotelUser> userManager, IMapper mapper, RoleManager<HotelUserRole> roleManager, IOptionsSnapshot<JWTOptions> jwtSettings, IJWTTokenService jwtTokenService)
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly ClaimsPrincipal _user;
+    public AccountService(UserManager<HotelUser> userManager, IMapper mapper, RoleManager<HotelUserRole> roleManager,
+        IOptionsSnapshot<JWTOptions> jwtSettings, IJWTTokenService jwtTokenService, IHttpContextAccessor httpContextAccessor)
     {
         _userManager = userManager;
         _roleManager = roleManager;
         _mapper = mapper;
         _jwtSettings = jwtSettings.Value;
         _jwtTokenService = jwtTokenService;
+        _httpContextAccessor = httpContextAccessor;
+        _user = _httpContextAccessor.HttpContext.User;
     }
 
+    #region User
     public async Task<IdentityResult> RegisterUserAsync(UserAddRequest userAddRequest)
     {
         HotelUser user = _mapper.Map<HotelUser>(userAddRequest);
@@ -43,30 +52,13 @@ public class AccountService : IAccountService
         }
         return result;
     }
-
-    public async Task<IdentityResult> RegisterGuestUserAsync(GuestUserAddRequest guestUserAddRequest)
-    {
-        HotelUser user = _mapper.Map<HotelUser>(guestUserAddRequest);
-        IdentityResult result = await _userManager.CreateAsync(user, guestUserAddRequest.Password);
-
-        if (result.Succeeded)
-        {
-            var role = _roleManager.Roles.Where(r => r.EntityStatus == EntityStatus.Active && r.Name == "Default").Select(x => x.Name).ToList();             
-            await _userManager.AddToRolesAsync(user, role);
-
-        }
-        return result;
-    }
-
-
-
-    public async Task<UserUpdateRequest> GetUserForUpdateById(int id)
+    public async Task<UserToUpdateResponse> GetUserForUpdateById(int id)
     {
         HotelUser user = await _userManager.FindByIdAsync(id.ToString());
 
-        UserUpdateRequest userUpdateRequest = _mapper.Map<UserUpdateRequest>(user);
-        userUpdateRequest.Roles = _userManager.GetRolesAsync(user).Result;
-        return userUpdateRequest;
+        UserToUpdateResponse userToUpdateResponse = _mapper.Map<UserToUpdateResponse>(user);
+        userToUpdateResponse.Roles = _userManager.GetRolesAsync(user).Result;
+        return userToUpdateResponse;
     }
     public async Task<IdentityResult> EditUserAsync(UserUpdateRequest userUpdateRequest)
     {
@@ -75,8 +67,8 @@ public class AccountService : IAccountService
         user.LastName = userUpdateRequest.LastName;
         user.Email = userUpdateRequest.Email;
         user.UserName = userUpdateRequest.UserName;
-
         IdentityResult result = await _userManager.UpdateAsync(user);
+
         return result;
     }
     public async Task<IdentityResult> DeActivateUser(int id)
@@ -178,8 +170,57 @@ public class AccountService : IAccountService
         result = await _userManager.RemoveFromRolesAsync(hotelUser, rolesByIds);
         return result;
     }
+    #endregion
+
+    #region Guest
+    public async Task<IdentityResult> RegisterGuestUserAsync(GuestUserAddRequest guestUserAddRequest)
+    {
+        HotelUser user = _mapper.Map<HotelUser>(guestUserAddRequest);
+        IdentityResult result = await _userManager.CreateAsync(user, guestUserAddRequest.Password);
+
+        if (result.Succeeded)
+        {
+            var role = _roleManager.Roles.Where(r => r.EntityStatus == EntityStatus.Active && r.Name == "Default").Select(x => x.Name).ToList();
+            await _userManager.AddToRolesAsync(user, role);
+
+        }
+        return result;
+    }
+    public async Task<GuestUserToUpdateResponse> GetGuestUserForUpdateById(int id)
+    {
+        HotelUser user = await _userManager.FindByIdAsync(id.ToString());
+
+        GuestUserToUpdateResponse guestUserToUpdateResponse = _mapper.Map<GuestUserToUpdateResponse>(user);
+        return guestUserToUpdateResponse;
+    }
+    public async Task<IdentityResult> EditGuestUserAsync(GuestUserUpdateRequest guestUserUpdateRequest)
+    {
+        HotelUser user = await _userManager.Users.SingleOrDefaultAsync(u => u.Id == guestUserUpdateRequest.Id && u.EntityStatus == EntityStatus.Active);
+        user.FirstName = guestUserUpdateRequest.FirstName;
+        user.LastName = guestUserUpdateRequest.LastName;
+        user.Email = guestUserUpdateRequest.Email;
+        user.UserName = guestUserUpdateRequest.UserName;
+
+        IdentityResult result = await _userManager.UpdateAsync(user);
+        return result;
+    }
+    public async Task<IdentityResult> DeActivateGuestUser()
+    {
+        int x = Convert.ToInt32("A");
+        int userId = int.Parse(_user.FindFirstValue(ClaimTypes.NameIdentifier));
+        HotelUser user = await _userManager.Users.SingleOrDefaultAsync(u => u.Id == userId && u.EntityStatus == EntityStatus.Active);
+        user.SecurityStamp = "fhfdhfudhf";
+        user.EntityStatus = EntityStatus.InActive;
+        IdentityResult result = await _userManager.UpdateAsync(user);
+
+        return result;
+    }
+    #endregion
+
+
     public async Task<LoginedUserResponse> Login(LoginRequest loginRequest)
     {
+
         HotelUser user = await _userManager.Users.SingleOrDefaultAsync(x => x.UserName == loginRequest.UserName && x.EntityStatus == EntityStatus.Active);
         bool checkPassword = await _userManager.CheckPasswordAsync(user, loginRequest.Password);
         IList<string> roles = await _userManager.GetRolesAsync(user);

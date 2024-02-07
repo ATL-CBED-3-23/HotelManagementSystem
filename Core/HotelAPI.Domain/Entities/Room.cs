@@ -17,6 +17,6 @@ public class Room:BaseEntity
     public int HotelId { get; set; }
     public Hotel Hotel { get; set; }
     public List<Reservation> Reservations { get; set; }
-
+    public List<RoomImage> Images { get; set; }
 
 }
