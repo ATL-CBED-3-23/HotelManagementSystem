@@ -25,7 +25,7 @@ namespace HotelAPI.Application.Services.Concrete
         {
             RoomImage image = _mapper.Map<RoomImage>(roomImageAddRequest);
             image.FileName = roomImageAddRequest.File.FileName;
-            image.FilePath = _fileServerPath.Path;
+        //    image.FilePath = _fileServerPath.Path;
 
             await _roomImageRepository.CreateAsync(image);
         }

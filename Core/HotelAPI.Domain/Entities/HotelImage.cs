@@ -4,6 +4,8 @@
     {
         public string FileName { get; set; }
         public string FilePath { get; set; }
+        public string File { get; set;  }
+        public FileType fileType { get; set; }
 
         //Relations
         public int HotelId { get; set; }
