@@ -8,6 +8,6 @@ namespace HotelAPI.Application.Helpers
 {
     public class FileServerPath
     {
-        public string Arzu { get; set; }
+        public string Path { get; set; }
     }
 }

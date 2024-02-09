@@ -42,9 +42,10 @@ namespace HotelAPI.Application.Services.Concrete
             {
                 return "Room is not available";
             }
-
-            await _reservationRepository.CreateAsync(reservation);
             reservation.Room.RoomState = RoomState.NoAvailable;
+            await _roomRepository.UpdateAsync(reservation.Room);
+            await _reservationRepository.CreateAsync(reservation);
+            
 
             return "Room is reserved successfully";
         }

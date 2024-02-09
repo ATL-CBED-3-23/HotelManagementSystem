@@ -1,8 +1,8 @@
-﻿using HotelAPI.Application.DTOs.Images;
+﻿using HotelAPI.Application.DTOs.RoomImages;
 using HotelAPI.Application.Services.Abstract;
 using Microsoft.AspNetCore.Mvc;
 
-namespace HotelAPI.API.Controllers.Image
+namespace HotelAPI.API.Controllers.RoomImage
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -15,13 +15,6 @@ namespace HotelAPI.API.Controllers.Image
             _roomImageService = roomImageService;
         }
 
-        //[HttpPost("upload")]
-        //[Consumes("multipart/form-data")]
-        //public async Task<IActionResult> Add(IFormFile file, RoomImageAddRequest roomImageAddRequest)
-        //{
-        //    await _roomImageService.AddAsync(roomImageAddRequest,file);
-        //    return Ok();
-        //}
 
         [HttpPost("UploadImage")]
         public async Task<ActionResult> UploadImage(RoomImageAddRequest roomImageAddRequest)

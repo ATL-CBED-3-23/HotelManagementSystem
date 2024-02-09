@@ -8,7 +8,6 @@ using HotelAPI.Infrastructure;
 using HotelAPI.Persistence;
 using HotelAPI.Persistence.AppDbContext;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.DependencyInjection;
 
 
 
@@ -31,6 +30,7 @@ FileServerPath filePath = builder.Configuration.GetSection("FileServerPath").Get
 builder.Services.AddPersistence(builder.Configuration);
 builder.Services.AddApplication(builder.Configuration);
 builder.Services.AddInfrastructure(builder.Configuration);
+
 builder.Services.AddSwaggerSetting();
 builder.Services.AuthenticationJwtSettings(jwtSettings);
 
