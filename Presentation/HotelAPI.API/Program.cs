@@ -4,7 +4,9 @@ using HotelAPI.Application;
 using HotelAPI.Application.Helpers;
 using HotelAPI.Application.Identity.Concrete;
 using HotelAPI.Domain.Entities;
+using HotelAPI.Domain.Interfaces;
 using HotelAPI.Infrastructure;
+using HotelAPI.Infrastructure.Repositories;
 using HotelAPI.Persistence;
 using HotelAPI.Persistence.AppDbContext;
 using Microsoft.AspNetCore.Identity;
@@ -20,13 +22,14 @@ builder.Services.AddSwaggerGen();
 //builder.Services.AddDbContext<HotelAppContext>(options =>
 //            options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+
 builder.Services.Configure<JWTOptions>(builder.Configuration.GetSection("JWTOptions"));
 JWTOptions jwtSettings = builder.Configuration.GetSection("JWTOptions").Get<JWTOptions>();
 
 builder.Services.Configure<FileServerPath>(builder.Configuration.GetSection("FileServerPath"));
 FileServerPath filePath = builder.Configuration.GetSection("FileServerPath").Get<FileServerPath>();
 
-
+//builder.Services.AddSingleton<IApplicationErrorRepository,ApplicationErrorRepository>();
 builder.Services.AddPersistence(builder.Configuration);
 builder.Services.AddApplication(builder.Configuration);
 builder.Services.AddInfrastructure(builder.Configuration);

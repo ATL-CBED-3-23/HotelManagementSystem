@@ -64,6 +64,7 @@ namespace HotelAPI.Application.Services.Concrete
         {
             //var hotels= _hotelRepository.FindAllAsync();
             //return _mapper.Map<List<HotelTableResponse>>(hotels);
+            var a = Convert.ToInt16("salam");
             List<Country> countries = await _countryRepository.FindAllAsync();
             List<City> cities = await _cityRepository.FindAllAsync();
             List<Hotel> hotels = await _hotelRepository.FindAllAsync();
