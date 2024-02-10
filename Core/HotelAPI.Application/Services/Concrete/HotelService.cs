@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using HotelAPI.Application.DTOs.Hotels;
+using HotelAPI.Application.Helpers;
 using HotelAPI.Application.Services.Abstract;
 using HotelAPI.Domain.Entities;
 using HotelAPI.Domain.Interfaces;
+using System.Globalization;
 
 namespace HotelAPI.Application.Services.Concrete
 {
@@ -25,26 +27,14 @@ namespace HotelAPI.Application.Services.Concrete
         {
             var map = _mapper.Map<Hotel>(hotelAddRequest);
             //base 64 string conver to byte and save to folder
-            byte[] bytes = Convert.FromBase64String(hotelAddRequest.HotelImages.File);
-            SavePhotoToFtp(bytes, hotelAddRequest.HotelImages.FileName,hotelAddRequest.HotelImages.FileType);
+
+            foreach (var image in hotelAddRequest.HotelImages)
+            {
+                byte[] bytes = Convert.FromBase64String(image.File);
+                FileHelper.SavePhotoToFtp(bytes, image.FileName, image.FileType);
+
+            }
             await _hotelRepository.CreateAsync(map);
-        }
-        private string SavePhotoToFtp(byte[] imageBytes, string Name, FileType fileExtension)
-        {
-            try
-            {
-               // string fileExtension = "jpeg";
-                string ftpPath = @"C:\AppImages"; //WebConfigurationManager.AppSettings["PhPersonPhotoPath"];
-                string fileName = $"{Name}.{fileExtension}";
-                string filePath = $"{ftpPath}/{fileName}";
-                File.WriteAllBytes(filePath, imageBytes);
-                return fileName;
-            }
-            catch (Exception ex)
-            {
-                string message = ex.Message;
-                return null;
-            }
         }
 
         public async Task DeleteByIdAsync(int id)
@@ -63,6 +53,7 @@ namespace HotelAPI.Application.Services.Concrete
         {
             Hotel hotel = await _hotelRepository.FindByIdAsync(id);
             HotelUpdateRequest hotelUpdateRequest = _mapper.Map<HotelUpdateRequest>(hotel);
+            
 
             return hotelUpdateRequest;
         }
@@ -74,7 +65,7 @@ namespace HotelAPI.Application.Services.Concrete
             List<Country> countries = await _countryRepository.FindAllAsync();
             List<City> cities = await _cityRepository.FindAllAsync();
             List<Hotel> hotels = await _hotelRepository.FindAllAsync();
-
+           
             return hotels.Select(hotel => new HotelTableResponse
             {
                 Id = hotel.Id,
@@ -84,7 +75,8 @@ namespace HotelAPI.Application.Services.Concrete
                 PhoneNumber = hotel.PhoneNumber,
                 WebSite = hotel.WebSite,
                 Grade = hotel.Grade,
-                City = cities.FirstOrDefault(city => city.Id == hotel.CityId).Name
+                City = cities.FirstOrDefault(city => city.Id == hotel.CityId).Name,
+                
 
             }).ToList();
         }
@@ -93,7 +85,7 @@ namespace HotelAPI.Application.Services.Concrete
         {
             List<City> cities = await _cityRepository.FindAllAsync();
             List<Hotel> hotels = await _hotelRepository.FindAllAsync();
-            
+
             var result = from hotel in hotels
                          join city in cities on hotel.CityId equals city.Id
                          where city.Id == cityId
