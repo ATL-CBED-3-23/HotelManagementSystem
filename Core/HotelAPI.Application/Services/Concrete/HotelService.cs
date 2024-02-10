@@ -24,8 +24,27 @@ namespace HotelAPI.Application.Services.Concrete
         public async Task AddAsync(HotelAddRequest hotelAddRequest)
         {
             var map = _mapper.Map<Hotel>(hotelAddRequest);
-
+            //base 64 string conver to byte and save to folder
+            byte[] bytes = Convert.FromBase64String(hotelAddRequest.HotelImages.File);
+            SavePhotoToFtp(bytes, hotelAddRequest.HotelImages.FileName,hotelAddRequest.HotelImages.FileType);
             await _hotelRepository.CreateAsync(map);
+        }
+        private string SavePhotoToFtp(byte[] imageBytes, string Name, FileType fileExtension)
+        {
+            try
+            {
+               // string fileExtension = "jpeg";
+                string ftpPath = @"C:\AppImages"; //WebConfigurationManager.AppSettings["PhPersonPhotoPath"];
+                string fileName = $"{Name}.{fileExtension}";
+                string filePath = $"{ftpPath}/{fileName}";
+                File.WriteAllBytes(filePath, imageBytes);
+                return fileName;
+            }
+            catch (Exception ex)
+            {
+                string message = ex.Message;
+                return null;
+            }
         }
 
         public async Task DeleteByIdAsync(int id)
