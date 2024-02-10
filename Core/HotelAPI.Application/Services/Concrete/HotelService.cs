@@ -28,10 +28,12 @@ namespace HotelAPI.Application.Services.Concrete
             var map = _mapper.Map<Hotel>(hotelAddRequest);
             //base 64 string conver to byte and save to folder
 
+          //  hotelAddRequest.HotelImages = hotelAddRequest
             foreach (var image in hotelAddRequest.HotelImages)
             {
-                byte[] bytes = Convert.FromBase64String(image.File);
-                FileHelper.SavePhotoToFtp(bytes, image.FileName, image.FileType);
+              
+                byte[] bytes = Convert.FromBase64String(image.FileBase64);
+                FileHelper.SavePhotoToFtp(bytes, image.FileName);
 
             }
             await _hotelRepository.CreateAsync(map);

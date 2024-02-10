@@ -9,10 +9,9 @@ namespace HotelAPI.Application.DTOs.HotelImages
     public class HotelImageAddRequest : IMapTo<HotelImage>
     {
         public string FileName { get; set; }
-        public FileType FileType { get; set; }
         [JsonIgnore]
-        public string? FilePath { get; set; } 
-        public string File { get; set; }
+        public string? FilePath { get; set; } = FileServerPath.Path;
+        public string FileBase64 { get; set; }
 
         //Relations
         [JsonIgnore]

@@ -2,13 +2,13 @@
 {
     public static class FileHelper 
     {
-        public static string SavePhotoToFtp(byte[] imageBytes, string name, FileType fileExtension)
+        public static string SavePhotoToFtp(byte[] imageBytes, string name)
         {
 
             try
             {
-                string ftpPath = @"D:\AppImages"; //WebConfigurationManager.AppSettings["PhPersonPhotoPath"];
-                string fileName = $"{name}.{GetFileType(fileExtension)}";
+                string ftpPath = FileServerPath.Path;//@"C:\AppImages"; //WebConfigurationManager.AppSettings["PhPersonPhotoPath"];
+                string fileName = $"{name}";
                 string filePath = $"{ftpPath}/{fileName}";
                 File.WriteAllBytes(filePath, imageBytes);
                 return fileName;
