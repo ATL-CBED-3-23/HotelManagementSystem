@@ -46,7 +46,7 @@
                 if (!string.IsNullOrEmpty(FileNameFromDb))
                 {
                     string fileExtension = "jpeg";
-                    string ftpPath = @"D:\AppImages"; 
+                    string ftpPath = FileServerPath.Path;//@"C:\AppImages"; 
                     string fullFilePath = Path.Combine(ftpPath, FileNameFromDb.ToUpper());
                     image = File.ReadAllBytes(fullFilePath);
                 }
