@@ -3,9 +3,8 @@
     public class HotelImage : BaseEntity
     {
         public string FileName { get; set; }
-        public string FilePath { get; set; }
-        public string File { get; set;  }
-        public FileType fileType { get; set; }
+        public string? FilePath { get; set; }
+        public string FileBase64 { get; set;  }
 
         //Relations
         public int HotelId { get; set; }

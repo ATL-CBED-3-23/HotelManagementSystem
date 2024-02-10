@@ -50,6 +50,7 @@ namespace HotelAPI.Application.Services.Concrete
 
         public async Task<List<CityTableResponse>> GetTable()
         {
+           
             List<City> cities = await _cityRepository.FindAllAsync();
             List<Hotel> hotels = await _hotelRepository.FindAllAsync();
             List<Country> countries = await _countryRepository.FindAllAsync();
