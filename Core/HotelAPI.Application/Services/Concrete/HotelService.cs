@@ -7,6 +7,8 @@ using HotelAPI.Domain.Entities;
 using HotelAPI.Domain.Interfaces;
 using System.Globalization;
 using System.Text;
+using static System.Net.Mime.MediaTypeNames;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace HotelAPI.Application.Services.Concrete
 {
@@ -46,6 +48,12 @@ namespace HotelAPI.Application.Services.Concrete
 
         public async Task EditAsync(HotelUpdateRequest hotelUpdateRequest)
         {
+
+            foreach (var image in hotelUpdateRequest.HotelImages)
+            {
+                byte[] bytes = Convert.FromBase64String(image.FileBase64);
+                image.FileName = FileHelper.SavePhotoToFtp(bytes, image.FileName);
+            }
             var map = _mapper.Map<Hotel>(hotelUpdateRequest);
             await _hotelRepository.UpdateAsync(map);
         }
@@ -69,13 +77,19 @@ namespace HotelAPI.Application.Services.Concrete
                              WebSite = hotel.WebSite,
                              Grade = hotel.Grade,
                              City = city.Name,
-                             HotelImages = _mapper.Map<List<HotelImageTableResponse>>(hotel.HotelImages)
+                             HotelImages = new List<HotelImageTableResponse>()
+                             {
+
+                                 new HotelImageTableResponse()
+                                 {
+                                     Id=image.Id,
+                                     FileName=image.FileName,
+                                     FileBase64=Convert.ToBase64String(FileHelper.GetPhoto(image.FileName)),
+
+                                 }
+                             }
+
                          };
-            foreach (var image in result.FirstOrDefault().HotelImages)
-            {
-                byte[] bytes = FileHelper.GetPhoto(image.FileName);
-                image.FileBase64 = Encoding.UTF8.GetString(bytes);
-            }
 
             return result.FirstOrDefault();
         }
@@ -98,16 +112,18 @@ namespace HotelAPI.Application.Services.Concrete
                              WebSite = hotel.WebSite,
                              Grade = hotel.Grade,
                              City = city.Name,
-                             HotelImages = _mapper.Map<List<HotelImageTableResponse>>(hotel.HotelImages)
+                             HotelImages = new List<HotelImageTableResponse>()
+                             {
+
+                                 new HotelImageTableResponse()
+                                 {
+                                     Id=image.Id,
+                                     FileName=image.FileName,
+                                     FileBase64=Convert.ToBase64String(FileHelper.GetPhoto(image.FileName)),
+
+                                 }
+                             }
                          };
-            foreach (var hotel in result)
-            {
-                foreach(var image in hotel.HotelImages)
-                {
-                    byte[] bytes = FileHelper.GetPhoto(image.FileName);
-                    image.FileBase64 = Encoding.UTF8.GetString(bytes);                }
-                
-            }
 
             return result.ToList();
         }
@@ -116,11 +132,14 @@ namespace HotelAPI.Application.Services.Concrete
         {
             List<City> cities = await _cityRepository.FindAllAsync();
             List<Hotel> hotels = await _hotelRepository.FindAllAsync();
+            List<HotelImage> images = await _hotelImageRepository.FindAllAsync();
+
 
             var result = from hotel in hotels
+                         join image in images on hotel.Id equals image.HotelId
                          join city in cities on hotel.CityId equals city.Id
                          where city.Id == cityId
-                         select new HotelTableResponse
+                         select new HotelTableResponse()
                          {
                              Id = hotel.Id,
                              Address = hotel.Address,
@@ -129,7 +148,18 @@ namespace HotelAPI.Application.Services.Concrete
                              PhoneNumber = hotel.PhoneNumber,
                              WebSite = hotel.WebSite,
                              Grade = hotel.Grade,
-                             City = city.Name
+                             City = city.Name,
+                             HotelImages = new List<HotelImageTableResponse>()
+                             {
+
+                                 new HotelImageTableResponse()
+                                 {
+                                     Id=image.Id,
+                                     FileName=image.FileName,
+                                     FileBase64=Convert.ToBase64String(FileHelper.GetPhoto(image.FileName)),
+
+                                 }
+                             }
                          };
             return result.ToList();
         }
@@ -138,10 +168,13 @@ namespace HotelAPI.Application.Services.Concrete
         {
             List<City> cities = await _cityRepository.FindAllAsync();
             List<Hotel> hotels = await _hotelRepository.FindByConditionAsync(h => h.Rooms.Count == roomCount);
+            List<HotelImage> images = await _hotelImageRepository.FindAllAsync();
+
 
             var result = from hotel in hotels
+                         join image in images on hotel.Id equals image.HotelId
                          join city in cities on hotel.CityId equals city.Id
-                         select new HotelTableResponse
+                         select new HotelTableResponse()
                          {
                              Id = hotel.Id,
                              Address = hotel.Address,
@@ -150,9 +183,21 @@ namespace HotelAPI.Application.Services.Concrete
                              PhoneNumber = hotel.PhoneNumber,
                              WebSite = hotel.WebSite,
                              Grade = hotel.Grade,
-                             City = city.Name
+                             City = city.Name,
+                             HotelImages = new List<HotelImageTableResponse>()
+                             {
+
+                                 new HotelImageTableResponse()
+                                 {
+                                     Id=image.Id,
+                                     FileName=image.FileName,
+                                     FileBase64=Convert.ToBase64String(FileHelper.GetPhoto(image.FileName)),
+
+                                 }
+                             }
                          };
             return result.ToList();
+            
 
         }
     }
