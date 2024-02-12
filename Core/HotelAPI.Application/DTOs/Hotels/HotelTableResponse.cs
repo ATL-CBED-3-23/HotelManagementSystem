@@ -16,7 +16,6 @@ namespace HotelAPI.Application.DTOs.Hotels
         public string? Email { get; set; }
         public string? WebSite { get; set; }
         public Grade Grade { get; set; }
-        [JsonIgnore]
         public string? City {  get; set; }
 
         //Relations

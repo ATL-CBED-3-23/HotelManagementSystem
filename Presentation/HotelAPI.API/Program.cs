@@ -29,7 +29,6 @@ JWTOptions jwtSettings = builder.Configuration.GetSection("JWTOptions").Get<JWTO
 builder.Services.Configure<FileServerPath>(builder.Configuration.GetSection("FileServerPath"));
 FileServerPath filePath = builder.Configuration.GetSection("FileServerPath").Get<FileServerPath>();
 
-//builder.Services.AddSingleton<IApplicationErrorRepository,ApplicationErrorRepository>();
 builder.Services.AddPersistence(builder.Configuration);
 builder.Services.AddApplication(builder.Configuration);
 builder.Services.AddInfrastructure(builder.Configuration);

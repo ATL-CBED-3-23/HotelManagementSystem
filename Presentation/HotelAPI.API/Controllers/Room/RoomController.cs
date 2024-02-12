@@ -7,7 +7,7 @@ namespace RoomAPI.API.Controllers.Room
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(AuthenticationSchemes = "Bearer")]
+   // [Authorize(AuthenticationSchemes = "Bearer")]
     public class RoomController : ControllerBase
     {
         private readonly IRoomService _roomService;

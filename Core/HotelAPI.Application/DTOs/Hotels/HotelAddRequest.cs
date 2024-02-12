@@ -13,11 +13,10 @@ namespace HotelAPI.Application.DTOs.Hotels
         public string WebSite { get; set; }
         public Grade Grade { get; set; }
 
-        public List<HotelImageAddRequest> HotelImages { get; set; }
 
         //Relations
         public int CityId { get; set; }
-
+        public List<HotelImageAddRequest> HotelImages { get; set; }
 
     }
 }

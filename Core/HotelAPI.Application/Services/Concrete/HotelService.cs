@@ -1,41 +1,40 @@
 ﻿using AutoMapper;
+using HotelAPI.Application.DTOs.HotelImages;
 using HotelAPI.Application.DTOs.Hotels;
 using HotelAPI.Application.Helpers;
 using HotelAPI.Application.Services.Abstract;
 using HotelAPI.Domain.Entities;
 using HotelAPI.Domain.Interfaces;
 using System.Globalization;
+using System.Text;
 
 namespace HotelAPI.Application.Services.Concrete
 {
     public class HotelService : IHotelService
     {
         private readonly IHotelRepository _hotelRepository;
+        private readonly IHotelImageRepository _hotelImageRepository;
         private readonly ICountryRepository _countryRepository;
         private readonly ICityRepository _cityRepository;
         private readonly IMapper _mapper;
 
-        public HotelService(IHotelRepository hotelRepository, IMapper mapper, ICityRepository cityRepository, ICountryRepository countryRepository)
+        public HotelService(IHotelRepository hotelRepository, IHotelImageRepository hotelImageRepository, IMapper mapper, ICityRepository cityRepository, ICountryRepository countryRepository)
         {
             _mapper = mapper;
             _hotelRepository = hotelRepository;
             _cityRepository = cityRepository;
             _countryRepository = countryRepository;
+            _hotelImageRepository = hotelImageRepository;
         }
 
         public async Task AddAsync(HotelAddRequest hotelAddRequest)
         {
-            var map = _mapper.Map<Hotel>(hotelAddRequest);
-            //base 64 string conver to byte and save to folder
-
-          //  hotelAddRequest.HotelImages = hotelAddRequest
             foreach (var image in hotelAddRequest.HotelImages)
             {
-              
                 byte[] bytes = Convert.FromBase64String(image.FileBase64);
-                FileHelper.SavePhotoToFtp(bytes, image.FileName);
-
+                image.FileName = FileHelper.SavePhotoToFtp(bytes, image.FileName);
             }
+            var map = _mapper.Map<Hotel>(hotelAddRequest);
             await _hotelRepository.CreateAsync(map);
         }
 
@@ -51,37 +50,66 @@ namespace HotelAPI.Application.Services.Concrete
             await _hotelRepository.UpdateAsync(map);
         }
 
-        public async Task<HotelUpdateRequest> GetForUpdateById(int id)
+        public async Task<HotelTableResponse> GetForUpdateById(int id)
         {
-            Hotel hotel = await _hotelRepository.FindByIdAsync(id);
-            HotelUpdateRequest hotelUpdateRequest = _mapper.Map<HotelUpdateRequest>(hotel);
-            
+            var hotels = await _hotelRepository.FindAllAsync();
+            var images = await _hotelImageRepository.FindAllAsync();
+            var cities = await _cityRepository.FindAllAsync();
+            var result = from hotel in hotels
+                         join image in images on hotel.Id equals image.HotelId
+                         join city in cities on hotel.CityId equals city.Id
+                         where hotel.Id == id
+                         select new HotelTableResponse()
+                         {
+                             Id = hotel.Id,
+                             Address = hotel.Address,
+                             Email = hotel.Email,
+                             Name = hotel.Name,
+                             PhoneNumber = hotel.PhoneNumber,
+                             WebSite = hotel.WebSite,
+                             Grade = hotel.Grade,
+                             City = city.Name,
+                             HotelImages = _mapper.Map<List<HotelImageTableResponse>>(hotel.HotelImages)
+                         };
+            foreach (var image in result.FirstOrDefault().HotelImages)
+            {
+                byte[] bytes = FileHelper.GetPhoto(image.FileName);
+                image.FileBase64 = Encoding.UTF8.GetString(bytes);
+            }
 
-            return hotelUpdateRequest;
+            return result.FirstOrDefault();
         }
 
         public async Task<List<HotelTableResponse>> GetTable()
         {
-            //var hotels= _hotelRepository.FindAllAsync();
-            //return _mapper.Map<List<HotelTableResponse>>(hotels);
-            var a = Convert.ToInt16("salam");
-            List<Country> countries = await _countryRepository.FindAllAsync();
-            List<City> cities = await _cityRepository.FindAllAsync();
-            List<Hotel> hotels = await _hotelRepository.FindAllAsync();
-           
-            return hotels.Select(hotel => new HotelTableResponse
+            var hotels = await _hotelRepository.FindAllAsync();
+            var images = await _hotelImageRepository.FindAllAsync();
+            var cities = await _cityRepository.FindAllAsync();
+            var result = from hotel in hotels
+                         join image in images on hotel.Id equals image.HotelId
+                         join city in cities on hotel.CityId equals city.Id
+                         select new HotelTableResponse()
+                         {
+                             Id = hotel.Id,
+                             Address = hotel.Address,
+                             Email = hotel.Email,
+                             Name = hotel.Name,
+                             PhoneNumber = hotel.PhoneNumber,
+                             WebSite = hotel.WebSite,
+                             Grade = hotel.Grade,
+                             City = city.Name,
+                             HotelImages = _mapper.Map<List<HotelImageTableResponse>>(hotel.HotelImages)
+                         };
+            foreach (var hotel in result)
             {
-                Id = hotel.Id,
-                Address = hotel.Address,
-                Email = hotel.Email,
-                Name = hotel.Name,
-                PhoneNumber = hotel.PhoneNumber,
-                WebSite = hotel.WebSite,
-                Grade = hotel.Grade,
-                City = cities.FirstOrDefault(city => city.Id == hotel.CityId).Name,
+                foreach(var image in hotel.HotelImages)
+                {
+                    byte[] bytes = FileHelper.GetPhoto(image.FileName);
+                    image.FileBase64 = Encoding.UTF8.GetString(bytes);                }
                 
+            }
 
-            }).ToList();
+            return result.ToList();
         }
 
         public async Task<List<HotelTableResponse>> GetHotelsByCity(int cityId)

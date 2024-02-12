@@ -1,10 +1,9 @@
 ﻿using HotelAPI.Application.Mappings;
 using HotelAPI.Domain.Entities;
-using System.Text.Json.Serialization;
 
-namespace HotelAPI.Application.DTOs.HotelImages
+namespace HotelAPI.Application.DTOs.RoomImages
 {
-    public class HotelImageTableResponse : IMapTo<HotelImage>
+    public class RoomImageTableResponse : IMapTo<RoomImage>
     {
         public int Id { get; set; }
         public string FileName { get; set; }
@@ -13,6 +12,6 @@ namespace HotelAPI.Application.DTOs.HotelImages
         public string FileBase64 { get; set; }
 
         //Relations
-        public int HotelId { get; set; }
+        public int RoomId { get; set; }
     }
 }

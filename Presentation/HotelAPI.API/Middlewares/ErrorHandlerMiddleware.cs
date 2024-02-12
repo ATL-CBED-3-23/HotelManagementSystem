@@ -9,7 +9,7 @@ namespace HotelAPI.API.Middlewares
     public class ErrorHandlerMiddleware
     {
         private readonly RequestDelegate _next;
-        private  ITestRepository _errorRepository;
+        private  IApplicationErrorRepository _errorRepository;
         public ErrorHandlerMiddleware(RequestDelegate next)
         {
             
@@ -17,13 +17,12 @@ namespace HotelAPI.API.Middlewares
            
 
         }
-        public async Task Invoke(HttpContext context, ITestRepository repository)
+        public async Task Invoke(HttpContext context, IApplicationErrorRepository repository)
         {
             try
             {
                 _errorRepository = repository;
                 await _next(context);
-                //await _errorRepository.CreateAsync(new TestError() { ErrorMessage = "altay"});
 
             }
             catch (Exception ex)
@@ -33,7 +32,7 @@ namespace HotelAPI.API.Middlewares
                 response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 var msg = new { Message = ex.Message, StatusCode = response.StatusCode, Type = ex.Source };
                 var result = JsonSerializer.Serialize(msg);
-                await  _errorRepository.CreateAsync(new TestError() { ErrorMessage = ex.Message });
+                await  _errorRepository.CreateAsync(new ApplicationError() { ErrorMessage = ex.Message });
                 await response.WriteAsync(result);
             }
         }
