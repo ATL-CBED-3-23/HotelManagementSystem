@@ -9,12 +9,12 @@ namespace HotelAPI.API.Middlewares
     public class ErrorHandlerMiddleware
     {
         private readonly RequestDelegate _next;
-        private  IApplicationErrorRepository _errorRepository;
+        private IApplicationErrorRepository _errorRepository;
         public ErrorHandlerMiddleware(RequestDelegate next)
         {
-            
+
             _next = next;
-           
+
 
         }
         public async Task Invoke(HttpContext context, IApplicationErrorRepository repository)
@@ -32,7 +32,7 @@ namespace HotelAPI.API.Middlewares
                 response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 var msg = new { Message = ex.Message, StatusCode = response.StatusCode, Type = ex.Source };
                 var result = JsonSerializer.Serialize(msg);
-                await  _errorRepository.CreateAsync(new ApplicationError() { ErrorMessage = ex.Message });
+                await _errorRepository.CreateAsync(new ApplicationError() { ErrorMessage = ex.Message, ErrorSource = ex.StackTrace });
                 await response.WriteAsync(result);
             }
         }

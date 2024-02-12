@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using HotelAPI.Application.DTOs;
 using HotelAPI.Application.DTOs.HotelUserRoles;
 using HotelAPI.Application.DTOs.HotelUsers;
 using HotelAPI.Application.Identity;
@@ -23,8 +24,9 @@ public class AccountService : IAccountService
     private readonly IMapper _mapper;
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly ClaimsPrincipal _user;
+    private readonly IUserLoginHistoryService _userLoginHistoryService;
     public AccountService(UserManager<HotelUser> userManager, IMapper mapper, RoleManager<HotelUserRole> roleManager,
-        IOptionsSnapshot<JWTOptions> jwtSettings, IJWTTokenService jwtTokenService, IHttpContextAccessor httpContextAccessor)
+        IOptionsSnapshot<JWTOptions> jwtSettings, IJWTTokenService jwtTokenService, IHttpContextAccessor httpContextAccessor, IUserLoginHistoryService userLoginHistoryService)
     {
         _userManager = userManager;
         _roleManager = roleManager;
@@ -33,6 +35,8 @@ public class AccountService : IAccountService
         _jwtTokenService = jwtTokenService;
         _httpContextAccessor = httpContextAccessor;
         _user = _httpContextAccessor.HttpContext.User;
+        _userLoginHistoryService = userLoginHistoryService;
+        
     }
 
     #region User
@@ -128,6 +132,7 @@ public class AccountService : IAccountService
                         FullName = $"{u.FirstName} {u.LastName}",
                         Email = u.Email,
                         UserName = u.UserName,
+                        NetworkStatus = u.NetworkStatus,
                         Roles = _userManager.GetRolesAsync(u).Result.ToList()
                     };
 
@@ -222,6 +227,8 @@ public class AccountService : IAccountService
     {
 
         HotelUser user = await _userManager.Users.SingleOrDefaultAsync(x => x.UserName == loginRequest.UserName && x.EntityStatus == EntityStatus.Active);
+
+
         bool checkPassword = await _userManager.CheckPasswordAsync(user, loginRequest.Password);
         IList<string> roles = await _userManager.GetRolesAsync(user);
 
@@ -237,6 +244,14 @@ public class AccountService : IAccountService
 
         };
 
+        await _userLoginHistoryService.AddAsync(new UserLoginHistoryAddRequest()
+        {
+            LoginDate= DateTime.Now,
+            HotelUserId = user.Id,
+        });
+        
+        user.NetworkStatus = NetworkStatus.Online;
+        await _userManager.UpdateAsync(user);
         return loginedUserResponse;
         //if (checkPassword)
         //{
