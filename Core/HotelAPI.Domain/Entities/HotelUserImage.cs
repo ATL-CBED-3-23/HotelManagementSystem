@@ -1,5 +1,8 @@
-﻿namespace HotelAPI.Domain.Entities
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace HotelAPI.Domain.Entities
 {
+    [Table("HotelUserImages", Schema = "Hotel")]
     public class HotelUserImage : BaseEntity
     {
         public string FileName { get; set; }

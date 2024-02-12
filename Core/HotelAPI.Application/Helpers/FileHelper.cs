@@ -4,12 +4,13 @@
     {
         public static string SavePhotoToFtp(byte[] imageBytes, string name)
         {
-
             try
             {
-                string ftpPath = FileServerPath.Path;//@"C:\AppImages"; //WebConfigurationManager.AppSettings["PhPersonPhotoPath"];
-                string fileName = $"{name}";
-                string filePath = $"{ftpPath}/{fileName}";
+                string folderPath = FileServerPath.Path;
+                string guid = Guid.NewGuid().ToString();
+                string fileName = $"{name}{guid}.jpeg";
+
+                string filePath = $"{folderPath}/{fileName}";
                 File.WriteAllBytes(filePath, imageBytes);
                 return fileName;
             }
@@ -38,29 +39,29 @@
 
             return fileExtension.ToString();
         }
-        public static byte[] GetPhoto(string FileNameFromDb)
+        public static byte[] GetPhoto(string fileNameFromDb)
         {
-            byte[] image = null;
+            byte[] photo = null;
             try
             {
-                if (!string.IsNullOrEmpty(FileNameFromDb))
+                if (!string.IsNullOrEmpty(fileNameFromDb))
                 {
                     string fileExtension = "jpeg";
-                    string ftpPath = FileServerPath.Path;//@"C:\AppImages"; 
-                    string fullFilePath = Path.Combine(ftpPath, FileNameFromDb.ToUpper());
-                    image = File.ReadAllBytes(fullFilePath);
+                    string folderPath = FileServerPath.Path; //WebConfigurationManager.AppSettings["PhPersonPhotoPath"];
+                    string fullFilePath = Path.Combine(folderPath, fileNameFromDb.ToUpper());
+                    photo = File.ReadAllBytes(fullFilePath);
                 }
                 else
                 {
                     // physicalPersonPhoto = NoImage;
                 }
-                return image;
+                return photo;
             }
             catch (Exception ex)
             {
                 //string message = ex.Message;
                 //physicalPersonPhoto = NoImage;
-                return image;
+                return photo;
             }
         }
     }

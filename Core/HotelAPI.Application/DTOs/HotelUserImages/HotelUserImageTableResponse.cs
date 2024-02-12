@@ -1,10 +1,9 @@
 ﻿using HotelAPI.Application.Mappings;
 using HotelAPI.Domain.Entities;
-using System.Text.Json.Serialization;
 
-namespace HotelAPI.Application.DTOs.HotelImages
+namespace HotelAPI.Application.DTOs.HotelUserImages
 {
-    public class HotelImageTableResponse : IMapTo<HotelImage>
+    public class HotelUserImageTableResponse : IMapTo<HotelUserImage>
     {
         public int Id { get; set; }
         public string FileName { get; set; }

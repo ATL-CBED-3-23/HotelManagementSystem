@@ -24,7 +24,7 @@ namespace HotelAPI.Application.Services.Concrete
         public async Task AddAsync(HotelUserImageAddRequest hotelUserImageAddRequest)
         {
             HotelUserImage image = _mapper.Map<HotelUserImage>(hotelUserImageAddRequest);
-            image.FileName = hotelUserImageAddRequest.File.FileName;
+           // image.FileName = hotelUserImageAddRequest.File.FileName;
            // image.FilePath = _fileServerPath.Path;
 
             await _hotelUserImageRepository.CreateAsync(image);
