@@ -64,7 +64,7 @@ public class AccountService : IAccountService
             foreach (var roleName in userAddRequest.Roles)
             {
                 var role = _mapper.Map<HotelUserRole>(roleName);
-                await _userManager.AddToRoleAsync(user, role.ToString());
+               // await _userManager.AddToRolesAsync(user, userAddRequest.Roles.Select(x => x.Name).ToList());
             }
 
         }

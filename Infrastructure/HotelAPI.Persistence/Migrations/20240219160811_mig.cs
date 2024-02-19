@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace HotelAPI.Persistence.Migrations
 {
     /// <inheritdoc />
-    public partial class Init : Migration
+    public partial class mig : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -43,6 +43,7 @@ namespace HotelAPI.Persistence.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ErrorMessage = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ErrorSource = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EntityStatus = table.Column<int>(type: "int", nullable: false)
                 },
@@ -78,6 +79,7 @@ namespace HotelAPI.Persistence.Migrations
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     EntityStatus = table.Column<int>(type: "int", nullable: false),
                     CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    NetworkStatus = table.Column<int>(type: "int", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -274,6 +276,28 @@ namespace HotelAPI.Persistence.Migrations
                     table.PrimaryKey("PK_HotelUserImages", x => x.Id);
                     table.ForeignKey(
                         name: "FK_HotelUserImages_AspNetUsers_HotelUserId",
+                        column: x => x.HotelUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserLoginHistory",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    LoginDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    HotelUserId = table.Column<int>(type: "int", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EntityStatus = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserLoginHistory", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UserLoginHistory_AspNetUsers_HotelUserId",
                         column: x => x.HotelUserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -512,25 +536,25 @@ namespace HotelAPI.Persistence.Migrations
                 schema: "Hotel",
                 table: "AboutApps",
                 columns: new[] { "Id", "AppName", "AppVersion", "Content", "CreatedDate", "IsDeleted", "Site" },
-                values: new object[] { 1, "Hotel Management System", "1.0.1", "Hotel Management System Application", new DateTime(2024, 2, 12, 14, 32, 4, 376, DateTimeKind.Local).AddTicks(6568), 0, "www.hms.com" });
+                values: new object[] { 1, "Hotel Management System", "1.0.1", "Hotel Management System Application", new DateTime(2024, 2, 19, 20, 8, 9, 984, DateTimeKind.Local).AddTicks(6072), 0, "www.hms.com" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "CreateDate", "EntityStatus", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { 1, null, new DateTime(2024, 2, 12, 14, 32, 4, 377, DateTimeKind.Local).AddTicks(5972), 0, "Admin", "ADMIN" },
-                    { 2, null, new DateTime(2024, 2, 12, 14, 32, 4, 377, DateTimeKind.Local).AddTicks(6640), 0, "Default", "DEFAULT" },
-                    { 3, null, new DateTime(2024, 2, 12, 14, 32, 4, 377, DateTimeKind.Local).AddTicks(6642), 0, "Staff", "STAFF" }
+                    { 1, null, new DateTime(2024, 2, 19, 20, 8, 9, 986, DateTimeKind.Local).AddTicks(4561), 0, "Admin", "ADMIN" },
+                    { 2, null, new DateTime(2024, 2, 19, 20, 8, 9, 986, DateTimeKind.Local).AddTicks(5413), 0, "Default", "DEFAULT" },
+                    { 3, null, new DateTime(2024, 2, 19, 20, 8, 9, 986, DateTimeKind.Local).AddTicks(5440), 0, "Staff", "STAFF" }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
-                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "CreateDate", "Email", "EmailConfirmed", "EntityStatus", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "CreateDate", "Email", "EmailConfirmed", "EntityStatus", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NetworkStatus", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { 1, 0, "36401458-6f46-4f46-9e41-aef52edc5958", new DateTime(2024, 2, 12, 14, 32, 4, 377, DateTimeKind.Local).AddTicks(6989), "arzu@gmail.com", false, 0, "Arzu", "Teymurova", false, null, null, null, "AQAAAAIAAYagAAAAEC1TIT19j8P4zcbr2bb8cywMpbK0fov2SGBMN7g90apRC7PKDsHDEHlkgpsWuTUHew==", null, false, null, false, "Arzu" },
-                    { 2, 0, "8f506d00-b62e-435c-8994-d69e13ea35a4", new DateTime(2024, 2, 12, 14, 32, 4, 455, DateTimeKind.Local).AddTicks(2222), "guest@com", false, 0, "Guest", "Guest", false, null, null, null, "AQAAAAIAAYagAAAAEEqmjksPIIfcoddKdkOBZl7o7jU1tQhJ5uDTPEnSt4RBBUfJFte1DLSR6CxoTtCPkQ==", null, false, null, false, "Guest" }
+                    { 1, 0, "a6bd70f9-3d7a-451f-a823-6d4dd8782d3e", new DateTime(2024, 2, 19, 20, 8, 9, 986, DateTimeKind.Local).AddTicks(6003), "arzu@gmail.com", false, 0, "Arzu", "Teymurova", false, null, 0, null, null, "AQAAAAIAAYagAAAAEJiQPterStj0iLYBTLROLPxEX8CH7kNMLL/UXjsIAP5Mlg3f4iMPEu3RdvIlLKQfMw==", null, false, null, false, "Arzu" },
+                    { 2, 0, "0718cab5-7f47-415c-a25a-3f47693e97dd", new DateTime(2024, 2, 19, 20, 8, 10, 67, DateTimeKind.Local).AddTicks(4426), "guest@com", false, 0, "Guest", "Guest", false, null, 0, null, null, "AQAAAAIAAYagAAAAEHtaW+GH5zBC52ggOk7fqlr9kuBH/Yoc3Gyfd5A769w2GPtbdNr5ZGqAXWUPufndDw==", null, false, null, false, "Guest" }
                 });
 
             migrationBuilder.InsertData(
@@ -539,11 +563,11 @@ namespace HotelAPI.Persistence.Migrations
                 columns: new[] { "Id", "CreatedDate", "IsDeleted", "Name" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2024, 2, 12, 14, 32, 4, 534, DateTimeKind.Local).AddTicks(2255), 0, "Azerbaijan" },
-                    { 2, new DateTime(2024, 2, 12, 14, 32, 4, 534, DateTimeKind.Local).AddTicks(2508), 0, "Turkey" },
-                    { 3, new DateTime(2024, 2, 12, 14, 32, 4, 534, DateTimeKind.Local).AddTicks(2509), 0, "Italy" },
-                    { 4, new DateTime(2024, 2, 12, 14, 32, 4, 534, DateTimeKind.Local).AddTicks(2510), 0, "Russia" },
-                    { 5, new DateTime(2024, 2, 12, 14, 32, 4, 534, DateTimeKind.Local).AddTicks(2511), 0, "France" }
+                    { 1, new DateTime(2024, 2, 19, 20, 8, 10, 137, DateTimeKind.Local).AddTicks(9969), 0, "Azerbaijan" },
+                    { 2, new DateTime(2024, 2, 19, 20, 8, 10, 138, DateTimeKind.Local).AddTicks(284), 0, "Turkey" },
+                    { 3, new DateTime(2024, 2, 19, 20, 8, 10, 138, DateTimeKind.Local).AddTicks(288), 0, "Italy" },
+                    { 4, new DateTime(2024, 2, 19, 20, 8, 10, 138, DateTimeKind.Local).AddTicks(289), 0, "Russia" },
+                    { 5, new DateTime(2024, 2, 19, 20, 8, 10, 138, DateTimeKind.Local).AddTicks(290), 0, "France" }
                 });
 
             migrationBuilder.InsertData(
@@ -552,10 +576,10 @@ namespace HotelAPI.Persistence.Migrations
                 columns: new[] { "Id", "CreatedDate", "Description", "IsDeleted", "Name" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2024, 2, 12, 14, 32, 4, 534, DateTimeKind.Local).AddTicks(4709), " 1 King Bed, Smoking, Sea View", 0, "Deluxe Room" },
-                    { 2, new DateTime(2024, 2, 12, 14, 32, 4, 534, DateTimeKind.Local).AddTicks(4987), "1 Double Bed", 0, "Family Room" },
-                    { 3, new DateTime(2024, 2, 12, 14, 32, 4, 534, DateTimeKind.Local).AddTicks(4988), "1 Bedroom, Terrace, Sea View", 0, "Suite Room" },
-                    { 4, new DateTime(2024, 2, 12, 14, 32, 4, 534, DateTimeKind.Local).AddTicks(4989), "1 King Bed, Sea View", 0, "King Room" }
+                    { 1, new DateTime(2024, 2, 19, 20, 8, 10, 138, DateTimeKind.Local).AddTicks(3804), " 1 King Bed, Smoking, Sea View", 0, "Deluxe Room" },
+                    { 2, new DateTime(2024, 2, 19, 20, 8, 10, 138, DateTimeKind.Local).AddTicks(4270), "1 Double Bed", 0, "Family Room" },
+                    { 3, new DateTime(2024, 2, 19, 20, 8, 10, 138, DateTimeKind.Local).AddTicks(4273), "1 Bedroom, Terrace, Sea View", 0, "Suite Room" },
+                    { 4, new DateTime(2024, 2, 19, 20, 8, 10, 138, DateTimeKind.Local).AddTicks(4274), "1 King Bed, Sea View", 0, "King Room" }
                 });
 
             migrationBuilder.InsertData(
@@ -575,11 +599,11 @@ namespace HotelAPI.Persistence.Migrations
                 columns: new[] { "Id", "CountryId", "CreatedDate", "IsDeleted", "Name", "PostalCode" },
                 values: new object[,]
                 {
-                    { 1, 1, new DateTime(2024, 2, 12, 14, 32, 4, 534, DateTimeKind.Local).AddTicks(2734), 0, "Baku", "1000" },
-                    { 2, 2, new DateTime(2024, 2, 12, 14, 32, 4, 534, DateTimeKind.Local).AddTicks(3178), 0, "Istanbul", "2205" },
-                    { 3, 3, new DateTime(2024, 2, 12, 14, 32, 4, 534, DateTimeKind.Local).AddTicks(3180), 0, "Roma", "3001" },
-                    { 4, 4, new DateTime(2024, 2, 12, 14, 32, 4, 534, DateTimeKind.Local).AddTicks(3181), 0, "Moscow", "4140" },
-                    { 5, 5, new DateTime(2024, 2, 12, 14, 32, 4, 534, DateTimeKind.Local).AddTicks(3182), 0, "Paris", "5005" }
+                    { 1, 1, new DateTime(2024, 2, 19, 20, 8, 10, 138, DateTimeKind.Local).AddTicks(630), 0, "Baku", "1000" },
+                    { 2, 2, new DateTime(2024, 2, 19, 20, 8, 10, 138, DateTimeKind.Local).AddTicks(1331), 0, "Istanbul", "2205" },
+                    { 3, 3, new DateTime(2024, 2, 19, 20, 8, 10, 138, DateTimeKind.Local).AddTicks(1334), 0, "Roma", "3001" },
+                    { 4, 4, new DateTime(2024, 2, 19, 20, 8, 10, 138, DateTimeKind.Local).AddTicks(1335), 0, "Moscow", "4140" },
+                    { 5, 5, new DateTime(2024, 2, 19, 20, 8, 10, 138, DateTimeKind.Local).AddTicks(1336), 0, "Paris", "5005" }
                 });
 
             migrationBuilder.InsertData(
@@ -588,9 +612,9 @@ namespace HotelAPI.Persistence.Migrations
                 columns: new[] { "Id", "Address", "CityId", "CreatedDate", "Email", "IsDeleted", "Grade", "Name", "PhoneNumber", "WebSite" },
                 values: new object[,]
                 {
-                    { 1, "Nizami street,45", 1, new DateTime(2024, 2, 12, 14, 32, 4, 534, DateTimeKind.Local).AddTicks(3370), "grandhayat@gmail.com", 0, 5, "Grand Hayat", "+994775005050", "grandh.com" },
-                    { 2, "Nasimi District", 1, new DateTime(2024, 2, 12, 14, 32, 4, 534, DateTimeKind.Local).AddTicks(4523), "marriotbaku@gmail.com", 0, 5, "Courtyard by Marriott Baku", "+994775005050", "marriotbaku.com" },
-                    { 3, "Sultanahmet", 2, new DateTime(2024, 2, 12, 14, 32, 4, 534, DateTimeKind.Local).AddTicks(4526), "sarikonak@hot.com", 0, 4, "Hotel Sari Konak", "+094775005050", "sarikonakhotel.tr.com" }
+                    { 1, "Nizami street,45", 1, new DateTime(2024, 2, 19, 20, 8, 10, 138, DateTimeKind.Local).AddTicks(1653), "grandhayat@gmail.com", 0, 5, "Grand Hayat", "+994775005050", "grandh.com" },
+                    { 2, "Nasimi District", 1, new DateTime(2024, 2, 19, 20, 8, 10, 138, DateTimeKind.Local).AddTicks(3413), "marriotbaku@gmail.com", 0, 5, "Courtyard by Marriott Baku", "+994775005050", "marriotbaku.com" },
+                    { 3, "Sultanahmet", 2, new DateTime(2024, 2, 19, 20, 8, 10, 138, DateTimeKind.Local).AddTicks(3418), "sarikonak@hot.com", 0, 4, "Hotel Sari Konak", "+094775005050", "sarikonakhotel.tr.com" }
                 });
 
             migrationBuilder.InsertData(
@@ -599,10 +623,10 @@ namespace HotelAPI.Persistence.Migrations
                 columns: new[] { "Id", "CreatedDate", "IsDeleted", "Floor", "HotelId", "Number", "Phone", "Price", "RoomState", "RoomTypeId" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2024, 2, 12, 14, 32, 4, 534, DateTimeKind.Local).AddTicks(5204), 0, 3, 1, 100, "1240044444", 150.0, 0, 1 },
-                    { 2, new DateTime(2024, 2, 12, 14, 32, 4, 534, DateTimeKind.Local).AddTicks(6108), 0, 2, 2, 128, "1240044444", 250.0, 0, 2 },
-                    { 3, new DateTime(2024, 2, 12, 14, 32, 4, 534, DateTimeKind.Local).AddTicks(6112), 0, 4, 3, 246, "1240044444", 350.0, 2, 4 },
-                    { 4, new DateTime(2024, 2, 12, 14, 32, 4, 534, DateTimeKind.Local).AddTicks(6113), 0, 4, 3, 238, "1240044444", 400.0, 1, 3 }
+                    { 1, new DateTime(2024, 2, 19, 20, 8, 10, 138, DateTimeKind.Local).AddTicks(4645), 0, 3, 1, 100, "1240044444", 150.0, 0, 1 },
+                    { 2, new DateTime(2024, 2, 19, 20, 8, 10, 138, DateTimeKind.Local).AddTicks(6133), 0, 2, 2, 128, "1240044444", 250.0, 0, 2 },
+                    { 3, new DateTime(2024, 2, 19, 20, 8, 10, 138, DateTimeKind.Local).AddTicks(6137), 0, 4, 3, 246, "1240044444", 350.0, 2, 4 },
+                    { 4, new DateTime(2024, 2, 19, 20, 8, 10, 138, DateTimeKind.Local).AddTicks(6139), 0, 4, 3, 238, "1240044444", 400.0, 1, 3 }
                 });
 
             migrationBuilder.InsertData(
@@ -611,10 +635,10 @@ namespace HotelAPI.Persistence.Migrations
                 columns: new[] { "Id", "Count", "CreatedDate", "IsDeleted", "Name", "RoomId" },
                 values: new object[,]
                 {
-                    { 1, 2, new DateTime(2024, 2, 12, 14, 32, 4, 534, DateTimeKind.Local).AddTicks(6298), 0, "Bed", 1 },
-                    { 2, 2, new DateTime(2024, 2, 12, 14, 32, 4, 534, DateTimeKind.Local).AddTicks(6679), 0, "Twin Beds", 2 },
-                    { 3, 1, new DateTime(2024, 2, 12, 14, 32, 4, 534, DateTimeKind.Local).AddTicks(6680), 0, "Minibar", 4 },
-                    { 4, 1, new DateTime(2024, 2, 12, 14, 32, 4, 534, DateTimeKind.Local).AddTicks(6681), 0, " LCD TV", 3 }
+                    { 1, 2, new DateTime(2024, 2, 19, 20, 8, 10, 138, DateTimeKind.Local).AddTicks(6460), 0, "Bed", 1 },
+                    { 2, 2, new DateTime(2024, 2, 19, 20, 8, 10, 138, DateTimeKind.Local).AddTicks(7097), 0, "Twin Beds", 2 },
+                    { 3, 1, new DateTime(2024, 2, 19, 20, 8, 10, 138, DateTimeKind.Local).AddTicks(7100), 0, "Minibar", 4 },
+                    { 4, 1, new DateTime(2024, 2, 19, 20, 8, 10, 138, DateTimeKind.Local).AddTicks(7101), 0, " LCD TV", 3 }
                 });
 
             migrationBuilder.CreateIndex(
@@ -727,6 +751,11 @@ namespace HotelAPI.Persistence.Migrations
                 schema: "Hotel",
                 table: "Rooms",
                 column: "RoomTypeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserLoginHistory_HotelUserId",
+                table: "UserLoginHistory",
+                column: "HotelUserId");
         }
 
         /// <inheritdoc />
@@ -784,14 +813,17 @@ namespace HotelAPI.Persistence.Migrations
                 schema: "Hotel");
 
             migrationBuilder.DropTable(
-                name: "AspNetRoles");
+                name: "UserLoginHistory");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
+                name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "Rooms",
                 schema: "Hotel");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUsers");
 
             migrationBuilder.DropTable(
                 name: "Hotels",
