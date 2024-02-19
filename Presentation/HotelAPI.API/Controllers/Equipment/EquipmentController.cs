@@ -34,7 +34,7 @@ namespace HotelAPI.API.Controllers.Equipment
         [HttpGet("GetForEdit/{id}")]
         public async Task<IActionResult> GetForEdit(int id)
         {
-            var item = await _equipmentService.GetForUpdateById(id);
+            var item = await _equipmentService.GetById(id);
             return Ok(item);
         }
 

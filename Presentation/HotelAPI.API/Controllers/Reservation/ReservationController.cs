@@ -33,7 +33,7 @@ namespace ReservationAPI.API.Controllers.Reservation
         [HttpGet("GetForEdit/{id}")]
         public async Task<IActionResult> GetForEdit(int id)
         {
-            var item = await _reservationService.GetForUpdateById(id);
+            var item = await _reservationService.GetById(id);
             return Ok(item);
         }
 

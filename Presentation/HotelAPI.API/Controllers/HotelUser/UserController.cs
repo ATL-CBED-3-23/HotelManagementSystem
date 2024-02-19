@@ -28,17 +28,17 @@ namespace HotelAPI.API.Controllers.HotelUser
             return Ok();
         }
 
-        [HttpGet("GetAllUsers")]
-        public IActionResult GetAllUsers()
+        [HttpGet("GetAllUsersAsync")]
+        public async Task<IActionResult> GetAllUsers()
         {
-            var result = _accountService.GetAllUsers();
+            var result = await _accountService.GetAllUsersAsync();
             return Ok(result);
         }
 
         [HttpGet("GetUserById")]
         public async Task<IActionResult> GetUserById(int id)
         {
-            var result = await _accountService.GetUserForUpdateById(id);
+            var result = await _accountService.GetUserById(id);
             return Ok(result);
         }
 
@@ -142,7 +142,7 @@ namespace HotelAPI.API.Controllers.HotelUser
         [HttpGet("GetGuestUserById")]
         public async Task<IActionResult> GetGuestUserById(int id)
         {
-            var result = await _accountService.GetGuestUserForUpdateById(id);
+            var result = await _accountService.GetGuestUserById(id);
             return Ok(result);
         }
 

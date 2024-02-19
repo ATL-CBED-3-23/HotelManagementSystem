@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using HotelAPI.Application.DTOs.HotelImages;
 using HotelAPI.Application.DTOs.Hotels;
+using HotelAPI.Application.DTOs.RoomImages;
 using HotelAPI.Application.Helpers;
 using HotelAPI.Application.Services.Abstract;
 using HotelAPI.Domain.Entities;
@@ -77,17 +78,12 @@ namespace HotelAPI.Application.Services.Concrete
                              WebSite = hotel.WebSite,
                              Grade = hotel.Grade,
                              City = city.Name,
-                             HotelImages = new List<HotelImageTableResponse>()
+                             HotelImages = hotel.HotelImages.Select(x => new HotelImageTableResponse()
                              {
-
-                                 new HotelImageTableResponse()
-                                 {
-                                     Id=image.Id,
-                                     FileName=image.FileName,
-                                     FileBase64=Convert.ToBase64String(FileHelper.GetPhoto(image.FileName)),
-
-                                 }
-                             }
+                                 Id = x.Id,
+                                 FileName = x.FileName,
+                                 FileBase64 = Convert.ToBase64String(FileHelper.GetPhoto(image.FileName))
+                             }).ToList()
 
                          };
 
@@ -112,17 +108,12 @@ namespace HotelAPI.Application.Services.Concrete
                              WebSite = hotel.WebSite,
                              Grade = hotel.Grade,
                              City = city.Name,
-                             HotelImages = new List<HotelImageTableResponse>()
+                             HotelImages = hotel.HotelImages.Select(x => new HotelImageTableResponse()
                              {
-
-                                 new HotelImageTableResponse()
-                                 {
-                                     Id=image.Id,
-                                     FileName=image.FileName,
-                                     FileBase64=Convert.ToBase64String(FileHelper.GetPhoto(image.FileName)),
-
-                                 }
-                             }
+                                 Id = x.Id,
+                                 FileName = x.FileName,
+                                 FileBase64 = Convert.ToBase64String(FileHelper.GetPhoto(image.FileName))
+                             }).ToList()
                          };
 
             return result.ToList();
@@ -149,17 +140,12 @@ namespace HotelAPI.Application.Services.Concrete
                              WebSite = hotel.WebSite,
                              Grade = hotel.Grade,
                              City = city.Name,
-                             HotelImages = new List<HotelImageTableResponse>()
+                             HotelImages = hotel.HotelImages.Select(x => new HotelImageTableResponse()
                              {
-
-                                 new HotelImageTableResponse()
-                                 {
-                                     Id=image.Id,
-                                     FileName=image.FileName,
-                                     FileBase64=Convert.ToBase64String(FileHelper.GetPhoto(image.FileName)),
-
-                                 }
-                             }
+                                 Id = x.Id,
+                                 FileName = x.FileName,
+                                 FileBase64 = Convert.ToBase64String(FileHelper.GetPhoto(image.FileName))
+                             }).ToList()
                          };
             return result.ToList();
         }
@@ -184,20 +170,15 @@ namespace HotelAPI.Application.Services.Concrete
                              WebSite = hotel.WebSite,
                              Grade = hotel.Grade,
                              City = city.Name,
-                             HotelImages = new List<HotelImageTableResponse>()
+                             HotelImages = hotel.HotelImages.Select(x => new HotelImageTableResponse()
                              {
-
-                                 new HotelImageTableResponse()
-                                 {
-                                     Id=image.Id,
-                                     FileName=image.FileName,
-                                     FileBase64=Convert.ToBase64String(FileHelper.GetPhoto(image.FileName)),
-
-                                 }
-                             }
+                                 Id = x.Id,
+                                 FileName = x.FileName,
+                                 FileBase64 = Convert.ToBase64String(FileHelper.GetPhoto(image.FileName))
+                             }).ToList()
                          };
             return result.ToList();
-            
+
 
         }
     }

@@ -1,17 +1,22 @@
 ﻿using AutoMapper;
 using HotelAPI.Application.DTOs;
+using HotelAPI.Application.DTOs.HotelUserImages;
 using HotelAPI.Application.DTOs.HotelUserRoles;
 using HotelAPI.Application.DTOs.HotelUsers;
+using HotelAPI.Application.Helpers;
 using HotelAPI.Application.Identity;
 using HotelAPI.Application.Identity.Concrete;
 using HotelAPI.Application.Services.Abstract;
 using HotelAPI.Domain.Entities;
+using HotelAPI.Domain.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using System.Data;
 using System.Security.Claims;
+using System.Linq;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace HotelAPI.Application.Services.Concrete;
 
@@ -25,8 +30,10 @@ public class AccountService : IAccountService
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly ClaimsPrincipal _user;
     private readonly IUserLoginHistoryService _userLoginHistoryService;
+    private readonly IHotelUserImageRepository _userImageRepository;
     public AccountService(UserManager<HotelUser> userManager, IMapper mapper, RoleManager<HotelUserRole> roleManager,
-        IOptionsSnapshot<JWTOptions> jwtSettings, IJWTTokenService jwtTokenService, IHttpContextAccessor httpContextAccessor, IUserLoginHistoryService userLoginHistoryService)
+        IOptionsSnapshot<JWTOptions> jwtSettings, IJWTTokenService jwtTokenService, IHttpContextAccessor httpContextAccessor,
+        IUserLoginHistoryService userLoginHistoryService, IHotelUserImageRepository hotelUserImageRepository)
     {
         _userManager = userManager;
         _roleManager = roleManager;
@@ -36,12 +43,19 @@ public class AccountService : IAccountService
         _httpContextAccessor = httpContextAccessor;
         _user = _httpContextAccessor.HttpContext.User;
         _userLoginHistoryService = userLoginHistoryService;
-        
+        _userImageRepository = hotelUserImageRepository;
+
     }
 
     #region User
     public async Task<IdentityResult> RegisterUserAsync(UserAddRequest userAddRequest)
     {
+        foreach (var image in userAddRequest.HotelUserImages)
+        {
+            byte[] bytes = Convert.FromBase64String(image.FileBase64);
+            image.FileName = FileHelper.SavePhotoToFtp(bytes, image.FileName);
+        }
+
         HotelUser user = _mapper.Map<HotelUser>(userAddRequest);
         IdentityResult result = await _userManager.CreateAsync(user, userAddRequest.Password);
 
@@ -56,21 +70,47 @@ public class AccountService : IAccountService
         }
         return result;
     }
-    public async Task<UserToUpdateResponse> GetUserForUpdateById(int id)
+    public async Task<UserToUpdateResponse> GetUserById(int id)
     {
-        HotelUser user = await _userManager.FindByIdAsync(id.ToString());
+        List<HotelUser> users = _userManager.Users.ToList();
+        List<HotelUserImage> images = await _userImageRepository.FindAllActiveAsync();
 
-        UserToUpdateResponse userToUpdateResponse = _mapper.Map<UserToUpdateResponse>(user);
-        userToUpdateResponse.Roles = _userManager.GetRolesAsync(user).Result;
-        return userToUpdateResponse;
+        var result = from user in users
+                     join image in images on user.Id equals image.HotelUserId
+                     where user.Id == id
+                     select new UserToUpdateResponse
+                     {
+                         Id = user.Id,
+                         FirstName=user.FirstName,
+                         LastName=user.LastName,
+                         Email = user.Email,
+                         UserName = user.UserName,
+                         NetworkStatus = user.NetworkStatus,
+                         Roles = _userManager.GetRolesAsync(user).Result.ToList(),
+                         HotelUserImages = user.HotelUserImages.Select(x => new HotelUserImageTableResponse()
+                         {
+                             Id = x.Id,
+                             FileName = x.FileName,
+                             FileBase64 = Convert.ToBase64String(FileHelper.GetPhoto(image.FileName))
+                         }).ToList(),
+
+                     };
+
+        return result.FirstOrDefault();
     }
     public async Task<IdentityResult> EditUserAsync(UserUpdateRequest userUpdateRequest)
     {
+        foreach (var image in userUpdateRequest.HotelUserImages)
+        {
+            byte[] bytes = Convert.FromBase64String(image.FileBase64);
+            image.FileName = FileHelper.SavePhotoToFtp(bytes, image.FileName);
+        }
         HotelUser user = await _userManager.Users.SingleOrDefaultAsync(u => u.Id == userUpdateRequest.Id && u.EntityStatus == EntityStatus.Active);
         user.FirstName = userUpdateRequest.FirstName;
         user.LastName = userUpdateRequest.LastName;
         user.Email = userUpdateRequest.Email;
         user.UserName = userUpdateRequest.UserName;
+        user.HotelUserImages = _mapper.Map<List<HotelUserImage>>(userUpdateRequest.HotelUserImages);
         IdentityResult result = await _userManager.UpdateAsync(user);
 
         return result;
@@ -122,21 +162,30 @@ public class AccountService : IAccountService
                     };
         return query.ToList();
     }
-    public List<UserTableResponse> GetAllUsers()
+    public async Task<List<UserTableResponse>> GetAllUsersAsync()
     {
-        var query = from u in _userManager.Users.ToList()
+        List<HotelUser> users = _userManager.Users.ToList();
+        List<HotelUserImage> images = await _userImageRepository.FindAllActiveAsync();
+        var result = from user in users
+                     join image in images on user.Id equals image.HotelUserId
+                     select new UserTableResponse
+                     {
+                         Id = user.Id,
+                         FullName = $"{user.FirstName} {user.LastName}",
+                         Email = user.Email,
+                         UserName = user.UserName,
+                         NetworkStatus = user.NetworkStatus,
+                         Roles = _userManager.GetRolesAsync(user).Result.ToList(),
+                         HotelUserImages = user.HotelUserImages.Select(x => new HotelUserImageTableResponse()
+                         {
+                             Id = x.Id,
+                             FileName = x.FileName,
+                             FileBase64 = Convert.ToBase64String(FileHelper.GetPhoto(image.FileName))
+                         }).ToList(),
 
-                    select new UserTableResponse
-                    {
-                        Id = u.Id,
-                        FullName = $"{u.FirstName} {u.LastName}",
-                        Email = u.Email,
-                        UserName = u.UserName,
-                        NetworkStatus = u.NetworkStatus,
-                        Roles = _userManager.GetRolesAsync(u).Result.ToList()
-                    };
+                     };
 
-        return query.ToList();
+        return result.ToList();
     }
     public async Task<IdentityResult> AddUserToRoleAsync(int userId, int roleId)
     {
@@ -180,6 +229,11 @@ public class AccountService : IAccountService
     #region Guest
     public async Task<IdentityResult> RegisterGuestUserAsync(GuestUserAddRequest guestUserAddRequest)
     {
+        foreach (var image in guestUserAddRequest.HotelUserImages)
+        {
+            byte[] bytes = Convert.FromBase64String(image.FileBase64);
+            image.FileName = FileHelper.SavePhotoToFtp(bytes, image.FileName);
+        }
         HotelUser user = _mapper.Map<HotelUser>(guestUserAddRequest);
         IdentityResult result = await _userManager.CreateAsync(user, guestUserAddRequest.Password);
 
@@ -191,20 +245,47 @@ public class AccountService : IAccountService
         }
         return result;
     }
-    public async Task<GuestUserToUpdateResponse> GetGuestUserForUpdateById(int id)
+    public async Task<GuestUserToUpdateResponse> GetGuestUserById(int id)
     {
-        HotelUser user = await _userManager.FindByIdAsync(id.ToString());
+        List<HotelUser> users = _userManager.Users.ToList();
+        List<HotelUserImage> images = await _userImageRepository.FindAllActiveAsync();
 
-        GuestUserToUpdateResponse guestUserToUpdateResponse = _mapper.Map<GuestUserToUpdateResponse>(user);
-        return guestUserToUpdateResponse;
+        var result = from user in users
+                     join image in images on user.Id equals image.HotelUserId
+                     where user.Id == id
+                     select new GuestUserToUpdateResponse
+                     {
+                         Id = user.Id,
+                         FirstName = user.FirstName,
+                         LastName = user.LastName,
+                         Email = user.Email,
+                         UserName = user.UserName,
+                         HotelUserImages = user.HotelUserImages.Select(x => new HotelUserImageTableResponse()
+                         {
+                             Id = x.Id,
+                             FileName = x.FileName,
+                             FileBase64 = Convert.ToBase64String(FileHelper.GetPhoto(image.FileName))
+                         }).ToList(),
+
+                     };
+
+        return result.FirstOrDefault();
+
     }
     public async Task<IdentityResult> EditGuestUserAsync(GuestUserUpdateRequest guestUserUpdateRequest)
     {
+        foreach (var image in guestUserUpdateRequest.HotelUserImages)
+        {
+            byte[] bytes = Convert.FromBase64String(image.FileBase64);
+            image.FileName = FileHelper.SavePhotoToFtp(bytes, image.FileName);
+        }
         HotelUser user = await _userManager.Users.SingleOrDefaultAsync(u => u.Id == guestUserUpdateRequest.Id && u.EntityStatus == EntityStatus.Active);
         user.FirstName = guestUserUpdateRequest.FirstName;
         user.LastName = guestUserUpdateRequest.LastName;
         user.Email = guestUserUpdateRequest.Email;
         user.UserName = guestUserUpdateRequest.UserName;
+        user.HotelUserImages = _mapper.Map<List<HotelUserImage>>(guestUserUpdateRequest.HotelUserImages);
+
 
         IdentityResult result = await _userManager.UpdateAsync(user);
         return result;
@@ -246,24 +327,14 @@ public class AccountService : IAccountService
 
         await _userLoginHistoryService.AddAsync(new UserLoginHistoryAddRequest()
         {
-            LoginDate= DateTime.Now,
+            LoginDate = DateTime.Now,
             HotelUserId = user.Id,
         });
-        
+
         user.NetworkStatus = NetworkStatus.Online;
         await _userManager.UpdateAsync(user);
         return loginedUserResponse;
-        //if (checkPassword)
-        //{
-        //    return IdentityResult.Success;
-        //}
-        //else
-        //{
-        //    return IdentityResult.Failed(new IdentityError
-        //    {
-        //        Description = "Invalid username or password."
-        //    });
-        //}
+
     }
 
 

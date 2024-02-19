@@ -34,7 +34,7 @@ namespace HotelAPI.API.Controllers.Country
         [HttpGet("GetForEdit/{id}")]
         public async Task<IActionResult> GetForEdit(int id)
         {
-            var item = await _countryService.GetForUpdateById(id);
+            var item = await _countryService.GetById(id);
             return Ok(item);
         }
 

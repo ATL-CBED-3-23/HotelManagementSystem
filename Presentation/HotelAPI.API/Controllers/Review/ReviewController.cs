@@ -33,7 +33,7 @@ namespace ReviewAPI.API.Controllers.Review
         [HttpGet("GetForEdit/{id}")]
         public async Task<IActionResult> GetForEdit(int id)
         {
-            var item = await _reviewService.GetForUpdateById(id);
+            var item = await _reviewService.GetById(id);
             return Ok(item);
         }
 

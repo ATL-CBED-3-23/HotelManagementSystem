@@ -62,11 +62,11 @@ namespace HotelAPI.Application.Services.Concrete
             await _reservationRepository.UpdateAsync(map);
         }
 
-        public async Task<ReservationUpdateRequest> GetForUpdateById(int id)
+        public async Task<ReservationTableResponse> GetById(int id)
         {
             Reservation reservation = await _reservationRepository.FindByIdAsync(id);
-            ReservationUpdateRequest reservationUpdateRequest = _mapper.Map<ReservationUpdateRequest>(reservation);
-            return reservationUpdateRequest;
+            ReservationTableResponse reservationTableResponse = _mapper.Map<ReservationTableResponse>(reservation);
+            return reservationTableResponse;
         }
 
         public async Task<List<ReservationTableResponse>> GetTable()

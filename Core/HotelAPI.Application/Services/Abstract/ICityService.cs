@@ -6,7 +6,7 @@ namespace HotelAPI.Application.Services.Abstract
     {
         Task AddAsync(CityAddRequest cityAddRequest);
         Task EditAsync(CityUpdateRequest cityUpdateRequest);
-        Task<CityUpdateRequest> GetForUpdateById(int id);
+        Task<CityTableResponse> GetById(int id);
         Task<List<CityTableResponse>> GetTable();
         Task DeleteByIdAsync(int id);
 
