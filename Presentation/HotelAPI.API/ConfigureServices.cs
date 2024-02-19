@@ -69,20 +69,6 @@ namespace HotelAPI.API
                          ClockSkew = TimeSpan.Zero
                      };
 
-                     //options.Events = new JwtBearerEvents
-                     //{
-                     //    OnMessageReceived = context =>
-                     //    {
-                     //        var accessToken = context.Request.Query["access_token"];
-                     //        PathString path = context.HttpContext.Request.Path;
-                     //        if (!string.IsNullOrEmpty(accessToken) && path.StartsWithSegments("/QMSSignalrServer"))
-                     //        {
-                     //            // получаем токен из строки запроса
-                     //            context.Token = accessToken;
-                     //        }
-                     //        return Task.CompletedTask;
-                     //    }
-                     //};
                  });
         }
 
