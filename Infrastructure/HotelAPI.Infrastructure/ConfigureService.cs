@@ -23,6 +23,7 @@ namespace HotelAPI.Infrastructure
                                    type => !type.Name.StartsWith('I') && type.Name.EndsWith("Repository")))
                        .UsingRegistrationStrategy(RegistrationStrategy.Skip)
                        .AsImplementedInterfaces()
+
                        .WithScopedLifetime()
            );
 
@@ -30,5 +31,6 @@ namespace HotelAPI.Infrastructure
             return services;
         }
     }
+
 
 }

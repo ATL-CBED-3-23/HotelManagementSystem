@@ -8,9 +8,9 @@ namespace HotelAPI.Application.Services.Abstract
     {
         Task<IdentityResult> RegisterUserAsync(UserAddRequest userAddRequest);
         Task<LoginedUserResponse> Login(LoginRequest loginRequest); // Novbeti ders davam elemek ve JWT
-        Task<UserToUpdateResponse> GetUserForUpdateById(int id);
+        Task<UserToUpdateResponse> GetUserById(int id);
         Task<IdentityResult> EditUserAsync(UserUpdateRequest userUpdateRequest);
-        List<UserTableResponse> GetAllUsers();
+        Task<List<UserTableResponse>> GetAllUsersAsync();
         Task<IdentityResult> DeActivateUser(int id);
         Task<IdentityResult> ChangePasswordAsync(UserChangePasswordRequest userChangePasswordRequest);
         Task<IdentityResult> ResetPasswordAsync(UserResetPasswordRequest userResetPasswordRequest);
@@ -26,7 +26,7 @@ namespace HotelAPI.Application.Services.Abstract
 
         Task<IdentityResult> RegisterGuestUserAsync(GuestUserAddRequest guestUserAddRequest);
         Task<IdentityResult> EditGuestUserAsync(GuestUserUpdateRequest guestUserUpdateRequest);
-        Task<GuestUserToUpdateResponse> GetGuestUserForUpdateById(int id);
+        Task<GuestUserToUpdateResponse> GetGuestUserById(int id);
         Task<IdentityResult> DeActivateGuestUser();
     }
 }

@@ -9,7 +9,6 @@
                 string folderPath = FileServerPath.Path;
                 string guid = Guid.NewGuid().ToString();
                 string fileName = $"{name}{guid}.jpeg";
-
                 string filePath = $"{folderPath}/{fileName}";
                 File.WriteAllBytes(filePath, imageBytes);
                 return fileName;
@@ -46,21 +45,15 @@
             {
                 if (!string.IsNullOrEmpty(fileNameFromDb))
                 {
-                    string fileExtension = "jpeg";
                     string folderPath = FileServerPath.Path; //WebConfigurationManager.AppSettings["PhPersonPhotoPath"];
                     string fullFilePath = Path.Combine(folderPath, fileNameFromDb.ToUpper());
                     photo = File.ReadAllBytes(fullFilePath);
-                }
-                else
-                {
-                    // physicalPersonPhoto = NoImage;
                 }
                 return photo;
             }
             catch (Exception ex)
             {
-                //string message = ex.Message;
-                //physicalPersonPhoto = NoImage;
+                string message = ex.Message;
                 return photo;
             }
         }

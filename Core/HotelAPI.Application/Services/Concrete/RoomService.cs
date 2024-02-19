@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using HotelAPI.Application.DTOs.HotelImages;
 using HotelAPI.Application.DTOs.Hotels;
+using HotelAPI.Application.DTOs.HotelUserRoles;
 using HotelAPI.Application.DTOs.RoomImages;
 using HotelAPI.Application.DTOs.Rooms;
 using HotelAPI.Application.Helpers;
@@ -18,7 +19,8 @@ namespace HotelAPI.Application.Services.Concrete
         private readonly IRoomImageRepository _roomImageRepository;
         private readonly IRoomTypeRepository _roomTypeRepository;
 
-        public RoomService(IRoomRepository roomRepository, IMapper mapper, IRoomImageRepository roomImageRepository, IRoomTypeRepository roomTypeRepository)
+        public RoomService(IRoomRepository roomRepository, IMapper mapper, IRoomImageRepository roomImageRepository, 
+            IRoomTypeRepository roomTypeRepository)
         {
             _mapper = mapper;
             _roomRepository = roomRepository;
@@ -45,11 +47,17 @@ namespace HotelAPI.Application.Services.Concrete
 
         public async Task EditAsync(RoomUpdateRequest roomUpdateRequest)
         {
+            foreach (var image in roomUpdateRequest.RoomImages)
+            {
+                byte[] bytes = Convert.FromBase64String(image.FileBase64);
+                image.FileName = FileHelper.SavePhotoToFtp(bytes, image.FileName);
+            }
+
             var map = _mapper.Map<Room>(roomUpdateRequest);
             await _roomRepository.UpdateAsync(map);
         }
 
-        public async Task<RoomTableResponse> GetForUpdateById(int id)
+        public async Task<RoomTableResponse> GetById(int id)
         {
             var rooms = await _roomRepository.FindAllAsync();
             var images = await _roomImageRepository.FindAllAsync();
@@ -57,7 +65,6 @@ namespace HotelAPI.Application.Services.Concrete
             var result = from room in rooms
                          join image in images on room.Id equals image.RoomId
                          join type in roomTypes on room.RoomTypeId equals type.Id
-                         where room.Id == id
                          select new RoomTableResponse()
                          {
                              Id = room.Id,
@@ -67,13 +74,14 @@ namespace HotelAPI.Application.Services.Concrete
                              Price = room.Price,
                              RoomState = room.RoomState,
                              RoomType = type.Name,
-                             RoomImages = _mapper.Map<List<RoomImageTableResponse>>(room.RoomImages)
+                             RoomImages = room.RoomImages.Select(x => new RoomImageTableResponse()
+                             {
+                                 Id = x.Id,
+                                 FileName = x.FileName,
+                                 FileBase64 = Convert.ToBase64String(FileHelper.GetPhoto(image.FileName))
+
+                             }).ToList(),
                          };
-            foreach (var image in result.FirstOrDefault().RoomImages)
-            {
-                byte[] bytes = FileHelper.GetPhoto(image.FileName);
-                image.FileBase64 = Encoding.UTF8.GetString(bytes);
-            }
 
             return result.FirstOrDefault();
         }
@@ -95,17 +103,14 @@ namespace HotelAPI.Application.Services.Concrete
                              Price = room.Price,
                              RoomState = room.RoomState,
                              RoomType = type.Name,
-                             RoomImages = _mapper.Map<List<RoomImageTableResponse>>(room.RoomImages)
-                         };
+                             RoomImages = room.RoomImages.Select(x => new RoomImageTableResponse()
+                             {
+                                 Id = x.Id,
+                                 FileName = x.FileName,
+                                 FileBase64 = Convert.ToBase64String(FileHelper.GetPhoto(image.FileName))
 
-            foreach (var room in result)
-            {
-                foreach (var image in room.RoomImages)
-                {
-                    byte[] bytes = FileHelper.GetPhoto(image.FileName);
-                    image.FileBase64 = Encoding.UTF8.GetString(bytes);
-                }
-            }
+                             }).ToList(),
+                         };
 
             return result.ToList();
         }

@@ -33,7 +33,7 @@ namespace RoomAPI.API.Controllers.Room
         [HttpGet("GetForEdit/{id}")]
         public async Task<IActionResult> GetForEdit(int id)
         {
-            var item = await _roomService.GetForUpdateById(id);
+            var item = await _roomService.GetById(id);
             return Ok(item);
         }
 

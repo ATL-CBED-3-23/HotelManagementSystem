@@ -19,17 +19,18 @@ namespace HotelAPI.API.Controllers.UserStatistics
         }
 
         [HttpGet("GetOnlineUsersCount")]
-        public IActionResult GetOnlineUsersCount()
+        public async Task<IActionResult> GetOnlineUsersCount()
         {
-            var x = _accountService.GetAllUsers();
-            var data = _accountService.GetAllUsers().Where(u => u.NetworkStatus == NetworkStatus.Online).Count();
+            var users = await _accountService.GetAllUsersAsync();
+            var data = users.Where(u => u.NetworkStatus == NetworkStatus.Online).Count();
             return Ok(data);
         }
 
         [HttpGet("GetOfflineUsersCount")]
-        public IActionResult GetOfflineUsersCount()
+        public async Task<IActionResult> GetOfflineUsersCount()
         {
-            var data = _accountService.GetAllUsers().Where(u => u.NetworkStatus == NetworkStatus.Offline).Count();
+            var users = await _accountService.GetAllUsersAsync();
+            var data = users.Where(u => u.NetworkStatus == NetworkStatus.Offline).Count();
             return Ok(data);
         }
 
