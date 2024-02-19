@@ -1,8 +1,9 @@
-﻿using HotelAPI.Domain.Entities;
+﻿using HotelAPI.Application.Mappings;
+using HotelAPI.Domain.Entities;
 
 namespace HotelAPI.Application.DTOs.Equipments
 {
-    public class EquipmentTableResponse
+    public class EquipmentTableResponse:IMapTo<Equipment>
     {
         public int Id { get; set; }
         public string Name { get; set; }

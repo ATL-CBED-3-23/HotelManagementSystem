@@ -46,6 +46,7 @@ namespace HotelAPI.API
                     }
                 });
 
+               
             });
         }
         public static void AuthenticationJwtSettings(this IServiceCollection services, IJWTOptions jwtSettings)
@@ -84,5 +85,6 @@ namespace HotelAPI.API
                      //};
                  });
         }
+
     }
 }

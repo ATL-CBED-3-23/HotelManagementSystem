@@ -36,11 +36,11 @@ namespace HotelAPI.Application.Services.Concrete
             await _equipmentRepository.UpdateAsync(map);
         }
 
-        public async Task<EquipmentUpdateRequest> GetForUpdateById(int id)
+        public async Task<EquipmentTableResponse> GetById(int id)
         {
             Equipment equipment = await _equipmentRepository.FindByIdAsync(id);
-            EquipmentUpdateRequest equipmentUpdateRequest = _mapper.Map<EquipmentUpdateRequest>(equipment); ;
-            return equipmentUpdateRequest;
+            EquipmentTableResponse equipmentTableResponse = _mapper.Map<EquipmentTableResponse>(equipment); ;
+            return equipmentTableResponse;
         }
 
         public async Task<List<EquipmentTableResponse>> GetTable()

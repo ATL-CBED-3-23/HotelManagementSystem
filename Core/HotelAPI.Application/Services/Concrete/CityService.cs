@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using HotelAPI.Application.DTOs.Cities;
-using HotelAPI.Application.DTOs.Countries;
 using HotelAPI.Application.DTOs.Hotels;
 using HotelAPI.Application.Services.Abstract;
 using HotelAPI.Domain.Entities;
@@ -41,15 +40,16 @@ namespace HotelAPI.Application.Services.Concrete
             await _cityRepository.UpdateAsync(map);
         }
 
-        public async Task<CityUpdateRequest> GetForUpdateById(int id)
+        public async Task<CityTableResponse> GetById(int id)
         {
             City city = await _cityRepository.FindByIdAsync(id);
-            CityUpdateRequest cityUpdateRequest = _mapper.Map<CityUpdateRequest>(city);
-            return cityUpdateRequest;
+            CityTableResponse cityTableResponse = _mapper.Map<CityTableResponse>(city);
+            return cityTableResponse;
         }
 
         public async Task<List<CityTableResponse>> GetTable()
         {
+           
             List<City> cities = await _cityRepository.FindAllAsync();
             List<Hotel> hotels = await _hotelRepository.FindAllAsync();
             List<Country> countries = await _countryRepository.FindAllAsync();

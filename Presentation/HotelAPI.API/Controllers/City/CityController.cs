@@ -1,5 +1,6 @@
 ﻿using HotelAPI.Application.DTOs.Cities;
 using HotelAPI.Application.Services.Abstract;
+using HotelAPI.Application.Utilities.Constants;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,6 +9,7 @@ namespace HotelAPI.API.Controllers.City
     [Route("api/[controller]")]
     [ApiController]
     [Authorize(AuthenticationSchemes = "Bearer")]
+    [Authorize(Roles = AllowedRolesForController.ADMIN)]
     public class CityController : ControllerBase
     {
         private readonly ICityService _cityService;
@@ -34,7 +36,7 @@ namespace HotelAPI.API.Controllers.City
         [HttpGet("GetForEdit/{id}")]
         public async Task<IActionResult> GetForEdit(int id)
         {
-            var item = await _cityService.GetForUpdateById(id);
+            var item = await _cityService.GetById(id);
             return Ok(item);
         }
 

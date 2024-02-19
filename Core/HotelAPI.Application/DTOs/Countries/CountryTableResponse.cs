@@ -1,5 +1,4 @@
 ﻿using HotelAPI.Application.DTOs.Cities;
-using System.Text.Json.Serialization;
 
 namespace HotelAPI.Application.DTOs.Countries
 {

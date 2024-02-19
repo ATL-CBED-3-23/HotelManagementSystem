@@ -14,6 +14,9 @@ public class ReviewConfiguration : IEntityTypeConfiguration<Review>
         builder.Property(b => b.Content).IsRequired().HasMaxLength(255);
         builder.Property(b => b.EntityStatus).HasColumnName("IsDeleted");
 
+        //Relations
+        builder.HasOne(b => b.HotelUser).WithMany(b => b.Reviews).HasForeignKey(b => b.HotelUserId);
+
 
     }
 }

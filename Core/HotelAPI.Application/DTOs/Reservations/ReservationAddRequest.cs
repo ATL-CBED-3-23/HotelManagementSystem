@@ -1,5 +1,6 @@
 ﻿using HotelAPI.Application.Mappings;
 using HotelAPI.Domain.Entities;
+using System.Text.Json.Serialization;
 
 namespace HotelAPI.Application.DTOs.Reservations
 {
@@ -10,7 +11,8 @@ namespace HotelAPI.Application.DTOs.Reservations
 
         //Relations
         public int RoomId { get; set; }
-        public int ReservatorId { get; set; }
+        [JsonIgnore]
+        public int HotelUserId { get; set; }
 
     }
 }

@@ -25,9 +25,15 @@ namespace HotelAPI.Persistence.AppDbContext.SeedData
             },
             new HotelUserRole(){
                 Id = 2,
-                Name="User",
-                NormalizedName = "USER"
+                Name="Default",
+                NormalizedName = "DEFAULT"
             },
+            new HotelUserRole(){
+                Id = 3,
+                Name="Staff",
+                NormalizedName = "STAFF"
+            },
+
 
         };
 
@@ -42,6 +48,17 @@ namespace HotelAPI.Persistence.AppDbContext.SeedData
                 Email="arzu@gmail.com",
 
             },
+            new HotelUser()
+            {
+                Id=2,
+                FirstName="Guest",
+                LastName="Guest",
+                UserName="Guest",
+                PasswordHash=new PasswordHasher<IdentityUser>().HashPassword(null,"12345"),
+                Email="guest@com"
+
+            }
+
 
         };
 
@@ -51,7 +68,23 @@ namespace HotelAPI.Persistence.AppDbContext.SeedData
             {
                UserId = 1,
                RoleId=1,
-            }
+            },
+
+        new IdentityUserRole<int>()
+        {
+            UserId=1,
+            RoleId=2
+        },
+        new IdentityUserRole<int>()
+        {
+            UserId=1,
+            RoleId=3,
+        },
+        new IdentityUserRole<int>()
+        {
+            UserId=2,
+            RoleId=2
+        }
 
         };
 
@@ -61,6 +94,26 @@ namespace HotelAPI.Persistence.AppDbContext.SeedData
             {
                 Id = 1,
                 Name="Azerbaijan"
+            },
+            new Country()
+            {
+                Id = 2,
+                Name="Turkey"
+            },
+            new Country()
+            {
+                Id = 3,
+                Name="Italy"
+            },
+            new Country()
+            {
+                Id = 4,
+                Name="Russia"
+            },
+            new Country()
+            {
+                Id= 5,
+                Name="France"
             }
         };
 
@@ -73,6 +126,32 @@ namespace HotelAPI.Persistence.AppDbContext.SeedData
                 CountryId=1,
                 PostalCode="1000"
             },
+            new City() {
+                Id = 2,
+                Name="Istanbul",
+                CountryId=2,
+                PostalCode="2205"
+            },
+            new City()
+            {
+                Id=3,
+                Name="Roma",
+                CountryId=3,
+                PostalCode="3001"
+            },
+            new City() {
+                Id = 4,
+                Name="Moscow",
+                CountryId=4,
+                PostalCode="4140"
+            },
+            new City()
+            {
+                Id=5,
+                Name="Paris",
+                CountryId=5,
+                PostalCode="5005"
+            }
         };
 
         private static List<Hotel> hotels = new List<Hotel>()
@@ -90,6 +169,30 @@ namespace HotelAPI.Persistence.AppDbContext.SeedData
 
 
             },
+            new Hotel()
+            {
+                Id = 2,
+                Name="Courtyard by Marriott Baku",
+                Address="Nasimi District",
+                Email="marriotbaku@gmail.com",
+                PhoneNumber="+994775005050",
+                WebSite="marriotbaku.com",
+                Grade=Grade.FiveStar,
+                CityId=1,
+
+
+            },
+            new Hotel()
+            {
+                Id = 3,
+                Name="Hotel Sari Konak",
+                Address="Sultanahmet",
+                Email="sarikonak@hot.com",
+                PhoneNumber="+094775005050",
+                WebSite="sarikonakhotel.tr.com",
+                Grade=Grade.FourStar,
+                CityId=2,
+            }
         };
 
         private static List<RoomType> roomTypes = new List<RoomType>()
@@ -97,8 +200,29 @@ namespace HotelAPI.Persistence.AppDbContext.SeedData
             new RoomType()
             {
                 Id=1,
-                Name="VIP",
-                Description="Comfortable equipments, scenery",
+                Name="Deluxe Room",
+                Description=" 1 King Bed, Smoking, Sea View",
+            },
+            new RoomType()
+            {
+                Id=2,
+                Name="Family Room",
+                Description="1 Double Bed"
+
+            },
+            new RoomType()
+            {
+                Id=3,
+                Name="Suite Room",
+                Description="1 Bedroom, Terrace, Sea View"
+
+            },
+            new RoomType()
+            {
+                Id=4,
+                Name="King Room",
+                Description="1 King Bed, Sea View"
+
             }
         };
 
@@ -115,6 +239,39 @@ namespace HotelAPI.Persistence.AppDbContext.SeedData
                 RoomTypeId=1,
                 HotelId=1,
             },
+            new Room()
+            {
+                Id = 2,
+                Number=128,
+                Floor=2,
+                Phone="1240044444",
+                Price=250,
+                RoomState=RoomState.Available,
+                RoomTypeId=2,
+                HotelId=2,
+            },
+            new Room()
+            {
+                Id = 3,
+                Number=246,
+                Floor=4,
+                Phone="1240044444",
+                Price=350,
+                RoomState=RoomState.Reserved,
+                RoomTypeId=4,
+                HotelId=3,
+            },
+             new Room()
+            {
+                Id = 4,
+                Number=238,
+                Floor=4,
+                Phone="1240044444",
+                Price=400,
+                RoomState=RoomState.NoAvailable,
+                RoomTypeId=3,
+                HotelId=3,
+            }
         };
 
         private static List<Equipment> equipments = new List<Equipment>()
@@ -129,9 +286,23 @@ namespace HotelAPI.Persistence.AppDbContext.SeedData
             new Equipment()
             {
                 Id=2,
+                Name="Twin Beds",
+                Count=2,
+                RoomId=2
+            },
+            new Equipment()
+            {
+                Id=3,
                 Name="Minibar",
                 Count=1,
-                RoomId=1
+                RoomId=4
+            },
+            new Equipment()
+            {
+                Id=4,
+                Name=" LCD TV",
+                Count=1,
+                RoomId=3
             }
         };
 

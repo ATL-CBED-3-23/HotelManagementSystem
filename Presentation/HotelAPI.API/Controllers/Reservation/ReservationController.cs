@@ -19,8 +19,8 @@ namespace ReservationAPI.API.Controllers.Reservation
         [HttpPost("Add")]
         public async Task<IActionResult> Add(ReservationAddRequest reservationAddRequest)
         {
-            await _reservationService.AddAsync(reservationAddRequest);
-            return Ok();
+            string message=await _reservationService.AddAsync(reservationAddRequest);
+            return Ok(message);
         }
 
         [HttpGet("GetTable")]
@@ -33,7 +33,7 @@ namespace ReservationAPI.API.Controllers.Reservation
         [HttpGet("GetForEdit/{id}")]
         public async Task<IActionResult> GetForEdit(int id)
         {
-            var item = await _reservationService.GetForUpdateById(id);
+            var item = await _reservationService.GetById(id);
             return Ok(item);
         }
 
@@ -49,6 +49,20 @@ namespace ReservationAPI.API.Controllers.Reservation
         {
             await _reservationService.DeleteByIdAsync(id);
             return Ok();
+        }
+
+        [HttpGet("GetReservationsByUser")]
+        public async Task<IActionResult> GetReservationsByUser(int userId)
+        {
+            var data = await _reservationService.GetReservationsByUser(userId);
+            return Ok(data);
+        }
+
+        [HttpGet("GetReservationsByGuestUser")]
+        public async Task<IActionResult> GetReservationsByGuestUser()
+        {
+            var data = await _reservationService.GetReservationsByGuestUser();
+            return Ok(data);
         }
     }
 }

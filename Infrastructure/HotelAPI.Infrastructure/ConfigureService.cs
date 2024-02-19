@@ -14,17 +14,23 @@ namespace HotelAPI.Infrastructure
             //services.AddScoped<ICountryRepository, CountryRepository>();
             //services.AddScoped<ICityRepository, CityRepository>();
 
-            services.Scan(scan => scan.FromAssemblies(
-            typeof(IInfrastructureAssemblyMarker).Assembly).AddClasses(@class =>
-            @class.Where(type =>
-            !type.Name.StartsWith('I')
-            && type.Name.EndsWith("Repository")))
-            .UsingRegistrationStrategy(RegistrationStrategy.Skip)
-            .AsImplementedInterfaces()
-            .WithScopedLifetime());
+            services.Scan(
+               scan =>
+                   scan.FromAssemblies(typeof(IInfrastructureAssemblyMarker).Assembly)
+                       .AddClasses(
+                           @class =>
+                               @class.Where(
+                                   type => !type.Name.StartsWith('I') && type.Name.EndsWith("Repository")))
+                       .UsingRegistrationStrategy(RegistrationStrategy.Skip)
+                       .AsImplementedInterfaces()
+
+                       .WithScopedLifetime()
+           );
+
 
             return services;
         }
     }
+
 
 }

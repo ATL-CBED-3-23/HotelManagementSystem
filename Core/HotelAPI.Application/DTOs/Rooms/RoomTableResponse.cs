@@ -1,6 +1,7 @@
 ﻿using HotelAPI.Application.DTOs.Equipments;
 using HotelAPI.Application.DTOs.Hotels;
 using HotelAPI.Application.DTOs.Reservations;
+using HotelAPI.Application.DTOs.RoomImages;
 using HotelAPI.Application.DTOs.RoomTypes;
 
 namespace HotelAPI.Application.DTOs.Rooms
@@ -15,10 +16,11 @@ namespace HotelAPI.Application.DTOs.Rooms
         public RoomState RoomState { get; set; } = RoomState.Available;
 
         //Relations
-        public RoomTypeTableResponse RoomType { get; set; }
-        public HotelTableResponse Hotel { get; set; }
+        public string RoomType { get; set; }
+        public string Hotel { get; set; }
         public List<EquipmentTableResponse> Equipments { get; set; }
         public List<ReservationTableResponse> Reservations { get; set; }
+        public List<RoomImageTableResponse> RoomImages { get; set; }
 
     }
 }

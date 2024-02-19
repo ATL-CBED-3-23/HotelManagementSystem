@@ -1,4 +1,5 @@
-﻿using HotelAPI.Application.Mappings;
+﻿using HotelAPI.Application.DTOs.RoomImages;
+using HotelAPI.Application.Mappings;
 using HotelAPI.Domain.Entities;
 
 namespace HotelAPI.Application.DTOs.Rooms
@@ -16,6 +17,8 @@ namespace HotelAPI.Application.DTOs.Rooms
         //Relations
         public int RoomTypeId { get; set; }
         public int HotelId { get; set; }
+        public List<RoomImageAddRequest> RoomImages { get; set; }
+
 
     }
 }

@@ -36,11 +36,11 @@ namespace HotelAPI.Application.Services.Concrete
             await _reviewRepository.UpdateAsync(map);
         }
 
-        public async Task<ReviewUpdateRequest> GetForUpdateById(int id)
+        public async Task<ReviewTableResponse> GetById(int id)
         {
             Review review = await _reviewRepository.FindByIdAsync(id);
-            ReviewUpdateRequest reviewUpdateRequest= _mapper.Map<ReviewUpdateRequest>(review); ;
-            return reviewUpdateRequest;
+            ReviewTableResponse reviewTableResponse = _mapper.Map<ReviewTableResponse>(review); ;
+            return reviewTableResponse;
         }
 
         public async Task<List<ReviewTableResponse>> GetTable()

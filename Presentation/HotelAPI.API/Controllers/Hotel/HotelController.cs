@@ -7,7 +7,7 @@ namespace HotelAPI.API.Controllers.Hotel
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(AuthenticationSchemes = "Bearer")]
+   // [Authorize(AuthenticationSchemes = "Bearer")]
     public class HotelController : ControllerBase
     {
         private readonly IHotelService _hotelService;
@@ -49,6 +49,20 @@ namespace HotelAPI.API.Controllers.Hotel
         {
             await _hotelService.DeleteByIdAsync(id);
             return Ok();
+        }
+
+        [HttpGet("SearchHotelsByCity")]
+        public async Task<IActionResult> SearchHotelsByCity(int cityId)
+        {
+            var data= await _hotelService.GetHotelsByCity(cityId);
+            return Ok(data);
+        }
+
+        [HttpGet("SearchHotelsByRoomCount")]
+        public async Task<IActionResult> SearchHotelsByRoomCount(int roomCount)
+        {
+            var data = await _hotelService.GetHotelsByRoomCount(roomCount);
+            return Ok(data);
         }
     }
 }

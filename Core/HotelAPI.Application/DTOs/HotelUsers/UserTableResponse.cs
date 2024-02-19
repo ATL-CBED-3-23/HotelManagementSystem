@@ -1,4 +1,5 @@
-﻿using HotelAPI.Application.DTOs.HotelUserRoles;
+﻿using HotelAPI.Application.DTOs.HotelUserImages;
+using HotelAPI.Application.DTOs.HotelUserRoles;
 
 namespace HotelAPI.Application.DTOs.HotelUsers
 {
@@ -9,5 +10,8 @@ namespace HotelAPI.Application.DTOs.HotelUsers
         public string Email { get; set; }
         public string UserName { get; set; }
         public List<string> Roles { get; set; }
+        public NetworkStatus NetworkStatus { get; set; }
+        public List<HotelUserImageTableResponse> HotelUserImages { get; set; }
+
     }
 }

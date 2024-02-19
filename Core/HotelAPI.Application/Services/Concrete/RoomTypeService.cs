@@ -36,11 +36,11 @@ namespace HotelAPI.Application.Services.Concrete
             await _roomTypeRepository.UpdateAsync(map);
         }
 
-        public async Task<RoomTypeUpdateRequest> GetForUpdateById(int id)
+        public async Task<RoomTypeTableResponse> GetById(int id)
         {
             RoomType roomType = await _roomTypeRepository.FindByIdAsync(id);
-            RoomTypeUpdateRequest roomTypeUpdateRequest = _mapper.Map<RoomTypeUpdateRequest>(roomType); ;
-            return roomTypeUpdateRequest;
+            RoomTypeTableResponse roomTypeTableResponse = _mapper.Map<RoomTypeTableResponse>(roomType); ;
+            return roomTypeTableResponse;
         }
 
         public async Task<List<RoomTypeTableResponse>> GetTable()

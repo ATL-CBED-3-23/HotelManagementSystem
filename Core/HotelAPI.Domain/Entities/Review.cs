@@ -9,8 +9,8 @@ public class Review:BaseEntity
 
 
     //Relations
-    public int ReservatorId { get; set; }
-    public Reservator Reservator { get; set; }
+    public int HotelUserId { get; set; }
+    public HotelUser HotelUser { get; set; }
     public int HotelId { get; set; }
     public Hotel Hotel { get; set; }
 }

@@ -1,4 +1,4 @@
-﻿using HotelAPI.Application.DTOs.Reservators;
+﻿using HotelAPI.Application.DTOs.HotelUsers;
 using HotelAPI.Application.DTOs.Rooms;
 
 namespace HotelAPI.Application.DTOs.Reservations
@@ -9,9 +9,12 @@ namespace HotelAPI.Application.DTOs.Reservations
         public DateTime CheckInDate { get; set; }
         public DateTime CheckOutDate { get; set; }
 
+        public int Room { get; set; }
+        public string HotelUser { get; set; }
+
         //Relations
-        public RoomTableResponse Room { get; set; }
-        public ReservatorTableResponse Reservator { get; set; }
+        //public RoomTableResponse Room { get; set; }
+        //public UserTableResponse HotelUser { get; set; }
 
     }
 }

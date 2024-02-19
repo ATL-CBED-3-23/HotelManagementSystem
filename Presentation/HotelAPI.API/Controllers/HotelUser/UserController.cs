@@ -9,8 +9,7 @@ namespace HotelAPI.API.Controllers.HotelUser
 {
     [Route("api/[controller]")]
     [ApiController]
-  //  [Authorize(AuthenticationSchemes = "Bearer")]
-    [Authorize]
+    [Authorize(AuthenticationSchemes = "Bearer")]
 
     public class UserController : ControllerBase
     {
@@ -21,6 +20,7 @@ namespace HotelAPI.API.Controllers.HotelUser
             _accountService = accountService;
         }
 
+
         [HttpPost("RegisterUser")]
         public async Task<IActionResult> RegisterUser(UserAddRequest userAddRequest)
         {
@@ -28,17 +28,17 @@ namespace HotelAPI.API.Controllers.HotelUser
             return Ok();
         }
 
-        [HttpGet("GetAllUsers")]
-        public IActionResult GetAllUsers()
+        [HttpGet("GetAllUsersAsync")]
+        public async Task<IActionResult> GetAllUsers()
         {
-            var result = _accountService.GetAllUsers();
+            var result = await _accountService.GetAllUsersAsync();
             return Ok(result);
         }
 
         [HttpGet("GetUserById")]
         public async Task<IActionResult> GetUserById(int id)
         {
-            var result = await _accountService.GetUserForUpdateById(id);
+            var result = await _accountService.GetUserById(id);
             return Ok(result);
         }
 
@@ -120,12 +120,44 @@ namespace HotelAPI.API.Controllers.HotelUser
 
         }
 
+
+
         [HttpPost("Login")]
         [AllowAnonymous]
         public async Task<IActionResult> Login(LoginRequest loginRequest)
         {
             LoginedUserResponse loginedUser = await _accountService.Login(loginRequest);
             return Ok(loginedUser);
+        }
+
+        [AllowAnonymous]
+        [HttpPost("RegisterForGuestUser")]
+        public async Task<IActionResult> RegisterGuestUser(GuestUserAddRequest guestUserAddRequest)
+        {
+            await _accountService.RegisterGuestUserAsync(guestUserAddRequest);
+            return Ok();
+        }
+
+
+        [HttpGet("GetGuestUserById")]
+        public async Task<IActionResult> GetGuestUserById(int id)
+        {
+            var result = await _accountService.GetGuestUserById(id);
+            return Ok(result);
+        }
+
+        [HttpPost("EditGuestUser")]
+        public async Task<IActionResult> EditGuestUser(GuestUserUpdateRequest guestUserUpdateRequest)
+        {
+            await _accountService.EditGuestUserAsync(guestUserUpdateRequest);
+            return Ok();
+        }
+
+        [HttpPost("RemoveGuestUser")]
+        public async Task<IActionResult> RemoveGuestUser()
+        {
+            await _accountService.DeActivateGuestUser();
+            return Ok();
         }
     }
 }
