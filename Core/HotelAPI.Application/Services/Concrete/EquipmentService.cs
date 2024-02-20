@@ -45,7 +45,7 @@ namespace HotelAPI.Application.Services.Concrete
 
         public async Task<List<EquipmentTableResponse>> GetTableAsync()
         {
-            var equipments = _equipmentRepository.FindAllAsync();
+            var equipments = await _equipmentRepository.FindAllActiveAsync();
             return _mapper.Map<List<EquipmentTableResponse>>(equipments);
         }
     }

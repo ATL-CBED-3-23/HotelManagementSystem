@@ -7,7 +7,7 @@ namespace HotelAPI.API.Controllers.Equipment
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(AuthenticationSchemes = "Bearer")]
+    //[Authorize(AuthenticationSchemes = "Bearer")]
     public class EquipmentController : ControllerBase
     {
         private readonly IEquipmentService _equipmentService;
