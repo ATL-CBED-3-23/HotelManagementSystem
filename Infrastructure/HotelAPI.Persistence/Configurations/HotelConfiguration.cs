@@ -20,6 +20,7 @@ public class HotelConfiguration : IEntityTypeConfiguration<Hotel>
 
 
         //Relations
+        builder.HasMany(b => b.Ratings).WithOne(b => b.Hotel).HasForeignKey(b => b.HotelId);
         builder.HasOne(b => b.City).WithMany(b => b.Hotels).HasForeignKey(b => b.CityId);
         builder.HasMany(b => b.Rooms).WithOne(b => b.Hotel).HasForeignKey(b => b.HotelId);
         builder.HasMany(b => b.Reviews).WithOne(b => b.Hotel).HasForeignKey(b => b.HotelId);

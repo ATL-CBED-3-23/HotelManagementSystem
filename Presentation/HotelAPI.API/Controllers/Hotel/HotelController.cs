@@ -1,5 +1,7 @@
-﻿using HotelAPI.Application.DTOs.Hotels;
+﻿using HotelAPI.Application.DTOs.HotelRating;
+using HotelAPI.Application.DTOs.Hotels;
 using HotelAPI.Application.Services.Abstract;
+using HotelAPI.Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -63,6 +65,18 @@ namespace HotelAPI.API.Controllers.Hotel
         {
             var data = await _hotelService.GetHotelsByRoomCountAsync(roomCount);
             return Ok(data);
+        }
+        [HttpPost("AddRating")]
+        public async Task<IActionResult> AddRating(HotelRatingAddRequest req)
+        {
+            await _hotelService.AddRatingAsync(req);
+            return Ok();    
+        }
+        [HttpGet("GetHotelRating")]
+        public async Task<IActionResult> GetHotelRating(int HotelId)
+        { 
+           var res= await _hotelService.GetHotelRatingAsync(HotelId);
+            return Ok(res);
         }
     }
 }
