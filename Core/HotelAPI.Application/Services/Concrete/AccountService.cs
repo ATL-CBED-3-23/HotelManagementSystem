@@ -70,7 +70,7 @@ public class AccountService : IAccountService
         }
         return result;
     }
-    public async Task<UserToUpdateResponse> GetUserById(int id)
+    public async Task<UserToUpdateResponse> GetUserByIdAsync(int id)
     {
         List<HotelUser> users = _userManager.Users.ToList();
         List<HotelUserImage> images = await _userImageRepository.FindAllActiveAsync();
@@ -115,7 +115,7 @@ public class AccountService : IAccountService
 
         return result;
     }
-    public async Task<IdentityResult> DeActivateUser(int id)
+    public async Task<IdentityResult> DeActivateUserAsync(int id)
     {
         HotelUser user = await _userManager.Users.SingleOrDefaultAsync(u => u.Id == id && u.EntityStatus == EntityStatus.Active);
         user.EntityStatus = EntityStatus.InActive;
@@ -145,14 +145,14 @@ public class AccountService : IAccountService
         IdentityResult result = await _roleManager.CreateAsync(role);
         return result;
     }
-    public async Task<IdentityResult> DeActivateRole(int id)
+    public async Task<IdentityResult> DeActivateRoleAsync(int id)
     {
         HotelUserRole role = await _roleManager.Roles.SingleOrDefaultAsync(r => r.Id == id && r.EntityStatus == EntityStatus.Active);
         role.EntityStatus = EntityStatus.InActive;
         IdentityResult result = await _roleManager.UpdateAsync(role);
         return result;
     }
-    public List<RoleTableResponse> GetAllRoles()
+    public List<RoleTableResponse> GetAllRolesAsync()
     {
         var query = from o in _roleManager.Roles.Where(x => x.EntityStatus == EntityStatus.Active)
                     select new RoleTableResponse
@@ -245,7 +245,7 @@ public class AccountService : IAccountService
         }
         return result;
     }
-    public async Task<GuestUserToUpdateResponse> GetGuestUserById(int id)
+    public async Task<GuestUserToUpdateResponse> GetGuestUserByIdAsync(int id)
     {
         List<HotelUser> users = _userManager.Users.ToList();
         List<HotelUserImage> images = await _userImageRepository.FindAllActiveAsync();
@@ -290,7 +290,7 @@ public class AccountService : IAccountService
         IdentityResult result = await _userManager.UpdateAsync(user);
         return result;
     }
-    public async Task<IdentityResult> DeActivateGuestUser()
+    public async Task<IdentityResult> DeActivateGuestUserAsync()
     {
         int x = Convert.ToInt32("A");
         int userId = int.Parse(_user.FindFirstValue(ClaimTypes.NameIdentifier));
@@ -304,7 +304,7 @@ public class AccountService : IAccountService
     #endregion
 
 
-    public async Task<LoginedUserResponse> Login(LoginRequest loginRequest)
+    public async Task<LoginedUserResponse> LoginAsync(LoginRequest loginRequest)
     {
 
         HotelUser user = await _userManager.Users.SingleOrDefaultAsync(x => x.UserName == loginRequest.UserName && x.EntityStatus == EntityStatus.Active);

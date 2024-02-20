@@ -1,15 +1,11 @@
 ﻿using AutoMapper;
 using HotelAPI.Application.DTOs.HotelImages;
+using HotelAPI.Application.DTOs.HotelRating;
 using HotelAPI.Application.DTOs.Hotels;
-using HotelAPI.Application.DTOs.RoomImages;
 using HotelAPI.Application.Helpers;
 using HotelAPI.Application.Services.Abstract;
 using HotelAPI.Domain.Entities;
 using HotelAPI.Domain.Interfaces;
-using System.Globalization;
-using System.Text;
-using static System.Net.Mime.MediaTypeNames;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace HotelAPI.Application.Services.Concrete
 {
@@ -20,14 +16,16 @@ namespace HotelAPI.Application.Services.Concrete
         private readonly ICountryRepository _countryRepository;
         private readonly ICityRepository _cityRepository;
         private readonly IMapper _mapper;
+        private readonly IHotelRatingRepository _ratingRepository;
 
-        public HotelService(IHotelRepository hotelRepository, IHotelImageRepository hotelImageRepository, IMapper mapper, ICityRepository cityRepository, ICountryRepository countryRepository)
+        public HotelService(IHotelRatingRepository hotelRating,IHotelRepository hotelRepository, IHotelImageRepository hotelImageRepository, IMapper mapper, ICityRepository cityRepository, ICountryRepository countryRepository)
         {
             _mapper = mapper;
             _hotelRepository = hotelRepository;
             _cityRepository = cityRepository;
             _countryRepository = countryRepository;
             _hotelImageRepository = hotelImageRepository;
+            _ratingRepository = hotelRating;
         }
 
         public async Task AddAsync(HotelAddRequest hotelAddRequest)
@@ -44,7 +42,7 @@ namespace HotelAPI.Application.Services.Concrete
         public async Task DeleteByIdAsync(int id)
         {
             Hotel hotel = await _hotelRepository.FindByIdAsync(id);
-            await _hotelRepository.DeActivate(hotel);
+            await _hotelRepository.DeActivateAsync(hotel);
         }
 
         public async Task EditAsync(HotelUpdateRequest hotelUpdateRequest)
@@ -59,7 +57,7 @@ namespace HotelAPI.Application.Services.Concrete
             await _hotelRepository.UpdateAsync(map);
         }
 
-        public async Task<HotelTableResponse> GetForUpdateById(int id)
+        public async Task<HotelTableResponse> GetForUpdateByIdAsync(int id)
         {
             var hotels = await _hotelRepository.FindAllAsync();
             var images = await _hotelImageRepository.FindAllAsync();
@@ -90,7 +88,7 @@ namespace HotelAPI.Application.Services.Concrete
             return result.FirstOrDefault();
         }
 
-        public async Task<List<HotelTableResponse>> GetTable()
+        public async Task<List<HotelTableResponse>> GetTableAsync()
         {
             var hotels = await _hotelRepository.FindAllAsync();
             var images = await _hotelImageRepository.FindAllAsync();
@@ -119,7 +117,7 @@ namespace HotelAPI.Application.Services.Concrete
             return result.ToList();
         }
 
-        public async Task<List<HotelTableResponse>> GetHotelsByCity(int cityId)
+        public async Task<List<HotelTableResponse>> GetHotelsByCityAsync(int cityId)
         {
             List<City> cities = await _cityRepository.FindAllAsync();
             List<Hotel> hotels = await _hotelRepository.FindAllAsync();
@@ -150,7 +148,7 @@ namespace HotelAPI.Application.Services.Concrete
             return result.ToList();
         }
 
-        public async Task<List<HotelTableResponse>> GetHotelsByRoomCount(int roomCount)
+        public async Task<List<HotelTableResponse>> GetHotelsByRoomCountAsync(int roomCount)
         {
             List<City> cities = await _cityRepository.FindAllAsync();
             List<Hotel> hotels = await _hotelRepository.FindByConditionAsync(h => h.Rooms.Count == roomCount);
@@ -179,6 +177,29 @@ namespace HotelAPI.Application.Services.Concrete
                          };
             return result.ToList();
 
+
+        }
+
+        public async Task AddRatingAsync(HotelRatingAddRequest AddRequest)
+        {
+            HotelRating hr = new HotelRating
+            { 
+                Rating = AddRequest.Rating,
+                UserId= AddRequest.UserId,
+                HotelId =AddRequest.HotelId,
+            };
+            await _ratingRepository.CreateAsync(hr);
+        }
+
+        public async Task<double> GetHotelRatingAsync(int HotelId)
+        {
+            var ratings = await _ratingRepository.FindByConditionAsync(r => r.HotelId == HotelId && r.EntityStatus == EntityStatus.Active);
+            double rating = 0;
+            foreach (var item in ratings)
+            {
+                rating += Convert.ToDouble(item.Rating);
+            }
+            return rating / ratings.Count;
 
         }
     }

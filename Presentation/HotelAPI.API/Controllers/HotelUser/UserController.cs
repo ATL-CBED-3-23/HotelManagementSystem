@@ -38,7 +38,7 @@ namespace HotelAPI.API.Controllers.HotelUser
         [HttpGet("GetUserById")]
         public async Task<IActionResult> GetUserById(int id)
         {
-            var result = await _accountService.GetUserById(id);
+            var result = await _accountService.GetUserByIdAsync(id);
             return Ok(result);
         }
 
@@ -52,7 +52,7 @@ namespace HotelAPI.API.Controllers.HotelUser
         [HttpPost("DeleteUser")]
         public async Task<IActionResult> DeleteUser(int id)
         {
-            await _accountService.DeActivateUser(id);
+            await _accountService.DeActivateUserAsync(id);
             return Ok();
         }
 
@@ -80,14 +80,14 @@ namespace HotelAPI.API.Controllers.HotelUser
         [HttpPost("DeleteRole")]
         public async Task<IActionResult> DeleteRole(int id)
         {
-            await _accountService.DeActivateRole(id);
+            await _accountService.DeActivateRoleAsync(id);
             return Ok();
         }
 
         [HttpGet("GetAllRoles")]
         public IActionResult GetAllRoles()
         {
-            var result = _accountService.GetAllRoles();
+            var result = _accountService.GetAllRolesAsync();
             return Ok(result);
         }
 
@@ -126,7 +126,7 @@ namespace HotelAPI.API.Controllers.HotelUser
         [AllowAnonymous]
         public async Task<IActionResult> Login(LoginRequest loginRequest)
         {
-            LoginedUserResponse loginedUser = await _accountService.Login(loginRequest);
+            LoginedUserResponse loginedUser = await _accountService.LoginAsync(loginRequest);
             return Ok(loginedUser);
         }
 
@@ -142,7 +142,7 @@ namespace HotelAPI.API.Controllers.HotelUser
         [HttpGet("GetGuestUserById")]
         public async Task<IActionResult> GetGuestUserById(int id)
         {
-            var result = await _accountService.GetGuestUserById(id);
+            var result = await _accountService.GetGuestUserByIdAsync(id);
             return Ok(result);
         }
 
@@ -156,7 +156,7 @@ namespace HotelAPI.API.Controllers.HotelUser
         [HttpPost("RemoveGuestUser")]
         public async Task<IActionResult> RemoveGuestUser()
         {
-            await _accountService.DeActivateGuestUser();
+            await _accountService.DeActivateGuestUserAsync();
             return Ok();
         }
     }

@@ -53,7 +53,7 @@ namespace HotelAPI.Application.Services.Concrete
         public async Task DeleteByIdAsync(int id)
         {
             Reservation Reservation = await _reservationRepository.FindByIdAsync(id);
-            await _reservationRepository.DeActivate(Reservation);
+            await _reservationRepository.DeActivateAsync(Reservation);
         }
 
         public async Task EditAsync(ReservationUpdateRequest reservationUpdateRequest)
@@ -62,19 +62,19 @@ namespace HotelAPI.Application.Services.Concrete
             await _reservationRepository.UpdateAsync(map);
         }
 
-        public async Task<ReservationTableResponse> GetById(int id)
+        public async Task<ReservationTableResponse> GetByIdAsync(int id)
         {
             Reservation reservation = await _reservationRepository.FindByIdAsync(id);
             ReservationTableResponse reservationTableResponse = _mapper.Map<ReservationTableResponse>(reservation);
             return reservationTableResponse;
         }
 
-        public async Task<List<ReservationTableResponse>> GetTable()
+        public async Task<List<ReservationTableResponse>> GetTableAsync()
         {
             var reservations = await _reservationRepository.FindAllAsync();
             return _mapper.Map<List<ReservationTableResponse>>(reservations);
         }
-        public async Task<List<ReservationTableResponse>> GetReservationsByGuestUser()
+        public async Task<List<ReservationTableResponse>> GetReservationsByGuestUserAsync()
         {
             List<Reservation> reservations = await _reservationRepository.FindAllAsync();
             List<Room> rooms = await _roomRepository.FindAllAsync();
@@ -97,7 +97,7 @@ namespace HotelAPI.Application.Services.Concrete
             return result.ToList();
 
         }
-        public async Task<List<ReservationTableResponse>> GetReservationsByUser(int userId)
+        public async Task<List<ReservationTableResponse>> GetReservationsByUserAsync(int userId)
         {
             List<Reservation> reservations = await _reservationRepository.FindAllAsync();
             List<Room> rooms = await _roomRepository.FindAllAsync();

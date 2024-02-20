@@ -28,7 +28,7 @@ namespace HotelAPI.Application.Services.Concrete
             await _countryRepository.CreateAsync(map);
 
         }
-        public async Task<CountryTableResponse> GetById(int id)
+        public async Task<CountryTableResponse> GetByIdAsync(int id)
         {
             Country country = await _countryRepository.FindByIdAsync(id);
             CountryTableResponse countryTableResponse = _mapper.Map<CountryTableResponse>(country);
@@ -40,7 +40,7 @@ namespace HotelAPI.Application.Services.Concrete
             await _countryRepository.UpdateAsync(map);
 
         }
-        public async Task<List<CountryTableResponse>> GetTable()
+        public async Task<List<CountryTableResponse>> GetTableAsync()
         {
             List<Country> countries = await _countryRepository.FindAllAsync();
             List<City> cities = await _cityRepository.FindAllAsync();
@@ -83,7 +83,7 @@ namespace HotelAPI.Application.Services.Concrete
         public async Task DeleteByIdAsync(int id)
         {
             Country country = await _countryRepository.FindByIdAsync(id);
-            await _countryRepository.DeActivate(country);
+            await _countryRepository.DeActivateAsync(country);
         }
     }
 }

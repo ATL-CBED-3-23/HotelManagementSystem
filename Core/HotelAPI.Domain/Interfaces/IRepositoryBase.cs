@@ -23,7 +23,7 @@ namespace HotelAPI.Domain.Interfaces
         Task CreateRangeAsync(List<T> entites);
 
         Task UpdateAsync(T entity);
-        Task DeActivate(T entity);
+        Task DeActivateAsync(T entity);
         #endregion
     }
 }

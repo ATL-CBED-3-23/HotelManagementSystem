@@ -26,14 +26,14 @@ namespace ReservatorAPI.API.Controllers.Reservator
         [HttpGet("GetTable")]
         public async Task<IActionResult> GetTable()
         {
-            var list = await _reservatorService.GetTable();
+            var list = await _reservatorService.GetTableAsync();
             return Ok(list);
         }
 
         [HttpGet("GetForEdit/{id}")]
         public async Task<IActionResult> GetForEdit(int id)
         {
-            var item = await _reservatorService.GetById(id);
+            var item = await _reservatorService.GetByIdAsync(id);
             return Ok(item);
         }
 

@@ -27,7 +27,7 @@ namespace HotelAPI.Application.Services.Concrete
         public async Task DeleteByIdAsync(int id)
         {
             Reservator reservator = await _reservatorRepository.FindByIdAsync(id);
-            await _reservatorRepository.DeActivate(reservator);
+            await _reservatorRepository.DeActivateAsync(reservator);
         }
 
         public async Task EditAsync(ReservatorUpdateRequest reservatorUpdateRequest)
@@ -36,14 +36,14 @@ namespace HotelAPI.Application.Services.Concrete
             await _reservatorRepository.UpdateAsync(map);
         }
 
-        public async Task<ReservatorTableResponse> GetById(int id)
+        public async Task<ReservatorTableResponse> GetByIdAsync(int id)
         {
             Reservator reservator = await _reservatorRepository.FindByIdAsync(id);
             ReservatorTableResponse reservatorTableResponse = _mapper.Map<ReservatorTableResponse>(reservator);
             return reservatorTableResponse;
         }
 
-        public async Task<List<ReservatorTableResponse>> GetTable()
+        public async Task<List<ReservatorTableResponse>> GetTableAsync()
         {
             var reservators = _reservatorRepository.FindAllAsync();
             return _mapper.Map<List<ReservatorTableResponse>>(reservators);

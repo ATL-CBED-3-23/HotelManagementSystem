@@ -4,6 +4,6 @@ namespace HotelAPI.Application.Services.Abstract
 {
     public interface IApplicationErrorService
     {
-        Task<List<ApplicationError>> GetTable();
+        Task<List<ApplicationError>> GetTableAsync();
     }
 }

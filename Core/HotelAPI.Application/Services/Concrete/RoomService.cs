@@ -42,7 +42,7 @@ namespace HotelAPI.Application.Services.Concrete
         public async Task DeleteByIdAsync(int id)
         {
             Room room = await _roomRepository.FindByIdAsync(id);
-            await _roomRepository.DeActivate(room);
+            await _roomRepository.DeActivateAsync(room);
         }
 
         public async Task EditAsync(RoomUpdateRequest roomUpdateRequest)
@@ -57,7 +57,7 @@ namespace HotelAPI.Application.Services.Concrete
             await _roomRepository.UpdateAsync(map);
         }
 
-        public async Task<RoomTableResponse> GetById(int id)
+        public async Task<RoomTableResponse> GetByIdAsync(int id)
         {
             var rooms = await _roomRepository.FindAllAsync();
             var images = await _roomImageRepository.FindAllAsync();
@@ -86,7 +86,7 @@ namespace HotelAPI.Application.Services.Concrete
             return result.FirstOrDefault();
         }
 
-        public async Task<List<RoomTableResponse>> GetTable()
+        public async Task<List<RoomTableResponse>> GetTableAsync()
         {
             var rooms = await _roomRepository.FindAllAsync();
             var images = await _roomImageRepository.FindAllAsync();

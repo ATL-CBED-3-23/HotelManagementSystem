@@ -29,14 +29,14 @@ namespace HotelAPI.API.Controllers.City
         [HttpGet("GetTable")]
         public async Task<IActionResult> GetTable()
         {
-            var list = await _cityService.GetTable();
+            var list = await _cityService.GetTableAsync();
             return Ok(list);
         }
 
         [HttpGet("GetForEdit/{id}")]
         public async Task<IActionResult> GetForEdit(int id)
         {
-            var item = await _cityService.GetById(id);
+            var item = await _cityService.GetByIdAsync(id);
             return Ok(item);
         }
 

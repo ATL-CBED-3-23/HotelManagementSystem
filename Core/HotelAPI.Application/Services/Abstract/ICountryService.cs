@@ -6,8 +6,8 @@ namespace HotelAPI.Application.Services.Abstract
     {
         Task AddAsync(CountryAddRequest countryAddRequest);
         Task EditAsync(CountryUpdateRequest countryUpdateRequest);
-        Task <CountryTableResponse> GetById(int id);
-        Task<List<CountryTableResponse>> GetTable();
+        Task <CountryTableResponse> GetByIdAsync(int id);
+        Task<List<CountryTableResponse>> GetTableAsync();
         Task DeleteByIdAsync(int id);
     }
 }

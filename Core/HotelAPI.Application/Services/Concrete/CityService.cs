@@ -31,7 +31,7 @@ namespace HotelAPI.Application.Services.Concrete
         public async Task DeleteByIdAsync(int id)
         {
             var city = await _cityRepository.FindByIdAsync(id);
-            await _cityRepository.DeActivate(city);
+            await _cityRepository.DeActivateAsync(city);
         }
 
         public async Task EditAsync(CityUpdateRequest cityUpdateRequest)
@@ -40,14 +40,14 @@ namespace HotelAPI.Application.Services.Concrete
             await _cityRepository.UpdateAsync(map);
         }
 
-        public async Task<CityTableResponse> GetById(int id)
+        public async Task<CityTableResponse> GetByIdAsync(int id)
         {
             City city = await _cityRepository.FindByIdAsync(id);
             CityTableResponse cityTableResponse = _mapper.Map<CityTableResponse>(city);
             return cityTableResponse;
         }
 
-        public async Task<List<CityTableResponse>> GetTable()
+        public async Task<List<CityTableResponse>> GetTableAsync()
         {
            
             List<City> cities = await _cityRepository.FindAllAsync();

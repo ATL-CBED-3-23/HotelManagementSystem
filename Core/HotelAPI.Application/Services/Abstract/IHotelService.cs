@@ -1,4 +1,5 @@
-﻿using HotelAPI.Application.DTOs.Hotels;
+﻿using HotelAPI.Application.DTOs.HotelRating;
+using HotelAPI.Application.DTOs.Hotels;
 
 namespace HotelAPI.Application.Services.Abstract
 {
@@ -6,11 +7,14 @@ namespace HotelAPI.Application.Services.Abstract
     {
         Task AddAsync(HotelAddRequest hotelAddRequest);
         Task EditAsync(HotelUpdateRequest hotelUpdateRequest);
-        Task<HotelTableResponse> GetForUpdateById(int id);
-        Task<List<HotelTableResponse>> GetTable();
+        Task<HotelTableResponse> GetForUpdateByIdAsync(int id);
+        Task<List<HotelTableResponse>> GetTableAsync();
         Task DeleteByIdAsync(int id);
-        Task<List<HotelTableResponse>> GetHotelsByCity(int cityId);
-        Task<List<HotelTableResponse>> GetHotelsByRoomCount(int roomCount);
+        Task<List<HotelTableResponse>> GetHotelsByCityAsync(int cityId);
+        Task<List<HotelTableResponse>> GetHotelsByRoomCountAsync(int roomCount);
+
+        Task AddRatingAsync(HotelRatingAddRequest AddRequest);
+        Task<double> GetHotelRatingAsync(int HotelId);
 
     }
 }
