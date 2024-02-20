@@ -19,6 +19,6 @@ public class RoomConfiguration : IEntityTypeConfiguration<Room>
 
         //Relations
         builder.HasMany(b => b.Reservations).WithOne(b => b.Room).HasForeignKey(b => b.RoomId);
-        builder.HasMany(b => b.Equipments).WithOne(b => b.Room).HasForeignKey(b => b.RoomId);
+        builder.HasMany(b => b.Equipments).WithMany(b => b.Rooms);
     }
 }

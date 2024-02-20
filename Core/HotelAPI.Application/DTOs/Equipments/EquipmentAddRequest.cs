@@ -8,7 +8,5 @@ namespace HotelAPI.Application.DTOs.Equipments
         public string Name { get; set; }
         public int Count { get; set; }
 
-        //Relations
-        public int RoomId { get; set; }
     }
 }

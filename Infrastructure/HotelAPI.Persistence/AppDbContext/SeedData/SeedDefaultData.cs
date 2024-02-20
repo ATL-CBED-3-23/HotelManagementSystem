@@ -281,28 +281,28 @@ namespace HotelAPI.Persistence.AppDbContext.SeedData
                 Id=1,
                 Name="Bed",
                 Count=2,
-                RoomId=1
+               
             },
             new Equipment()
             {
                 Id=2,
                 Name="Twin Beds",
                 Count=2,
-                RoomId=2
+                
             },
             new Equipment()
             {
                 Id=3,
                 Name="Minibar",
                 Count=1,
-                RoomId=4
+               
             },
             new Equipment()
             {
                 Id=4,
                 Name=" LCD TV",
                 Count=1,
-                RoomId=3
+              
             }
         };
 
