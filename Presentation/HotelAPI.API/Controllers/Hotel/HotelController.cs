@@ -26,14 +26,14 @@ namespace HotelAPI.API.Controllers.Hotel
         [HttpGet("GetTable")]
         public async Task<IActionResult> GetTable()
         {
-            var list = await _hotelService.GetTable();
+            var list = await _hotelService.GetTableAsync();
             return Ok(list);
         }
 
         [HttpGet("GetForEdit/{id}")]
         public async Task<IActionResult> GetForEdit(int id)
         {
-            var item = await _hotelService.GetForUpdateById(id);
+            var item = await _hotelService.GetForUpdateByIdAsync(id);
             return Ok(item);
         }
 
@@ -54,14 +54,14 @@ namespace HotelAPI.API.Controllers.Hotel
         [HttpGet("SearchHotelsByCity")]
         public async Task<IActionResult> SearchHotelsByCity(int cityId)
         {
-            var data= await _hotelService.GetHotelsByCity(cityId);
+            var data= await _hotelService.GetHotelsByCityAsync(cityId);
             return Ok(data);
         }
 
         [HttpGet("SearchHotelsByRoomCount")]
         public async Task<IActionResult> SearchHotelsByRoomCount(int roomCount)
         {
-            var data = await _hotelService.GetHotelsByRoomCount(roomCount);
+            var data = await _hotelService.GetHotelsByRoomCountAsync(roomCount);
             return Ok(data);
         }
     }

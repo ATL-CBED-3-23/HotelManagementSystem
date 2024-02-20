@@ -27,7 +27,7 @@ namespace HotelAPI.Application.Services.Concrete
         public async Task DeleteByIdAsync(int id)
         {
             Equipment equipment = await _equipmentRepository.FindByIdAsync(id);
-            await _equipmentRepository.DeActivate(equipment);
+            await _equipmentRepository.DeActivateAsync(equipment);
         }
 
         public async Task EditAsync(EquipmentUpdateRequest equipmentUpdateRequest)
@@ -36,14 +36,14 @@ namespace HotelAPI.Application.Services.Concrete
             await _equipmentRepository.UpdateAsync(map);
         }
 
-        public async Task<EquipmentTableResponse> GetById(int id)
+        public async Task<EquipmentTableResponse> GetByIdAsync(int id)
         {
             Equipment equipment = await _equipmentRepository.FindByIdAsync(id);
             EquipmentTableResponse equipmentTableResponse = _mapper.Map<EquipmentTableResponse>(equipment); ;
             return equipmentTableResponse;
         }
 
-        public async Task<List<EquipmentTableResponse>> GetTable()
+        public async Task<List<EquipmentTableResponse>> GetTableAsync()
         {
             var equipments = _equipmentRepository.FindAllAsync();
             return _mapper.Map<List<EquipmentTableResponse>>(equipments);

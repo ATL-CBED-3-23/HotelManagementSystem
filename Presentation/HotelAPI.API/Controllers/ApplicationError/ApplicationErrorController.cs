@@ -18,7 +18,7 @@ namespace HotelAPI.API.Controllers.ApplicationError
         [HttpGet("GetAllApplicationErrors")]
         public async Task<IActionResult> GetAllApplicationErrors()
         {
-            var applicationErrors = await _applicationErrorService.GetTable();
+            var applicationErrors = await _applicationErrorService.GetTableAsync();
             return Ok(applicationErrors);
         }
     }

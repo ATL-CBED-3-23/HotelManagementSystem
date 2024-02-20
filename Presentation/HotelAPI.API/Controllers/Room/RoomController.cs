@@ -26,14 +26,14 @@ namespace RoomAPI.API.Controllers.Room
         [HttpGet("GetTable")]
         public async Task<IActionResult> GetTable()
         {
-            var list = await _roomService.GetTable();
+            var list = await _roomService.GetTableAsync();
             return Ok(list);
         }
 
         [HttpGet("GetForEdit/{id}")]
         public async Task<IActionResult> GetForEdit(int id)
         {
-            var item = await _roomService.GetById(id);
+            var item = await _roomService.GetByIdAsync(id);
             return Ok(item);
         }
 

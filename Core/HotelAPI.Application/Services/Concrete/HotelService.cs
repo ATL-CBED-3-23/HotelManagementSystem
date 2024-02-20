@@ -44,7 +44,7 @@ namespace HotelAPI.Application.Services.Concrete
         public async Task DeleteByIdAsync(int id)
         {
             Hotel hotel = await _hotelRepository.FindByIdAsync(id);
-            await _hotelRepository.DeActivate(hotel);
+            await _hotelRepository.DeActivateAsync(hotel);
         }
 
         public async Task EditAsync(HotelUpdateRequest hotelUpdateRequest)
@@ -59,7 +59,7 @@ namespace HotelAPI.Application.Services.Concrete
             await _hotelRepository.UpdateAsync(map);
         }
 
-        public async Task<HotelTableResponse> GetForUpdateById(int id)
+        public async Task<HotelTableResponse> GetForUpdateByIdAsync(int id)
         {
             var hotels = await _hotelRepository.FindAllAsync();
             var images = await _hotelImageRepository.FindAllAsync();
@@ -90,7 +90,7 @@ namespace HotelAPI.Application.Services.Concrete
             return result.FirstOrDefault();
         }
 
-        public async Task<List<HotelTableResponse>> GetTable()
+        public async Task<List<HotelTableResponse>> GetTableAsync()
         {
             var hotels = await _hotelRepository.FindAllAsync();
             var images = await _hotelImageRepository.FindAllAsync();
@@ -119,7 +119,7 @@ namespace HotelAPI.Application.Services.Concrete
             return result.ToList();
         }
 
-        public async Task<List<HotelTableResponse>> GetHotelsByCity(int cityId)
+        public async Task<List<HotelTableResponse>> GetHotelsByCityAsync(int cityId)
         {
             List<City> cities = await _cityRepository.FindAllAsync();
             List<Hotel> hotels = await _hotelRepository.FindAllAsync();
@@ -150,7 +150,7 @@ namespace HotelAPI.Application.Services.Concrete
             return result.ToList();
         }
 
-        public async Task<List<HotelTableResponse>> GetHotelsByRoomCount(int roomCount)
+        public async Task<List<HotelTableResponse>> GetHotelsByRoomCountAsync(int roomCount)
         {
             List<City> cities = await _cityRepository.FindAllAsync();
             List<Hotel> hotels = await _hotelRepository.FindByConditionAsync(h => h.Rooms.Count == roomCount);

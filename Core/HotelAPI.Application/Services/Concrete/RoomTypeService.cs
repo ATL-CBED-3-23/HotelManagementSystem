@@ -27,7 +27,7 @@ namespace HotelAPI.Application.Services.Concrete
         public async Task DeleteByIdAsync(int id)
         {
             RoomType roomType = await _roomTypeRepository.FindByIdAsync(id);
-            await _roomTypeRepository.DeActivate(roomType);
+            await _roomTypeRepository.DeActivateAsync(roomType);
         }
 
         public async Task EditAsync(RoomTypeUpdateRequest roomTypeUpdateRequest)
@@ -36,14 +36,14 @@ namespace HotelAPI.Application.Services.Concrete
             await _roomTypeRepository.UpdateAsync(map);
         }
 
-        public async Task<RoomTypeTableResponse> GetById(int id)
+        public async Task<RoomTypeTableResponse> GetByIdAsync(int id)
         {
             RoomType roomType = await _roomTypeRepository.FindByIdAsync(id);
             RoomTypeTableResponse roomTypeTableResponse = _mapper.Map<RoomTypeTableResponse>(roomType); ;
             return roomTypeTableResponse;
         }
 
-        public async Task<List<RoomTypeTableResponse>> GetTable()
+        public async Task<List<RoomTypeTableResponse>> GetTableAsync()
         {
             var roomTypes = _roomTypeRepository.FindAllAsync();
             return _mapper.Map<List<RoomTypeTableResponse>>(roomTypes);

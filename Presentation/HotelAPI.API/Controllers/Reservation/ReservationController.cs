@@ -26,14 +26,14 @@ namespace ReservationAPI.API.Controllers.Reservation
         [HttpGet("GetTable")]
         public async Task<IActionResult> GetTable()
         {
-            var list = await _reservationService.GetTable();
+            var list = await _reservationService.GetTableAsync();
             return Ok(list);
         }
 
         [HttpGet("GetForEdit/{id}")]
         public async Task<IActionResult> GetForEdit(int id)
         {
-            var item = await _reservationService.GetById(id);
+            var item = await _reservationService.GetByIdAsync(id);
             return Ok(item);
         }
 
@@ -54,14 +54,14 @@ namespace ReservationAPI.API.Controllers.Reservation
         [HttpGet("GetReservationsByUser")]
         public async Task<IActionResult> GetReservationsByUser(int userId)
         {
-            var data = await _reservationService.GetReservationsByUser(userId);
+            var data = await _reservationService.GetReservationsByUserAsync(userId);
             return Ok(data);
         }
 
         [HttpGet("GetReservationsByGuestUser")]
         public async Task<IActionResult> GetReservationsByGuestUser()
         {
-            var data = await _reservationService.GetReservationsByGuestUser();
+            var data = await _reservationService.GetReservationsByGuestUserAsync();
             return Ok(data);
         }
     }

@@ -6,8 +6,8 @@ namespace HotelAPI.Application.Services.Abstract
     {
         Task AddAsync(EquipmentAddRequest equipmentAddRequest);
         Task EditAsync(EquipmentUpdateRequest equipmentUpdateRequest);
-        Task<EquipmentTableResponse> GetById(int id);
-        Task<List<EquipmentTableResponse>> GetTable();
+        Task<EquipmentTableResponse> GetByIdAsync(int id);
+        Task<List<EquipmentTableResponse>> GetTableAsync();
         Task DeleteByIdAsync(int id);
     }
 }

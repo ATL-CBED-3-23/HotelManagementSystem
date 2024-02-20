@@ -13,7 +13,7 @@ namespace HotelAPI.Application.Services.Concrete
             _applicationErrorRepository = applicationErrorRepository;
         }
 
-        public async Task<List<ApplicationError>> GetTable()
+        public async Task<List<ApplicationError>> GetTableAsync()
         {
             List<ApplicationError> applicationErrors = await _applicationErrorRepository.FindAllAsync();
             return applicationErrors;

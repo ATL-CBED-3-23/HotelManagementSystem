@@ -6,11 +6,11 @@ namespace HotelAPI.Application.Services.Abstract
     {
         Task AddAsync(HotelAddRequest hotelAddRequest);
         Task EditAsync(HotelUpdateRequest hotelUpdateRequest);
-        Task<HotelTableResponse> GetForUpdateById(int id);
-        Task<List<HotelTableResponse>> GetTable();
+        Task<HotelTableResponse> GetForUpdateByIdAsync(int id);
+        Task<List<HotelTableResponse>> GetTableAsync();
         Task DeleteByIdAsync(int id);
-        Task<List<HotelTableResponse>> GetHotelsByCity(int cityId);
-        Task<List<HotelTableResponse>> GetHotelsByRoomCount(int roomCount);
+        Task<List<HotelTableResponse>> GetHotelsByCityAsync(int cityId);
+        Task<List<HotelTableResponse>> GetHotelsByRoomCountAsync(int roomCount);
 
     }
 }

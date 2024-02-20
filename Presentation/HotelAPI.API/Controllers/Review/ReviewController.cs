@@ -26,14 +26,14 @@ namespace ReviewAPI.API.Controllers.Review
         [HttpGet("GetTable")]
         public async Task<IActionResult> GetTable()
         {
-            var list = await _reviewService.GetTable();
+            var list = await _reviewService.GetTableAsync();
             return Ok(list);
         }
 
         [HttpGet("GetForEdit/{id}")]
         public async Task<IActionResult> GetForEdit(int id)
         {
-            var item = await _reviewService.GetById(id);
+            var item = await _reviewService.GetByIdAsync(id);
             return Ok(item);
         }
 

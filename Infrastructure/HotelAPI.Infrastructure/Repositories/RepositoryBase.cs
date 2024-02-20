@@ -84,7 +84,7 @@ namespace HotelAPI.Infrastructure.Repositories
            await repositoryContextBase.SaveChangesAsync();
         }
 
-        public async Task DeActivate(TEntity entity)
+        public async Task DeActivateAsync(TEntity entity)
         {
             entity.EntityStatus = EntityStatus.InActive;
             repositoryContextBase.Set<TEntity>().Update(entity);
