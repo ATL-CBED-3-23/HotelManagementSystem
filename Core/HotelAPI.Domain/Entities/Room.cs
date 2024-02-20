@@ -9,7 +9,8 @@ public class Room:BaseEntity
     public string Phone { get; set; }
     public double Price { get; set; }
     public RoomState RoomState { get; set; } = RoomState.Available;
-    public List<Equipment> Equipments { get; set; }
+    public List<Equipment> Equipments { get; set; }  
+
 
     //Relations
     public int RoomTypeId { get; set; }

@@ -8,6 +8,6 @@ public class Equipment:BaseEntity
     public int Count { get; set; }
 
     //Relations
-    public int RoomId { get; set; }
-    public Room Room { get; set; }
+    public List<Room> Rooms { get; set; }   
+  
 }

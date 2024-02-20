@@ -13,6 +13,7 @@ public class EquipmentConfiguration : IEntityTypeConfiguration<Equipment>
         builder.HasKey(b => b.Id);
         builder.Property(b => b.Name).IsRequired().HasMaxLength(255);
         builder.Property(b => b.EntityStatus).HasColumnName("IsDeleted");
-
+        //relation 
+        builder.HasMany(b => b.Rooms).WithMany(b => b.Equipments);
     }
 }

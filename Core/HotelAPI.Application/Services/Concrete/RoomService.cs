@@ -8,6 +8,7 @@ using HotelAPI.Application.Helpers;
 using HotelAPI.Application.Services.Abstract;
 using HotelAPI.Domain.Entities;
 using HotelAPI.Domain.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System.Text;
 
 namespace HotelAPI.Application.Services.Concrete
@@ -18,14 +19,16 @@ namespace HotelAPI.Application.Services.Concrete
         private readonly IMapper _mapper;
         private readonly IRoomImageRepository _roomImageRepository;
         private readonly IRoomTypeRepository _roomTypeRepository;
+        private readonly IEquipmentRepository _equipmentRepository;
 
         public RoomService(IRoomRepository roomRepository, IMapper mapper, IRoomImageRepository roomImageRepository, 
-            IRoomTypeRepository roomTypeRepository)
+            IRoomTypeRepository roomTypeRepository, IEquipmentRepository equipmentRepository)
         {
             _mapper = mapper;
             _roomRepository = roomRepository;
             _roomImageRepository = roomImageRepository;
             _roomTypeRepository = roomTypeRepository;
+            _equipmentRepository = equipmentRepository;
         }
 
         public async Task AddAsync(RoomAddRequest roomAddRequest)
@@ -36,6 +39,11 @@ namespace HotelAPI.Application.Services.Concrete
                 image.FileName = FileHelper.SavePhotoToFtp(bytes, image.FileName);
             }
             var map = _mapper.Map<Room>(roomAddRequest);
+            map.Equipments = new List<Equipment>();
+            var t = await _equipmentRepository.FindAllActiveAsync();
+            var x = t.Where(t => roomAddRequest.EquipmentIds.Contains(t.Id)).ToList() ;          
+            map.Equipments.AddRange(x);
+           
             await _roomRepository.CreateAsync(map);
         }
 
@@ -88,12 +96,20 @@ namespace HotelAPI.Application.Services.Concrete
 
         public async Task<List<RoomTableResponse>> GetTableAsync()
         {
-            var rooms = await _roomRepository.FindAllAsync();
-            var images = await _roomImageRepository.FindAllAsync();
-            var roomTypes = await _roomTypeRepository.FindAllAsync();
+
+            var products =  _roomRepository.FindAllActiveAsync().Result
+.SelectMany(p => p.Equipments).ToList() ;
+
+
+            var rooms = await _roomRepository.FindAllActiveAsync();
+            var images = await _roomImageRepository.FindAllActiveAsync();
+            var roomTypes = await _roomTypeRepository.FindAllActiveAsync();
+            var equipments = await _equipmentRepository.FindAllActiveAsync();
             var result = from room in rooms
                          join image in images on room.Id equals image.RoomId
                          join type in roomTypes on room.RoomTypeId equals type.Id
+                         //join equipment in equipments on ro
+
                          select new RoomTableResponse()
                          {
                              Id = room.Id,
@@ -103,6 +119,7 @@ namespace HotelAPI.Application.Services.Concrete
                              Price = room.Price,
                              RoomState = room.RoomState,
                              RoomType = type.Name,
+                            // Equipments=room.Equipments,
                              RoomImages = room.RoomImages.Select(x => new RoomImageTableResponse()
                              {
                                  Id = x.Id,

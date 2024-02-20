@@ -12,8 +12,10 @@ namespace HotelAPI.Application.DTOs.Rooms
         public string Phone { get; set; }
         public double Price { get; set; }
         public RoomState RoomState { get; set; }
+        public List<int> EquipmentIds { get; set; }
 
         //Relations
+
         public int RoomTypeId { get; set; }
         public int HotelId { get; set; }
         public List<RoomImageAddRequest> RoomImages { get; set; }
