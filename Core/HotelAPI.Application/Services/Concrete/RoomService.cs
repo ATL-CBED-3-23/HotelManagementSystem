@@ -97,10 +97,6 @@ namespace HotelAPI.Application.Services.Concrete
         public async Task<List<RoomTableResponse>> GetTableAsync()
         {
 
-            var products =  _roomRepository.FindAllActiveAsync().Result
-.SelectMany(p => p.Equipments).ToList() ;
-
-
             var rooms = await _roomRepository.FindAllActiveAsync();
             var images = await _roomImageRepository.FindAllActiveAsync();
             var roomTypes = await _roomTypeRepository.FindAllActiveAsync();
