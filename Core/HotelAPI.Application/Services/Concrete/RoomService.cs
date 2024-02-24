@@ -38,13 +38,13 @@ namespace HotelAPI.Application.Services.Concrete
                 byte[] bytes = Convert.FromBase64String(image.FileBase64);
                 image.FileName = FileHelper.SavePhotoToFtp(bytes, image.FileName);
             }
-            var map = _mapper.Map<Room>(roomAddRequest);
-            map.Equipments = new List<Equipment>();
-            var t = await _equipmentRepository.FindAllActiveAsync();
-            var x = t.Where(t => roomAddRequest.EquipmentIds.Contains(t.Id)).ToList() ;          
-            map.Equipments.AddRange(x);
+            var room = _mapper.Map<Room>(roomAddRequest);
+            var equipments = await _equipmentRepository.FindByConditionAsync(e => e.EntityStatus == EntityStatus.Active
+            && roomAddRequest.EquipmentIds.Contains(e.Id));
+            
+            room.Equipments.AddRange(equipments);
            
-            await _roomRepository.CreateAsync(map);
+            await _roomRepository.CreateAsync(room);
         }
 
         public async Task DeleteByIdAsync(int id)

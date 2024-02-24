@@ -10,6 +10,7 @@ using HotelAPI.Infrastructure.Repositories;
 using HotelAPI.Persistence;
 using HotelAPI.Persistence.AppDbContext;
 using Microsoft.AspNetCore.Identity;
+using Swashbuckle.AspNetCore.SwaggerUI;
 
 
 
@@ -57,7 +58,11 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(c =>
+    {
+        c.DefaultModelExpandDepth(3);
+        c.DocExpansion(DocExpansion.None);
+    });
 }
 
 app.UseAuthentication();
