@@ -1,25 +1,26 @@
 ﻿using HotelAPI.Application.DTOs.HotelUserRoles;
 using HotelAPI.Application.DTOs.HotelUsers;
 using HotelAPI.Application.Services.Abstract;
+using HotelAPI.Application.Utilities.Constants;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace HotelAPI.API.Controllers.HotelUser
+namespace HotelAPI.API.Controllers.AdminModule
 {
     [Route("api/[controller]")]
     [ApiController]
     [Authorize(AuthenticationSchemes = "Bearer")]
+    [Authorize(Roles = AllowedRolesForController.ADMIN)]
 
-    public class UserController : ControllerBase
+    public class AccountController : ControllerBase
     {
         private readonly IAccountService _accountService;
 
-        public UserController(IAccountService accountService)
+        public AccountController(IAccountService accountService)
         {
             _accountService = accountService;
         }
-
 
         [HttpPost("RegisterUser")]
         public async Task<IActionResult> RegisterUser(UserAddRequest userAddRequest)
@@ -55,21 +56,6 @@ namespace HotelAPI.API.Controllers.HotelUser
             await _accountService.DeActivateUserAsync(id);
             return Ok();
         }
-
-        [HttpPost("ChangePassword")]
-        public async Task<IActionResult> ChangePassword(UserChangePasswordRequest userChangePasswordRequest)
-        {
-            await _accountService.ChangePasswordAsync(userChangePasswordRequest);
-            return Ok();
-        }
-
-        [HttpPost("ResetPassword")]
-        public async Task<IActionResult> ResetPassword(UserResetPasswordRequest userResetPasswordRequest)
-        {
-            await _accountService.ResetPasswordAsync(userResetPasswordRequest);
-            return Ok();
-        }
-
         [HttpPost("CreateRole")]
         public async Task<IActionResult> CreateRole(RoleAddRequest roleAddRequest)
         {
@@ -120,44 +106,15 @@ namespace HotelAPI.API.Controllers.HotelUser
 
         }
 
-
-
-        [HttpPost("Login")]
-        [AllowAnonymous]
-        public async Task<IActionResult> Login(LoginRequest loginRequest)
+        [HttpPost("ResetPassword")]
+        public async Task<IActionResult> ResetPassword(UserResetPasswordRequest userResetPasswordRequest)
         {
-            LoginedUserResponse loginedUser = await _accountService.LoginAsync(loginRequest);
-            return Ok(loginedUser);
-        }
-
-        [AllowAnonymous]
-        [HttpPost("RegisterForGuestUser")]
-        public async Task<IActionResult> RegisterGuestUser(GuestUserAddRequest guestUserAddRequest)
-        {
-            await _accountService.RegisterGuestUserAsync(guestUserAddRequest);
+            await _accountService.ResetPasswordAsync(userResetPasswordRequest);
             return Ok();
         }
 
+      
 
-        [HttpGet("GetGuestUserById")]
-        public async Task<IActionResult> GetGuestUserById(int id)
-        {
-            var result = await _accountService.GetGuestUserByIdAsync(id);
-            return Ok(result);
-        }
-
-        [HttpPost("EditGuestUser")]
-        public async Task<IActionResult> EditGuestUser(GuestUserUpdateRequest guestUserUpdateRequest)
-        {
-            await _accountService.EditGuestUserAsync(guestUserUpdateRequest);
-            return Ok();
-        }
-
-        [HttpPost("RemoveGuestUser")]
-        public async Task<IActionResult> RemoveGuestUser()
-        {
-            await _accountService.DeActivateGuestUserAsync();
-            return Ok();
-        }
+       
     }
 }

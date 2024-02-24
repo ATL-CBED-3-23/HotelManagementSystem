@@ -11,7 +11,7 @@ namespace HotelAPI.Application.DTOs.HotelUsers
         public string UserName { get; set; }
         public List<string> Roles { get; set; }
         public NetworkStatus NetworkStatus { get; set; }
-        public List<HotelUserImageTableResponse> HotelUserImages { get; set; }
+        public HotelUserImageTableResponse HotelUserImage { get; set; }
 
     }
 }

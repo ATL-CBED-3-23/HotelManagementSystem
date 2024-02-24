@@ -31,6 +31,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Core\HotelAPI.Application\HotelAPI.Application.csproj" />
     <ProjectReference Include="..\..\Core\HotelAPI.Domain\HotelAPI.Domain.csproj" />
   </ItemGroup>
 

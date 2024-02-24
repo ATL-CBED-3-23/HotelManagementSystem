@@ -8,6 +8,7 @@ namespace HotelAPI.Application.Services.Abstract
         Task EditAsync(CountryUpdateRequest countryUpdateRequest);
         Task <CountryTableResponse> GetByIdAsync(int id);
         Task<List<CountryTableResponse>> GetTableAsync();
+        Task<List<CountryTableResponse>> GetTableForDropdownAsync();
         Task DeleteByIdAsync(int id);
     }
 }

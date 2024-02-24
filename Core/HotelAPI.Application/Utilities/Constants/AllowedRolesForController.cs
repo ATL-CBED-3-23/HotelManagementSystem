@@ -13,9 +13,18 @@ namespace HotelAPI.Application.Utilities.Constants
         /// </summary>
         public const string ADMIN = "ADMIN";
         /// <summary>
-        /// List of roles that are allowed to access the resource => ADMIN and OPERATOR
+        /// List of roles that are allowed to access the resource => ADMIN and USER
         /// </summary>
         public const string ADMIN_and_USER = "ADMIN,USER";
+        /// <summary>
+        /// List of roles that are allowed to access the resource => ADMIN and STAFF
+        /// </summary>
+        public const string ADMIN_and_STAFF = "ADMIN,STAFF";
+        /// <summary>
+        /// List of roles that are allowed to access the resource => ADMIN and STAFF
+        /// </summary>
+        public const string ADMIN_and_STAFF_and_USER = "ADMIN,STAFF,USER";
+
 
     }
 }

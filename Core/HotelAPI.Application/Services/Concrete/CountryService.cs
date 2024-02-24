@@ -85,5 +85,10 @@ namespace HotelAPI.Application.Services.Concrete
             Country country = await _countryRepository.FindByIdAsync(id);
             await _countryRepository.DeActivateAsync(country);
         }
+
+        public Task<List<CountryTableResponse>> GetTableForDropdownAsync()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

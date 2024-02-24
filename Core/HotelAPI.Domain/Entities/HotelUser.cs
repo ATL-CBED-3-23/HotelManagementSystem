@@ -12,6 +12,6 @@ namespace HotelAPI.Domain.Entities
         public List<Reservation> Reservations { get; set; }
         public List<Review> Reviews { get; set; }
         public List<UserLoginHistory> UserLoginHistory { get; set; }
-        public List<HotelUserImage> HotelUserImages { get; set; }
+        public HotelUserImage HotelUserImage { get; set; }
     }
 }

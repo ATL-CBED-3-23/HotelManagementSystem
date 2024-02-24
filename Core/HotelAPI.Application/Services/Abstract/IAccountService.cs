@@ -27,6 +27,6 @@ namespace HotelAPI.Application.Services.Abstract
         Task<IdentityResult> RegisterGuestUserAsync(GuestUserAddRequest guestUserAddRequest);
         Task<IdentityResult> EditGuestUserAsync(GuestUserUpdateRequest guestUserUpdateRequest);
         Task<GuestUserToUpdateResponse> GetGuestUserByIdAsync(int id);
-        Task<IdentityResult> DeActivateGuestUserAsync();
+        Task<IdentityResult> RemoveAccountAsync();
     }
 }

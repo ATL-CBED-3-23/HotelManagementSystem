@@ -13,6 +13,6 @@ namespace HotelAPI.Application.DTOs.HotelUsers
         public string PhoneNumber { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
-        public List<HotelUserImageTableResponse> HotelUserImages { get; set; }
+        public HotelUserImageTableResponse HotelUserImage { get; set; }
     }
 }

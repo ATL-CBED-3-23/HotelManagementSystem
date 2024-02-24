@@ -17,6 +17,7 @@ using System.Data;
 using System.Security.Claims;
 using System.Linq;
 using static System.Net.Mime.MediaTypeNames;
+using HotelAPI.Application.Utilities.Constants;
 
 namespace HotelAPI.Application.Services.Concrete;
 
@@ -64,7 +65,7 @@ public class AccountService : IAccountService
             foreach (var roleName in userAddRequest.Roles)
             {
                 var role = _mapper.Map<HotelUserRole>(roleName);
-               // await _userManager.AddToRolesAsync(user, userAddRequest.Roles.Select(x => x.Name).ToList());
+                // await _userManager.AddToRolesAsync(user, userAddRequest.Roles.Select(x => x.Name).ToList());
             }
 
         }
@@ -81,18 +82,18 @@ public class AccountService : IAccountService
                      select new UserToUpdateResponse
                      {
                          Id = user.Id,
-                         FirstName=user.FirstName,
-                         LastName=user.LastName,
+                         FirstName = user.FirstName,
+                         LastName = user.LastName,
                          Email = user.Email,
                          UserName = user.UserName,
                          NetworkStatus = user.NetworkStatus,
                          Roles = _userManager.GetRolesAsync(user).Result.ToList(),
-                         HotelUserImages = user.HotelUserImages.Select(x => new HotelUserImageTableResponse()
+                         HotelUserImage = new HotelUserImageTableResponse()
                          {
-                             Id = x.Id,
-                             FileName = x.FileName,
+                             Id = user.HotelUserImage.Id,
+                             FileName = user.HotelUserImage.FileName,
                              FileBase64 = Convert.ToBase64String(FileHelper.GetPhoto(image.FileName))
-                         }).ToList(),
+                         },
 
                      };
 
@@ -110,7 +111,7 @@ public class AccountService : IAccountService
         user.LastName = userUpdateRequest.LastName;
         user.Email = userUpdateRequest.Email;
         user.UserName = userUpdateRequest.UserName;
-        user.HotelUserImages = _mapper.Map<List<HotelUserImage>>(userUpdateRequest.HotelUserImages);
+        user.HotelUserImage = _mapper.Map<HotelUserImage>(userUpdateRequest.HotelUserImages);
         IdentityResult result = await _userManager.UpdateAsync(user);
 
         return result;
@@ -176,12 +177,12 @@ public class AccountService : IAccountService
                          UserName = user.UserName,
                          NetworkStatus = user.NetworkStatus,
                          Roles = _userManager.GetRolesAsync(user).Result.ToList(),
-                         HotelUserImages = user.HotelUserImages.Select(x => new HotelUserImageTableResponse()
+                         HotelUserImage = new HotelUserImageTableResponse()
                          {
-                             Id = x.Id,
-                             FileName = x.FileName,
+                             Id = user.HotelUserImage.Id,
+                             FileName = user.HotelUserImage.FileName,
                              FileBase64 = Convert.ToBase64String(FileHelper.GetPhoto(image.FileName))
-                         }).ToList(),
+                         },
 
                      };
 
@@ -239,7 +240,7 @@ public class AccountService : IAccountService
 
         if (result.Succeeded)
         {
-            var role = _roleManager.Roles.Where(r => r.EntityStatus == EntityStatus.Active && r.Name == "Default").Select(x => x.Name).ToList();
+            var role = _roleManager.Roles.Where(r => r.EntityStatus == EntityStatus.Active && r.Name == ApplicationRoles.User).Select(x => x.Name).ToList();
             await _userManager.AddToRolesAsync(user, role);
 
         }
@@ -260,12 +261,12 @@ public class AccountService : IAccountService
                          LastName = user.LastName,
                          Email = user.Email,
                          UserName = user.UserName,
-                         HotelUserImages = user.HotelUserImages.Select(x => new HotelUserImageTableResponse()
+                         HotelUserImage = new HotelUserImageTableResponse()
                          {
-                             Id = x.Id,
-                             FileName = x.FileName,
+                             Id = user.HotelUserImage.Id,
+                             FileName = user.HotelUserImage.FileName,
                              FileBase64 = Convert.ToBase64String(FileHelper.GetPhoto(image.FileName))
-                         }).ToList(),
+                         },
 
                      };
 
@@ -274,28 +275,26 @@ public class AccountService : IAccountService
     }
     public async Task<IdentityResult> EditGuestUserAsync(GuestUserUpdateRequest guestUserUpdateRequest)
     {
-        foreach (var image in guestUserUpdateRequest.HotelUserImages)
-        {
-            byte[] bytes = Convert.FromBase64String(image.FileBase64);
-            image.FileName = FileHelper.SavePhotoToFtp(bytes, image.FileName);
-        }
+
+        byte[] bytes = Convert.FromBase64String(guestUserUpdateRequest.HotelUserImage.FileBase64);
+        guestUserUpdateRequest.HotelUserImage.FileName = FileHelper.SavePhotoToFtp(bytes, guestUserUpdateRequest.HotelUserImage.FileName);
+
         HotelUser user = await _userManager.Users.SingleOrDefaultAsync(u => u.Id == guestUserUpdateRequest.Id && u.EntityStatus == EntityStatus.Active);
         user.FirstName = guestUserUpdateRequest.FirstName;
         user.LastName = guestUserUpdateRequest.LastName;
         user.Email = guestUserUpdateRequest.Email;
         user.UserName = guestUserUpdateRequest.UserName;
-        user.HotelUserImages = _mapper.Map<List<HotelUserImage>>(guestUserUpdateRequest.HotelUserImages);
+        user.HotelUserImage = _mapper.Map<HotelUserImage>(guestUserUpdateRequest.HotelUserImage);
 
 
         IdentityResult result = await _userManager.UpdateAsync(user);
         return result;
     }
-    public async Task<IdentityResult> DeActivateGuestUserAsync()
+    public async Task<IdentityResult> RemoveAccountAsync()
     {
-        int x = Convert.ToInt32("A");
         int userId = int.Parse(_user.FindFirstValue(ClaimTypes.NameIdentifier));
         HotelUser user = await _userManager.Users.SingleOrDefaultAsync(u => u.Id == userId && u.EntityStatus == EntityStatus.Active);
-        user.SecurityStamp = "fhfdhfudhf";
+        user.SecurityStamp = "qwerty";
         user.EntityStatus = EntityStatus.InActive;
         IdentityResult result = await _userManager.UpdateAsync(user);
 

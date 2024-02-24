@@ -1,4 +1,5 @@
-﻿using HotelAPI.Domain.Entities;
+﻿using HotelAPI.Application.Utilities.Constants;
+using HotelAPI.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,18 +21,18 @@ namespace HotelAPI.Persistence.AppDbContext.SeedData
         {
             new HotelUserRole(){
                 Id = 1,
-                Name="Admin",
-                NormalizedName="ADMIN"
+                Name=ApplicationRoles.Admin,
+                NormalizedName=ApplicationRoles.Admin.ToUpper(),
             },
             new HotelUserRole(){
                 Id = 2,
-                Name="Default",
-                NormalizedName = "DEFAULT"
+                Name=ApplicationRoles.User,
+                NormalizedName = ApplicationRoles.User.ToUpper()
             },
             new HotelUserRole(){
                 Id = 3,
-                Name="Staff",
-                NormalizedName = "STAFF"
+                Name=ApplicationRoles.Staff,
+                NormalizedName = ApplicationRoles.Staff.ToUpper()
             },
 
 
@@ -48,16 +49,6 @@ namespace HotelAPI.Persistence.AppDbContext.SeedData
                 Email="arzu@gmail.com",
 
             },
-            new HotelUser()
-            {
-                Id=2,
-                FirstName="Guest",
-                LastName="Guest",
-                UserName="Guest",
-                PasswordHash=new PasswordHasher<IdentityUser>().HashPassword(null,"12345"),
-                Email="guest@com"
-
-            }
 
 
         };
@@ -79,13 +70,7 @@ namespace HotelAPI.Persistence.AppDbContext.SeedData
         {
             UserId=1,
             RoleId=3,
-        },
-        new IdentityUserRole<int>()
-        {
-            UserId=2,
-            RoleId=2
         }
-
         };
 
         private static List<Country> countries = new List<Country>()
@@ -281,28 +266,28 @@ namespace HotelAPI.Persistence.AppDbContext.SeedData
                 Id=1,
                 Name="Bed",
                 Count=2,
-               
+
             },
             new Equipment()
             {
                 Id=2,
                 Name="Twin Beds",
                 Count=2,
-                
+
             },
             new Equipment()
             {
                 Id=3,
                 Name="Minibar",
                 Count=1,
-               
+
             },
             new Equipment()
             {
                 Id=4,
                 Name=" LCD TV",
                 Count=1,
-              
+
             }
         };
 
