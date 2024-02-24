@@ -14,7 +14,7 @@ namespace HotelAPI.Application.Services.Abstract
         Task<List<HotelTableResponse>> GetHotelsByRoomCountAsync(int roomCount);
 
         Task AddRatingAsync(HotelRatingAddRequest AddRequest);
-        Task<double> GetHotelRatingAsync(int HotelId);
+        Task<double> GetHotelRatingAsync(int hotelId);
 
     }
 }

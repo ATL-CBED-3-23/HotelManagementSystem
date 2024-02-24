@@ -18,7 +18,7 @@ namespace HotelAPI.Application.Services.Concrete
         private readonly IMapper _mapper;
         private readonly IHotelRatingRepository _ratingRepository;
 
-        public HotelService(IHotelRatingRepository hotelRating,IHotelRepository hotelRepository, IHotelImageRepository hotelImageRepository, IMapper mapper, ICityRepository cityRepository, ICountryRepository countryRepository)
+        public HotelService(IHotelRatingRepository hotelRating, IHotelRepository hotelRepository, IHotelImageRepository hotelImageRepository, IMapper mapper, ICityRepository cityRepository, ICountryRepository countryRepository)
         {
             _mapper = mapper;
             _hotelRepository = hotelRepository;
@@ -183,17 +183,17 @@ namespace HotelAPI.Application.Services.Concrete
         public async Task AddRatingAsync(HotelRatingAddRequest AddRequest)
         {
             HotelRating hr = new HotelRating
-            { 
+            {
                 Rating = AddRequest.Rating,
-                UserId= AddRequest.UserId,
-                HotelId =AddRequest.HotelId,
+                UserId = AddRequest.UserId,
+                HotelId = AddRequest.HotelId,
             };
             await _ratingRepository.CreateAsync(hr);
         }
 
-        public async Task<double> GetHotelRatingAsync(int HotelId)
+        public async Task<double> GetHotelRatingAsync(int hotelId)
         {
-            var ratings = await _ratingRepository.FindByConditionAsync(r => r.HotelId == HotelId && r.EntityStatus == EntityStatus.Active);
+            var ratings = await _ratingRepository.FindByConditionAsync(r => r.HotelId == hotelId && r.EntityStatus == EntityStatus.Active);
             double rating = 0;
             foreach (var item in ratings)
             {

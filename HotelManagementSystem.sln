@@ -17,11 +17,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HotelAPI.Persistence", "Inf
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HotelAPI.API", "Presentation\HotelAPI.API\HotelAPI.API.csproj", "{982E2025-D82A-4CBA-9866-A6600158BDD3}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "example", "example", "{41264302-087B-4749-BFEA-A387E8C27F52}"
-	ProjectSection(SolutionItems) = preProject
-		jwtExample.txt = jwtExample.txt
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
