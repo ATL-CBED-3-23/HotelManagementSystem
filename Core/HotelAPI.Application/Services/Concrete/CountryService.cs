@@ -28,11 +28,17 @@ namespace HotelAPI.Application.Services.Concrete
             await _countryRepository.CreateAsync(map);
 
         }
-        public async Task<CountryTableResponse> GetByIdAsync(int id)
+        public async Task<CountryTableResponse> GetForEditByIdAsync(int id)
         {
             Country country = await _countryRepository.FindByIdAsync(id);
             CountryTableResponse countryTableResponse = _mapper.Map<CountryTableResponse>(country);
             return countryTableResponse;
+        }
+        public async Task<CountryTableView> GetByIdAsync(int id)
+        {
+            Country city = await _countryRepository.FindByIdAsync(id);
+            CountryTableView countryTableView = _mapper.Map<CountryTableView>(city);
+            return countryTableView;
         }
         public async Task EditAsync(CountryUpdateRequest countryUpdateRequest)
         {

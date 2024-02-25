@@ -1,4 +1,5 @@
-﻿using HotelAPI.Application.DTOs.Reviews;
+﻿using HotelAPI.Application.DTOs.Cities;
+using HotelAPI.Application.DTOs.Reviews;
 
 namespace HotelAPI.Application.Services.Abstract
 {
@@ -6,7 +7,8 @@ namespace HotelAPI.Application.Services.Abstract
     {
         Task AddAsync(ReviewAddRequest reviewAddRequest);
         Task EditAsync(ReviewUpdateRequest reviewUpdateRequest);
-        Task<ReviewTableResponse> GetByIdAsync(int id);
+        Task<ReviewTableResponse> GetForEditByIdAsync(int id);
+        Task<ReviewTableView> GetByIdAsync(int id);
         Task<List<ReviewTableResponse>> GetTableAsync();
         Task DeleteByIdAsync(int id);
     }

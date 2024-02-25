@@ -1,4 +1,5 @@
-﻿using HotelAPI.Application.DTOs.Countries;
+﻿using HotelAPI.Application.DTOs.Cities;
+using HotelAPI.Application.DTOs.Countries;
 
 namespace HotelAPI.Application.Services.Abstract
 {
@@ -6,7 +7,8 @@ namespace HotelAPI.Application.Services.Abstract
     {
         Task AddAsync(CountryAddRequest countryAddRequest);
         Task EditAsync(CountryUpdateRequest countryUpdateRequest);
-        Task <CountryTableResponse> GetByIdAsync(int id);
+        Task<CountryTableResponse> GetForEditByIdAsync(int id);
+        Task<CountryTableView> GetByIdAsync(int id);
         Task<List<CountryTableResponse>> GetTableAsync();
         Task<List<CountryTableResponse>> GetTableForDropdownAsync();
         Task DeleteByIdAsync(int id);

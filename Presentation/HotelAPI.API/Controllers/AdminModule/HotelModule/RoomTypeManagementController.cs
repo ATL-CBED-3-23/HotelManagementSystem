@@ -36,7 +36,7 @@ namespace HotelAPI.API.Controllers.AdminModule.HotelModule
         [HttpGet("GetForEdit/{id}")]
         public async Task<IActionResult> GetForEdit(int id)
         {
-            var item = await _roomTypeService.GetByIdAsync(id);
+            var item = await _roomTypeService.GetForEditByIdAsync(id);
             return Ok(item);
         }
 

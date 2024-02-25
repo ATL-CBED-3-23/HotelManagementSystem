@@ -41,11 +41,18 @@ namespace HotelAPI.Application.Services.Concrete
             await _cityRepository.UpdateAsync(map);
         }
 
-        public async Task<CityTableResponse> GetByIdAsync(int id)
+        public async Task<CityTableResponse> GetForEditByIdAsync(int id)
         {
             City city = await _cityRepository.FindByIdAsync(id);
             CityTableResponse cityTableResponse = _mapper.Map<CityTableResponse>(city);
             return cityTableResponse;
+        }
+
+        public async Task<CityTableView> GetByIdAsync(int id)
+        {
+            City city = await _cityRepository.FindByIdAsync(id);
+            CityTableView cityTableView = _mapper.Map<CityTableView>(city);
+            return cityTableView;
         }
 
         public async Task<List<CityTableResponse>> GetTableAsync()

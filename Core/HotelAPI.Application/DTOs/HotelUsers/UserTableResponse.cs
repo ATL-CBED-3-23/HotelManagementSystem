@@ -1,9 +1,11 @@
 ﻿using HotelAPI.Application.DTOs.HotelUserImages;
 using HotelAPI.Application.DTOs.HotelUserRoles;
+using HotelAPI.Application.Mappings;
+using HotelAPI.Domain.Entities;
 
 namespace HotelAPI.Application.DTOs.HotelUsers
 {
-    public class UserTableResponse
+    public class UserTableResponse : IMapTo<HotelUser>
     {
         public int Id { get; set; }
         public string FullName { get; set; }

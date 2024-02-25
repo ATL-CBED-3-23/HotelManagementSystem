@@ -36,7 +36,12 @@ namespace HotelAPI.Application.Services.Concrete
             await _reviewRepository.UpdateAsync(map);
         }
 
-        public async Task<ReviewTableResponse> GetByIdAsync(int id)
+        public Task<ReviewTableView> GetByIdAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<ReviewTableResponse> GetForEditByIdAsync(int id)
         {
             Review review = await _reviewRepository.FindByIdAsync(id);
             ReviewTableResponse reviewTableResponse = _mapper.Map<ReviewTableResponse>(review); ;
@@ -45,7 +50,7 @@ namespace HotelAPI.Application.Services.Concrete
 
         public async Task<List<ReviewTableResponse>> GetTableAsync()
         {
-            var reviews = _reviewRepository.FindAllAsync();
+            var reviews = await _reviewRepository.FindAllAsync();
             return _mapper.Map<List<ReviewTableResponse>>(reviews);
         }
     }

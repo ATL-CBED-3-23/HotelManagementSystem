@@ -45,7 +45,7 @@ namespace HotelAPI.Application.Services.Concrete
 
         public async Task<List<ReservatorTableResponse>> GetTableAsync()
         {
-            var reservators = _reservatorRepository.FindAllAsync();
+            var reservators =await _reservatorRepository.FindAllAsync();
             return _mapper.Map<List<ReservatorTableResponse>>(reservators);
         }
     }

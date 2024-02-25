@@ -3,10 +3,12 @@ using HotelAPI.Application.DTOs.Hotels;
 using HotelAPI.Application.DTOs.Reservations;
 using HotelAPI.Application.DTOs.RoomImages;
 using HotelAPI.Application.DTOs.RoomTypes;
+using HotelAPI.Application.Mappings;
+using HotelAPI.Domain.Entities;
 
 namespace HotelAPI.Application.DTOs.Rooms
 {
-    public class RoomTableView
+    public class RoomTableView : IMapTo<Room>
     {
         public int Id { get; set; }
         public int Number { get; set; }

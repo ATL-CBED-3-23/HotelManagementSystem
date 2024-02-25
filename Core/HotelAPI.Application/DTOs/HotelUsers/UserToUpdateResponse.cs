@@ -9,11 +9,10 @@ namespace HotelAPI.Application.DTOs.HotelUsers
         public int Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public string Email { get; set; }
-        public string Password { get; set; }
         public string UserName { get; set; }
+        public string PhoneNumber { get; set; }
+        public string Email { get; set; }
         public IList<string> Roles { get; set; }
-        public NetworkStatus NetworkStatus { get; set; }
         public HotelUserImageTableResponse HotelUserImage { get; set; }
 
     }

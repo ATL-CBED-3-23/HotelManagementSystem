@@ -36,7 +36,12 @@ namespace HotelAPI.Application.Services.Concrete
             await _roomTypeRepository.UpdateAsync(map);
         }
 
-        public async Task<RoomTypeTableResponse> GetByIdAsync(int id)
+        public Task<RoomTypeTableView> GetByIdAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<RoomTypeTableResponse> GetForEditByIdAsync(int id)
         {
             RoomType roomType = await _roomTypeRepository.FindByIdAsync(id);
             RoomTypeTableResponse roomTypeTableResponse = _mapper.Map<RoomTypeTableResponse>(roomType); ;
@@ -45,7 +50,7 @@ namespace HotelAPI.Application.Services.Concrete
 
         public async Task<List<RoomTypeTableResponse>> GetTableAsync()
         {
-            var roomTypes = _roomTypeRepository.FindAllAsync();
+            var roomTypes = await _roomTypeRepository.FindAllAsync();
             return _mapper.Map<List<RoomTypeTableResponse>>(roomTypes);
         }
     }

@@ -1,8 +1,6 @@
-﻿using HotelAPI.Application.DTOs.HotelRating;
-using HotelAPI.Application.DTOs.Hotels;
+﻿using HotelAPI.Application.DTOs.HotelRatings;
 using HotelAPI.Application.Services.Abstract;
 using HotelAPI.Application.Utilities.Constants;
-using HotelAPI.Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -35,9 +33,9 @@ namespace HotelAPI.API.Controllers.Hotel
         }
 
         [HttpPost("AddRating")]
-        public async Task<IActionResult> AddRating(HotelRatingAddRequest req)
+        public async Task<IActionResult> AddRating(HotelRatingAddRequest hotelRatingAddRequest)
         {
-            await _hotelService.AddRatingAsync(req);
+            await _hotelService.AddRatingAsync(hotelRatingAddRequest);
             return Ok();
         }
 

@@ -2,10 +2,12 @@
 using HotelAPI.Application.DTOs.HotelImages;
 using HotelAPI.Application.DTOs.Reviews;
 using HotelAPI.Application.DTOs.Rooms;
+using HotelAPI.Application.Mappings;
+using HotelAPI.Domain.Entities;
 
 namespace HotelAPI.Application.DTOs.Hotels
 {
-    public class HotelTableView
+    public class HotelTableView : IMapTo<Hotel>
     {
         public int Id { get; set; }
         public string Name { get; set; }

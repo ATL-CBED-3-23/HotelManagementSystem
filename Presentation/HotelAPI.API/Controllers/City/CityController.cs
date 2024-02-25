@@ -19,6 +19,12 @@ namespace HotelAPI.API.Controllers.City
             _cityService = cityService;
         }
 
-       
+        [HttpGet("GetById/{id}")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            var item = await _cityService.GetForEditByIdAsync(id);
+            return Ok(item);
+        }
+
     }
 }

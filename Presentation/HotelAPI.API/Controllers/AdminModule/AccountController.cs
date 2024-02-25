@@ -56,6 +56,7 @@ namespace HotelAPI.API.Controllers.AdminModule
             await _accountService.DeActivateUserAsync(id);
             return Ok();
         }
+
         [HttpPost("CreateRole")]
         public async Task<IActionResult> CreateRole(RoleAddRequest roleAddRequest)
         {

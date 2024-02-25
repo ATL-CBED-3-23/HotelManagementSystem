@@ -1,8 +1,10 @@
 ﻿using HotelAPI.Application.DTOs.Rooms;
+using HotelAPI.Application.Mappings;
+using HotelAPI.Domain.Entities;
 
 namespace HotelAPI.Application.DTOs.Equipments
 {
-    public class EquipmentTableView
+    public class EquipmentTableView : IMapTo<Equipment>
     {
         public int Id { get; set; }
         public string Name { get; set; }

@@ -1,15 +1,11 @@
 ﻿using AutoMapper;
-using HotelAPI.Application.DTOs.HotelImages;
-using HotelAPI.Application.DTOs.Hotels;
-using HotelAPI.Application.DTOs.HotelUserRoles;
 using HotelAPI.Application.DTOs.RoomImages;
 using HotelAPI.Application.DTOs.Rooms;
+using HotelAPI.Application.DTOs.RoomTypes;
 using HotelAPI.Application.Helpers;
 using HotelAPI.Application.Services.Abstract;
 using HotelAPI.Domain.Entities;
 using HotelAPI.Domain.Interfaces;
-using Microsoft.EntityFrameworkCore;
-using System.Text;
 
 namespace HotelAPI.Application.Services.Concrete
 {
@@ -65,7 +61,12 @@ namespace HotelAPI.Application.Services.Concrete
             await _roomRepository.UpdateAsync(map);
         }
 
-        public async Task<RoomTableResponse> GetByIdAsync(int id)
+        public Task<RoomTableView> GetByIdAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<RoomTableResponse> GetForEditByIdAsync(int id)
         {
             var rooms = await _roomRepository.FindAllAsync();
             var images = await _roomImageRepository.FindAllAsync();
@@ -81,7 +82,7 @@ namespace HotelAPI.Application.Services.Concrete
                              Phone = room.Phone,
                              Price = room.Price,
                              RoomState = room.RoomState,
-                             RoomType = type,
+                             RoomType = _mapper.Map<RoomTypeTableResponse>(type),
                              RoomImages = room.RoomImages.Select(x => new RoomImageTableResponse()
                              {
                                  Id = x.Id,
@@ -114,7 +115,7 @@ namespace HotelAPI.Application.Services.Concrete
                              Phone = room.Phone,
                              Price = room.Price,
                              RoomState = room.RoomState,
-                             RoomType = type,
+                             RoomType = _mapper.Map<RoomTypeTableResponse>(type),
                             // Equipments=room.Equipments,
                              RoomImages = room.RoomImages.Select(x => new RoomImageTableResponse()
                              {

@@ -1,10 +1,11 @@
 ﻿using HotelAPI.Application.DTOs.HotelUsers;
 using HotelAPI.Application.DTOs.Rooms;
+using HotelAPI.Application.Mappings;
 using HotelAPI.Domain.Entities;
 
 namespace HotelAPI.Application.DTOs.Reservations
 {
-    public class ReservationTableView
+    public class ReservationTableView : IMapTo<Reservation>
     {
         public int Id { get; set; }
         public DateTime CheckInDate { get; set; }

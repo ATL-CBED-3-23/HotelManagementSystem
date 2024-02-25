@@ -9,3 +9,4 @@ namespace HotelAPI.Application.DTOs.HotelUserRoles
         public string Name { get; set; }
     }
 }
+

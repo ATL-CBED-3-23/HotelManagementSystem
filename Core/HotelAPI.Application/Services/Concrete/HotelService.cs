@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
+using HotelAPI.Application.DTOs.Cities;
 using HotelAPI.Application.DTOs.HotelImages;
-using HotelAPI.Application.DTOs.HotelRating;
+using HotelAPI.Application.DTOs.HotelRatings;
 using HotelAPI.Application.DTOs.Hotels;
 using HotelAPI.Application.Helpers;
 using HotelAPI.Application.Services.Abstract;
@@ -38,13 +39,11 @@ namespace HotelAPI.Application.Services.Concrete
             var map = _mapper.Map<Hotel>(hotelAddRequest);
             await _hotelRepository.CreateAsync(map);
         }
-
         public async Task DeleteByIdAsync(int id)
         {
             Hotel hotel = await _hotelRepository.FindByIdAsync(id);
             await _hotelRepository.DeActivateAsync(hotel);
         }
-
         public async Task EditAsync(HotelUpdateRequest hotelUpdateRequest)
         {
 
@@ -56,8 +55,7 @@ namespace HotelAPI.Application.Services.Concrete
             var map = _mapper.Map<Hotel>(hotelUpdateRequest);
             await _hotelRepository.UpdateAsync(map);
         }
-
-        public async Task<HotelTableResponse> GetForUpdateByIdAsync(int id)
+        public async Task<HotelTableResponse> GetForEditByIdAsync(int id)
         {
             var hotels = await _hotelRepository.FindAllAsync();
             var images = await _hotelImageRepository.FindAllAsync();
@@ -75,7 +73,7 @@ namespace HotelAPI.Application.Services.Concrete
                              PhoneNumber = hotel.PhoneNumber,
                              WebSite = hotel.WebSite,
                              Grade = hotel.Grade,
-                             City = city,
+                             City = _mapper.Map<CityTableResponse>(city),
                              HotelImages = hotel.HotelImages.Select(x => new HotelImageTableResponse()
                              {
                                  Id = x.Id,
@@ -87,7 +85,10 @@ namespace HotelAPI.Application.Services.Concrete
 
             return result.FirstOrDefault();
         }
-
+        public Task<HotelTableView> GetByIdAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
         public async Task<List<HotelTableResponse>> GetTableAsync()
         {
             var hotels = await _hotelRepository.FindAllAsync();
@@ -105,7 +106,7 @@ namespace HotelAPI.Application.Services.Concrete
                              PhoneNumber = hotel.PhoneNumber,
                              WebSite = hotel.WebSite,
                              Grade = hotel.Grade,
-                             City = city,
+                             City = _mapper.Map<CityTableResponse>(city),
                              HotelImages = hotel.HotelImages.Select(x => new HotelImageTableResponse()
                              {
                                  Id = x.Id,
@@ -116,7 +117,6 @@ namespace HotelAPI.Application.Services.Concrete
 
             return result.ToList();
         }
-
         public async Task<List<HotelTableResponse>> GetHotelsByCityAsync(int cityId)
         {
             List<City> cities = await _cityRepository.FindAllAsync();
@@ -137,7 +137,7 @@ namespace HotelAPI.Application.Services.Concrete
                              PhoneNumber = hotel.PhoneNumber,
                              WebSite = hotel.WebSite,
                              Grade = hotel.Grade,
-                             City = city,
+                             City = _mapper.Map<CityTableResponse>(city),
                              HotelImages = hotel.HotelImages.Select(x => new HotelImageTableResponse()
                              {
                                  Id = x.Id,
@@ -147,7 +147,6 @@ namespace HotelAPI.Application.Services.Concrete
                          };
             return result.ToList();
         }
-
         public async Task<List<HotelTableResponse>> GetHotelsByRoomCountAsync(int roomCount)
         {
             List<City> cities = await _cityRepository.FindAllAsync();
@@ -167,7 +166,7 @@ namespace HotelAPI.Application.Services.Concrete
                              PhoneNumber = hotel.PhoneNumber,
                              WebSite = hotel.WebSite,
                              Grade = hotel.Grade,
-                             City = city,
+                             City = _mapper.Map<CityTableResponse>(city),
                              HotelImages = hotel.HotelImages.Select(x => new HotelImageTableResponse()
                              {
                                  Id = x.Id,
@@ -202,5 +201,7 @@ namespace HotelAPI.Application.Services.Concrete
             return rating / ratings.Count;
 
         }
+
+        
     }
 }

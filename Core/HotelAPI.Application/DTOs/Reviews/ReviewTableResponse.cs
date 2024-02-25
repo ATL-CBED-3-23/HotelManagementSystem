@@ -1,9 +1,10 @@
 ﻿using HotelAPI.Application.DTOs.Hotels;
+using HotelAPI.Application.Mappings;
 using HotelAPI.Domain.Entities;
 
 namespace HotelAPI.Application.DTOs.Reviews
 {
-    public class ReviewTableResponse
+    public class ReviewTableResponse : IMapTo<Review>
     {
         public int Id { get; set; }
         public string Content { get; set; }

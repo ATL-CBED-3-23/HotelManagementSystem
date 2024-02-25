@@ -62,7 +62,7 @@ namespace HotelAPI.Application.Services.Concrete
             await _reservationRepository.UpdateAsync(map);
         }
 
-        public async Task<ReservationTableResponse> GetByIdAsync(int id)
+        public async Task<ReservationTableResponse> GetForEditByIdAsync(int id)
         {
             Reservation reservation = await _reservationRepository.FindByIdAsync(id);
             ReservationTableResponse reservationTableResponse = _mapper.Map<ReservationTableResponse>(reservation);
@@ -90,8 +90,8 @@ namespace HotelAPI.Application.Services.Concrete
                              Id = reservation.Id,
                              CheckInDate = reservation.CheckInDate,
                              CheckOutDate = reservation.CheckOutDate,
-                             HotelUser = user,
-                             Room = room
+                             HotelUser = _mapper.Map<UserTableResponse>(user),
+                             Room = _mapper.Map<RoomTableResponse>(room)
                          };
 
             return result.ToList();
@@ -112,13 +112,17 @@ namespace HotelAPI.Application.Services.Concrete
                              Id = reservation.Id,
                              CheckInDate = reservation.CheckInDate,
                              CheckOutDate = reservation.CheckOutDate,
-                             HotelUser = user,
-                             Room = room
+                             HotelUser = _mapper.Map<UserTableResponse>(user),
+                             Room = _mapper.Map<RoomTableResponse>(room)
                          };
 
             return result.ToList();
 
         }
 
+        public Task<ReservationTableView> GetByIdAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
