@@ -1,5 +1,5 @@
 ﻿using HotelAPI.Application.DTOs.Hotels;
-using HotelAPI.Application.DTOs.Reservators;
+using HotelAPI.Domain.Entities;
 
 namespace HotelAPI.Application.DTOs.Reviews
 {
@@ -9,7 +9,6 @@ namespace HotelAPI.Application.DTOs.Reviews
         public string Content { get; set; }
 
         //Relations
-        public ReservatorTableResponse Reservator { get; set; }
         public HotelTableResponse Hotel { get; set; }
     }
 }

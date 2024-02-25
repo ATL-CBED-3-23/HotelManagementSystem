@@ -11,7 +11,7 @@ namespace HotelAPI.API.Controllers.Hotel
     [Route("api/[controller]")]
     [ApiController]
     [Authorize(AuthenticationSchemes = "Bearer")]
-    [Authorize(Roles = AllowedRolesForController.ADMIN_and_STAFF_and_USER)]
+    [Authorize(Roles = AllowedRolesForController.Admin_and_Staff_and_User)]
     public class HotelController : ControllerBase
     {
         private readonly IHotelService _hotelService;

@@ -1,9 +1,10 @@
 ﻿using HotelAPI.Application.DTOs.HotelUsers;
 using HotelAPI.Application.DTOs.Rooms;
+using HotelAPI.Domain.Entities;
 
 namespace HotelAPI.Application.DTOs.Reservations
 {
-    public class ReservationTableResponse 
+    public class ReservationTableView
     {
         public int Id { get; set; }
         public DateTime CheckInDate { get; set; }

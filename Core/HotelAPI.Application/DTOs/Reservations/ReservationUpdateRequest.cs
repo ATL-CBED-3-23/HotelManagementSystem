@@ -11,7 +11,6 @@ namespace HotelAPI.Application.DTOs.Reservations
 
         //Relations
         public int RoomId { get; set; }
-        public int ReservatorId { get; set; }
 
     }
 }

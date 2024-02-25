@@ -5,7 +5,7 @@ using HotelAPI.Application.DTOs.Rooms;
 
 namespace HotelAPI.Application.DTOs.Hotels
 {
-    public class HotelTableResponse
+    public class HotelTableView
     {
         public int Id { get; set; }
         public string Name { get; set; }

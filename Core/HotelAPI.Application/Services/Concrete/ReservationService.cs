@@ -34,7 +34,7 @@ namespace HotelAPI.Application.Services.Concrete
         public async Task<string> AddAsync(ReservationAddRequest reservationAddRequest)
         {
             var reservation = _mapper.Map<Reservation>(reservationAddRequest);
-            var userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userId = _user.FindFirstValue(ClaimTypes.NameIdentifier);
             reservation.HotelUserId = int.Parse(userId);
             reservation.Room = await _roomRepository.FindByIdAsync(reservationAddRequest.RoomId);
             bool isRoomAvailable = reservation.Room.RoomState == RoomState.Available;
@@ -74,12 +74,12 @@ namespace HotelAPI.Application.Services.Concrete
             var reservations = await _reservationRepository.FindAllAsync();
             return _mapper.Map<List<ReservationTableResponse>>(reservations);
         }
-        public async Task<List<ReservationTableResponse>> GetReservationsByGuestUserAsync()
+        public async Task<List<ReservationTableResponse>> GetReservationsByUserAsync()
         {
             List<Reservation> reservations = await _reservationRepository.FindAllAsync();
             List<Room> rooms = await _roomRepository.FindAllAsync();
             List<HotelUser> users = _userManager.Users.ToList();
-            int userId = int.Parse(_httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
+            int userId = int.Parse(_user.FindFirstValue(ClaimTypes.NameIdentifier));
 
             var result = from reservation in reservations
                          join user in users on reservation.HotelUserId equals user.Id
@@ -90,8 +90,8 @@ namespace HotelAPI.Application.Services.Concrete
                              Id = reservation.Id,
                              CheckInDate = reservation.CheckInDate,
                              CheckOutDate = reservation.CheckOutDate,
-                             HotelUser = user.UserName,
-                             Room = room.Number
+                             HotelUser = user,
+                             Room = room
                          };
 
             return result.ToList();
@@ -112,8 +112,8 @@ namespace HotelAPI.Application.Services.Concrete
                              Id = reservation.Id,
                              CheckInDate = reservation.CheckInDate,
                              CheckOutDate = reservation.CheckOutDate,
-                             HotelUser = user.UserName,
-                             Room = room.Number
+                             HotelUser = user,
+                             Room = room
                          };
 
             return result.ToList();

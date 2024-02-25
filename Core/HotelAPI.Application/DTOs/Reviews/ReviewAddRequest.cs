@@ -8,7 +8,6 @@ namespace HotelAPI.Application.DTOs.Reviews
         public string Content { get; set; }
 
         //Relations
-        public int ReservatorId { get; set; }
         public int HotelId { get; set; }
     }
 }

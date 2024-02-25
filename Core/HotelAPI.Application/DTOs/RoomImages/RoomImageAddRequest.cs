@@ -1,7 +1,6 @@
 ﻿using HotelAPI.Application.Helpers;
 using HotelAPI.Application.Mappings;
 using HotelAPI.Domain.Entities;
-using Microsoft.AspNetCore.Http;
 using System.Text.Json.Serialization;
 
 namespace HotelAPI.Application.DTOs.RoomImages
@@ -14,7 +13,6 @@ namespace HotelAPI.Application.DTOs.RoomImages
         public string FileBase64 { get; set; }
 
         //Relations
-        [JsonIgnore]
-        public int RoomId { get; set; }
+       
     }
 }

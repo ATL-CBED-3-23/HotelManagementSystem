@@ -447,7 +447,7 @@ namespace HotelAPI.Persistence.Migrations
                     b.ToTable("HotelImages", "Hotel");
                 });
 
-            modelBuilder.Entity("HotelAPI.Domain.Entities.HotelRating", b =>
+            modelBuilder.Entity("HotelAPI.Domain.Entities.Rating", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -1205,7 +1205,7 @@ namespace HotelAPI.Persistence.Migrations
                     b.Navigation("Hotel");
                 });
 
-            modelBuilder.Entity("HotelAPI.Domain.Entities.HotelRating", b =>
+            modelBuilder.Entity("HotelAPI.Domain.Entities.Rating", b =>
                 {
                     b.HasOne("HotelAPI.Domain.Entities.Hotel", "Hotel")
                         .WithMany("Ratings")

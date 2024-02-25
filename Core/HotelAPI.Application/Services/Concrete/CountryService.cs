@@ -59,7 +59,7 @@ namespace HotelAPI.Application.Services.Concrete
                          Id = city.Id,
                          Name = city.Name,
                          PostalCode = city.PostalCode,
-                         Country = country.Name,
+                         Country = new CountryTableResponse(),
                          HotelTable = hotels
                          .Select(hotel => new HotelTableResponse
                              {

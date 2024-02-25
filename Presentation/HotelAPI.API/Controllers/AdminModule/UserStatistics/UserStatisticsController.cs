@@ -1,11 +1,14 @@
 ﻿using HotelAPI.Application.Services.Abstract;
-using Microsoft.AspNetCore.Http;
+using HotelAPI.Application.Utilities.Constants;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace HotelAPI.API.Controllers.UserStatistics
+namespace HotelAPI.API.Controllers.AdminModule.UserStatistics
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = "Bearer")]
+    [Authorize(Roles = AllowedRolesForController.Admin)]
     public class UserStatisticsController : ControllerBase
     {
         private readonly IAccountService _accountService;

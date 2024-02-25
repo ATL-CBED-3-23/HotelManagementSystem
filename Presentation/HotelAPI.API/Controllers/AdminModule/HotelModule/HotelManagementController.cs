@@ -8,8 +8,9 @@ namespace HotelAPI.API.Controllers.AdminModule.HotelModule
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = AllowedRolesForController.ADMIN)]
     [Authorize(AuthenticationSchemes = "Bearer")]
+    [Authorize(Roles = AllowedRolesForController.Admin)]
+
     public class HotelManagementController : ControllerBase
     {
         private readonly IHotelService _hotelService;

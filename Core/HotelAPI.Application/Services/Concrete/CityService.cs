@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using HotelAPI.Application.DTOs.Cities;
+using HotelAPI.Application.DTOs.Countries;
 using HotelAPI.Application.DTOs.Hotels;
 using HotelAPI.Application.Services.Abstract;
 using HotelAPI.Domain.Entities;
@@ -63,7 +64,7 @@ namespace HotelAPI.Application.Services.Concrete
                                      Id = city.Id,
                                      Name = city.Name,
                                      PostalCode = city.PostalCode,
-                                     Country = country.Name,
+                                     Country = new CountryTableResponse() { Id=country.Id,Name=country.Name},
                                      HotelTable = hotels
                          .Select(hotel => new HotelTableResponse
                          {

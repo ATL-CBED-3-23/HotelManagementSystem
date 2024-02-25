@@ -75,7 +75,7 @@ namespace HotelAPI.Application.Services.Concrete
                              PhoneNumber = hotel.PhoneNumber,
                              WebSite = hotel.WebSite,
                              Grade = hotel.Grade,
-                             City = city.Name,
+                             City = city,
                              HotelImages = hotel.HotelImages.Select(x => new HotelImageTableResponse()
                              {
                                  Id = x.Id,
@@ -105,7 +105,7 @@ namespace HotelAPI.Application.Services.Concrete
                              PhoneNumber = hotel.PhoneNumber,
                              WebSite = hotel.WebSite,
                              Grade = hotel.Grade,
-                             City = city.Name,
+                             City = city,
                              HotelImages = hotel.HotelImages.Select(x => new HotelImageTableResponse()
                              {
                                  Id = x.Id,
@@ -137,7 +137,7 @@ namespace HotelAPI.Application.Services.Concrete
                              PhoneNumber = hotel.PhoneNumber,
                              WebSite = hotel.WebSite,
                              Grade = hotel.Grade,
-                             City = city.Name,
+                             City = city,
                              HotelImages = hotel.HotelImages.Select(x => new HotelImageTableResponse()
                              {
                                  Id = x.Id,
@@ -167,7 +167,7 @@ namespace HotelAPI.Application.Services.Concrete
                              PhoneNumber = hotel.PhoneNumber,
                              WebSite = hotel.WebSite,
                              Grade = hotel.Grade,
-                             City = city.Name,
+                             City = city,
                              HotelImages = hotel.HotelImages.Select(x => new HotelImageTableResponse()
                              {
                                  Id = x.Id,

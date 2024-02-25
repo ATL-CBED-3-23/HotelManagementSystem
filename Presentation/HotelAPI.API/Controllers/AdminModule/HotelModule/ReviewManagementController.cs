@@ -1,4 +1,4 @@
-﻿using HotelAPI.Application.DTOs.Countries;
+﻿using HotelAPI.Application.DTOs.Reviews;
 using HotelAPI.Application.Services.Abstract;
 using HotelAPI.Application.Utilities.Constants;
 using Microsoft.AspNetCore.Authorization;
@@ -10,49 +10,48 @@ namespace HotelAPI.API.Controllers.AdminModule.HotelModule
     [Route("api/[controller]")]
     [ApiController]
     [Authorize(AuthenticationSchemes = "Bearer")]
-    [Authorize(Roles = AllowedRolesForController.Admin)]
+    [Authorize(Roles = AllowedRolesForController.Admin_and_Staff)]
 
-    public class CountryManagementController : ControllerBase
+    public class ReviewManagementController : ControllerBase
     {
-        private readonly ICountryService _countryService;
-
-        public CountryManagementController(ICountryService countryService)
+        private readonly IReviewService _reviewService;
+        public ReviewManagementController(IReviewService reviewService)
         {
-            _countryService = countryService;
+            _reviewService = reviewService;
         }
 
         [HttpPost("Add")]
-        public async Task<IActionResult> Add(CountryAddRequest countryAddRequest)
+        public async Task<IActionResult> Add(ReviewAddRequest reviewAddRequest)
         {
-            await _countryService.AddAsync(countryAddRequest);
+            await _reviewService.AddAsync(reviewAddRequest);
             return Ok();
         }
 
         [HttpGet("GetTable")]
         public async Task<IActionResult> GetTable()
         {
-            var list = await _countryService.GetTableAsync();
+            var list = await _reviewService.GetTableAsync();
             return Ok(list);
         }
 
         [HttpGet("GetForEdit/{id}")]
         public async Task<IActionResult> GetForEdit(int id)
         {
-            var item = await _countryService.GetByIdAsync(id);
+            var item = await _reviewService.GetByIdAsync(id);
             return Ok(item);
         }
 
         [HttpPost("Edit")]
-        public async Task<IActionResult> Edit(CountryUpdateRequest countryUpdateRequest)
+        public async Task<IActionResult> Edit(ReviewUpdateRequest reviewUpdateRequest)
         {
-            await _countryService.EditAsync(countryUpdateRequest);
+            await _reviewService.EditAsync(reviewUpdateRequest);
             return Ok();
         }
 
         [HttpPost("Delete")]
         public async Task<IActionResult> Delete(int id)
         {
-            await _countryService.DeleteByIdAsync(id);
+            await _reviewService.DeleteByIdAsync(id);
             return Ok();
         }
     }

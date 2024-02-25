@@ -2,7 +2,7 @@
 
 namespace HotelAPI.Application.DTOs.Equipments
 {
-    public class EquipmentTableResponse
+    public class EquipmentTableView
     {
         public int Id { get; set; }
         public string Name { get; set; }

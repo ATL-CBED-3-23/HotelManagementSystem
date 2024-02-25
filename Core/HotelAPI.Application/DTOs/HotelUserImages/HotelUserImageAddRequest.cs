@@ -13,7 +13,5 @@ namespace HotelAPI.Application.DTOs.HotelUserImages
         public string FileBase64 { get; set; }
 
         //Relations
-        [JsonIgnore]
-        public int HotelUserId { get; set; }
     }
 }

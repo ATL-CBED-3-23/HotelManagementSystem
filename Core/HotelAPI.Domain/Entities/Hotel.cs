@@ -13,9 +13,9 @@ public class Hotel:BaseEntity
 
 
     //Relations
-    public List<HotelRating> Ratings { get; set; }
     public int CityId { get; set; }
     public City City { get; set; }
+    public List<HotelRating> Ratings { get; set; }
     public List<Review> Reviews { get; set; }
     public List<Room> Rooms { get; set; }
     public List<HotelImage> HotelImages { get; set; }

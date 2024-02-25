@@ -81,7 +81,7 @@ namespace HotelAPI.Application.Services.Concrete
                              Phone = room.Phone,
                              Price = room.Price,
                              RoomState = room.RoomState,
-                             RoomType = type.Name,
+                             RoomType = type,
                              RoomImages = room.RoomImages.Select(x => new RoomImageTableResponse()
                              {
                                  Id = x.Id,
@@ -114,7 +114,7 @@ namespace HotelAPI.Application.Services.Concrete
                              Phone = room.Phone,
                              Price = room.Price,
                              RoomState = room.RoomState,
-                             RoomType = type.Name,
+                             RoomType = type,
                             // Equipments=room.Equipments,
                              RoomImages = room.RoomImages.Select(x => new RoomImageTableResponse()
                              {

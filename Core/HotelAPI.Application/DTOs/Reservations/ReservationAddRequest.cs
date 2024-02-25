@@ -11,8 +11,7 @@ namespace HotelAPI.Application.DTOs.Reservations
 
         //Relations
         public int RoomId { get; set; }
-        [JsonIgnore]
-        public int HotelUserId { get; set; }
+       
 
     }
 }

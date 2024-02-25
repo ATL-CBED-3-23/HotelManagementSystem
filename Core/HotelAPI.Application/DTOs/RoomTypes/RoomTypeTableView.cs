@@ -1,8 +1,9 @@
-﻿using HotelAPI.Domain.Entities;
+﻿using HotelAPI.Application.DTOs.Rooms;
+using HotelAPI.Domain.Entities;
 
 namespace HotelAPI.Application.DTOs.RoomTypes
 {
-    public class RoomTypeTableResponse
+    public class RoomTypeTableView
     {
         public int Id { get; set; }
         public string Name { get; set; }

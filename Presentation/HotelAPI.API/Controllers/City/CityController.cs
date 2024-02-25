@@ -9,7 +9,7 @@ namespace HotelAPI.API.Controllers.City
     [Route("api/[controller]")]
     [ApiController]
     [Authorize(AuthenticationSchemes = "Bearer")]
-    [Authorize(Roles = AllowedRolesForController.ADMIN)]
+    [Authorize(Roles = AllowedRolesForController.Admin)]
     public class CityController : ControllerBase
     {
         private readonly ICityService _cityService;

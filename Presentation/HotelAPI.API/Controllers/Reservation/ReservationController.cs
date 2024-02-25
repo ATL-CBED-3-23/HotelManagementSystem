@@ -1,5 +1,6 @@
 ﻿using HotelAPI.Application.DTOs.Reservations;
 using HotelAPI.Application.Services.Abstract;
+using HotelAPI.Application.Utilities.Constants;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,6 +9,8 @@ namespace ReservationAPI.API.Controllers.Reservation
     [Route("api/[controller]")]
     [ApiController]
     [Authorize(AuthenticationSchemes = "Bearer")]
+    [Authorize(Roles = AllowedRolesForController.Admin_and_Staff_and_User)]
+
     public class ReservationController : ControllerBase
     {
         private readonly IReservationService _reservationService;
@@ -16,52 +19,10 @@ namespace ReservationAPI.API.Controllers.Reservation
             _reservationService = reservationService;
         }
 
-        [HttpPost("Add")]
-        public async Task<IActionResult> Add(ReservationAddRequest reservationAddRequest)
-        {
-            string message=await _reservationService.AddAsync(reservationAddRequest);
-            return Ok(message);
-        }
-
-        [HttpGet("GetTable")]
-        public async Task<IActionResult> GetTable()
-        {
-            var list = await _reservationService.GetTableAsync();
-            return Ok(list);
-        }
-
-        [HttpGet("GetForEdit/{id}")]
-        public async Task<IActionResult> GetForEdit(int id)
-        {
-            var item = await _reservationService.GetByIdAsync(id);
-            return Ok(item);
-        }
-
-        [HttpPost("Edit")]
-        public async Task<IActionResult> Edit(ReservationUpdateRequest reservationUpdateRequest)
-        {
-            await _reservationService.EditAsync(reservationUpdateRequest);
-            return Ok();
-        }
-
-        [HttpPost("Delete")]
-        public async Task<IActionResult> Delete(int id)
-        {
-            await _reservationService.DeleteByIdAsync(id);
-            return Ok();
-        }
-
         [HttpGet("GetReservationsByUser")]
-        public async Task<IActionResult> GetReservationsByUser(int userId)
+        public async Task<IActionResult> GetReservationsByUser()
         {
-            var data = await _reservationService.GetReservationsByUserAsync(userId);
-            return Ok(data);
-        }
-
-        [HttpGet("GetReservationsByGuestUser")]
-        public async Task<IActionResult> GetReservationsByGuestUser()
-        {
-            var data = await _reservationService.GetReservationsByGuestUserAsync();
+            var data = await _reservationService.GetReservationsByUserAsync();
             return Ok(data);
         }
     }

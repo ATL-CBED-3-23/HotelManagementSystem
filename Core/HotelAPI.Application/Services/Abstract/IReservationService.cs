@@ -11,6 +11,6 @@ namespace HotelAPI.Application.Services.Abstract
         Task<List<ReservationTableResponse>> GetTableAsync();
         Task DeleteByIdAsync(int id);
         Task<List<ReservationTableResponse>> GetReservationsByUserAsync(int userId);
-        Task<List<ReservationTableResponse>> GetReservationsByGuestUserAsync();
+        Task<List<ReservationTableResponse>> GetReservationsByUserAsync();
     }
 }

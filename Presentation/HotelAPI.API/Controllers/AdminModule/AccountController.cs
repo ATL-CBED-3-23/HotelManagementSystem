@@ -11,7 +11,7 @@ namespace HotelAPI.API.Controllers.AdminModule
     [Route("api/[controller]")]
     [ApiController]
     [Authorize(AuthenticationSchemes = "Bearer")]
-    [Authorize(Roles = AllowedRolesForController.ADMIN)]
+    [Authorize(Roles = AllowedRolesForController.Admin)]
 
     public class AccountController : ControllerBase
     {
