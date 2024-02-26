@@ -16,6 +16,8 @@ namespace HotelAPI.Application.Services.Abstract
         Task<List<HotelTableResponse>> GetHotelsByRoomCountAsync(int roomCount);
         Task AddRatingAsync(HotelRatingAddRequest AddRequest);
         Task<double> GetHotelRatingAsync(int hotelId);
+        Task<List<HotelTableResponseForDropdown>> GetTableForDropdownByConditionAsync(int cityId);
+        Task<List<HotelTableResponseForDropdown>> GetTableForDropdownAsync();
 
     }
 }

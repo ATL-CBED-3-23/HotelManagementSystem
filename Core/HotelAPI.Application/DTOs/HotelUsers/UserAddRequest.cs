@@ -14,7 +14,7 @@ namespace HotelAPI.Application.DTOs.HotelUsers
         public string Password { get; set; }
         public string PhoneNumber { get; set; }
         public List<RoleAddRequest> Roles { get; set; }
-        public List<HotelUserImageAddRequest> HotelUserImages { get; set; }
+        public HotelUserImageAddRequest HotelUserImage { get; set; }
 
     }
 }

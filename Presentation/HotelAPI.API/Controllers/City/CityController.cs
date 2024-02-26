@@ -22,9 +22,25 @@ namespace HotelAPI.API.Controllers.City
         [HttpGet("GetById/{id}")]
         public async Task<IActionResult> GetById(int id)
         {
-            var item = await _cityService.GetForEditByIdAsync(id);
+            var item = await _cityService.GetByIdAsync(id);
             return Ok(item);
         }
+
+        [HttpGet("GetCityTableForDropdownByCountryId/{countryId}")]
+        public async Task<IActionResult> GetCityTableForDropdownByCountryId(int countryId)
+        {
+            var item = await _cityService.GetTableForDropdownByConditionAsync(countryId);
+            return Ok(item);
+        }
+
+        [HttpGet("GetCityTableForDropdown")]
+        public async Task<IActionResult> GetCityTableForDropdown()
+        {
+            var item = await _cityService.GetTableForDropdownAsync();
+            return Ok(item);
+        }
+
+
 
     }
 }

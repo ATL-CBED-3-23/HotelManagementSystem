@@ -1,5 +1,6 @@
 ﻿using HotelAPI.Application.DTOs.Countries;
 using HotelAPI.Application.Services.Abstract;
+using HotelAPI.Application.Services.Concrete;
 using HotelAPI.Application.Utilities.Constants;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -21,13 +22,19 @@ namespace HotelAPI.API.Controllers.Country
             _countryService = countryService;
         }
 
-        [HttpGet("GetTable")]
-        public async Task<IActionResult> GetTable()
+        [HttpGet("GetById/{id}")]
+        public async Task<IActionResult> GetById(int id)
         {
-            var list = await _countryService.GetTableForDropdownAsync();
-            return Ok(list);
+            var item = await _countryService.GetByIdAsync(id);
+            return Ok(item);
         }
 
+        [HttpGet("GetCountryTableForDropdown")]
+        public async Task<IActionResult> GetCountryTableForDropdown()
+        {
+            var item = await _countryService.GetTableForDropdownAsync();
+            return Ok(item);
+        }
 
     }
 }

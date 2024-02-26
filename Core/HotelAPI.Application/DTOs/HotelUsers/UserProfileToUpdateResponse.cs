@@ -4,7 +4,7 @@ using HotelAPI.Domain.Entities;
 
 namespace HotelAPI.Application.DTOs.HotelUsers
 {
-    public class GuestUserUpdateRequest : IMapTo<HotelUser>
+    public class UserProfileToUpdateResponse : IMapTo<HotelUser>
     {
         public int Id { get; set; }
         public string FirstName { get; set; }
@@ -12,7 +12,7 @@ namespace HotelAPI.Application.DTOs.HotelUsers
         public string UserName { get; set; }
         public string PhoneNumber { get; set; }
         public string Email { get; set; }
-        public HotelUserImageAddRequest HotelUserImage { get; set; }
-
+        public string Password { get; set; }
+        public HotelUserImageTableResponse HotelUserImage { get; set; }
     }
 }

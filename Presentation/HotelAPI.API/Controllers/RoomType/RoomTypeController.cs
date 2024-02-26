@@ -1,5 +1,6 @@
 ﻿using HotelAPI.Application.DTOs.RoomTypes;
 using HotelAPI.Application.Services.Abstract;
+using HotelAPI.Application.Services.Concrete;
 using HotelAPI.Application.Utilities.Constants;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -19,6 +20,12 @@ namespace RoomTypeAPI.API.Controllers.RoomType
             _roomTypeService = roomTypeService;
         }
 
+        [HttpGet("GetById/{id}")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            var item = await _roomTypeService.GetByIdAsync(id);
+            return Ok(item);
+        }
 
     }
 }

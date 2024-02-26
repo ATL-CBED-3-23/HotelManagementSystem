@@ -33,9 +33,9 @@ namespace HotelAPI.API.Controllers.HotelUser
 
         [AllowAnonymous]
         [HttpPost("SelfRegistration")]
-        public async Task<IActionResult> SelfRegistration(GuestUserAddRequest guestUserAddRequest)
+        public async Task<IActionResult> SelfRegistration(UserRegisterRequest userRegisterRequest)
         {
-            await _accountService.RegisterGuestUserAsync(guestUserAddRequest);
+            await _accountService.SelfRegisterUserAsync(userRegisterRequest);
             return Ok();
         }
 
@@ -44,19 +44,19 @@ namespace HotelAPI.API.Controllers.HotelUser
         {
             await _accountService.ChangePasswordAsync(userChangePasswordRequest);
             return Ok();
-        }      
+        }
 
         [HttpGet("GetProfile")]
         public async Task<IActionResult> GetUserProfile(int id)
         {
-            var result = await _accountService.GetGuestUserByIdAsync(id);
+            var result = await _accountService.GetUserProfileByIdAsync(id);
             return Ok(result);
         }
 
         [HttpPost("EditProfile")]
-        public async Task<IActionResult> EditProfile(GuestUserUpdateRequest guestUserUpdateRequest)
+        public async Task<IActionResult> EditProfile(UserProfileUpdateRequest userProfileUpdateRequest)
         {
-            await _accountService.EditGuestUserAsync(guestUserUpdateRequest);
+            await _accountService.EditUserProfileAsync(userProfileUpdateRequest);
             return Ok();
         }
 

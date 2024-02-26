@@ -28,62 +28,103 @@ namespace HotelAPI.Application.Services.Concrete
 
             await _cityRepository.CreateAsync(map);
         }
-
         public async Task DeleteByIdAsync(int id)
         {
             var city = await _cityRepository.FindByIdAsync(id);
             await _cityRepository.DeActivateAsync(city);
         }
-
         public async Task EditAsync(CityUpdateRequest cityUpdateRequest)
         {
             var map = _mapper.Map<City>(cityUpdateRequest);
             await _cityRepository.UpdateAsync(map);
         }
-
         public async Task<CityTableResponse> GetForEditByIdAsync(int id)
         {
-            City city = await _cityRepository.FindByIdAsync(id);
-            CityTableResponse cityTableResponse = _mapper.Map<CityTableResponse>(city);
-            return cityTableResponse;
-        }
+            List<City> cities = await _cityRepository.FindAllActiveAsync();
+            List<Hotel> hotels = await _hotelRepository.FindAllActiveAsync();
+            var result = from city in cities
+                         join hotel in hotels on city.Id equals hotel.CityId
+                         where city.Id == id
+                         select new CityTableResponse
+                         {
+                             Id = city.Id,
+                             Name = city.Name,
+                             PostalCode = city.PostalCode,
+                             Country = _mapper.Map<CountryTableResponse>(city.Country),
+                             HotelTable = city.Hotels.Select(h => new HotelTableResponse()
+                             {
+                                 Id = h.Id,
+                                 Name = hotel.Name,
+                                 Address = hotel.Address,
+                                 PhoneNumber = hotel.PhoneNumber,
+                                 Email = hotel.Email,
+                                 Grade = hotel.Grade,
+                             }).ToList(),
+                         };
 
+            return result.FirstOrDefault();
+        }
         public async Task<CityTableView> GetByIdAsync(int id)
         {
-            City city = await _cityRepository.FindByIdAsync(id);
-            CityTableView cityTableView = _mapper.Map<CityTableView>(city);
-            return cityTableView;
-        }
+            List<City> cities = await _cityRepository.FindAllActiveAsync();
+            List<Hotel> hotels = await _hotelRepository.FindAllActiveAsync();
+            var result = from city in cities
+                         join hotel in hotels on city.Id equals hotel.CityId
+                         where city.Id == id
+                         select new CityTableView
+                         {
+                             Id = city.Id,
+                             Name = city.Name,
+                             Country = _mapper.Map<CountryTableResponse>(city.Country),
+                             HotelTable = city.Hotels.Select(h => new HotelTableResponse()
+                             {
+                                 Id = h.Id,
+                                 Name = hotel.Name,
+                                 Address = hotel.Address,
+                                 PhoneNumber = hotel.PhoneNumber,
+                                 Email = hotel.Email,
+                                 Grade = hotel.Grade,
+                             }).ToList(),
+                         };
 
+            return result.FirstOrDefault();
+        }
         public async Task<List<CityTableResponse>> GetTableAsync()
         {
-           
-            List<City> cities = await _cityRepository.FindAllAsync();
-            List<Hotel> hotels = await _hotelRepository.FindAllAsync();
-            List<Country> countries = await _countryRepository.FindAllAsync();
-
-            var result = from country in countries
-                         join city in cities on country.Id equals city.CountryId
+            List<City> cities = await _cityRepository.FindAllActiveAsync();
+            List<Hotel> hotels = await _hotelRepository.FindAllActiveAsync();
+            var result = from city in cities
                          join hotel in hotels on city.Id equals hotel.CityId
-                         select
-                                 new CityTableResponse
-                                 {
-                                     Id = city.Id,
-                                     Name = city.Name,
-                                     PostalCode = city.PostalCode,
-                                     Country = new CountryTableResponse() { Id=country.Id,Name=country.Name},
-                                     HotelTable = hotels
-                         .Select(hotel => new HotelTableResponse
+                         select new CityTableResponse
                          {
-                             Id= hotel.Id,
-                             Name = hotel.Name,
-                             Address = hotel.Address,
-                             PhoneNumber = hotel.PhoneNumber,
-                             Email = hotel.Email,
-                             Grade = hotel.Grade,
-                         }).ToList()
-                                 };
+                             Id = city.Id,
+                             Name = city.Name,
+                             PostalCode = city.PostalCode,
+                             Country = _mapper.Map<CountryTableResponse>(city.Country),
+                             HotelTable = city.Hotels.Select(h => new HotelTableResponse()
+                             {
+                                 Id = h.Id,
+                                 Name = hotel.Name,
+                                 Address = hotel.Address,
+                                 PhoneNumber = hotel.PhoneNumber,
+                                 Email = hotel.Email,
+                                 Grade = hotel.Grade,
+                             }).ToList(),
+                         };
+
             return result.ToList();
+        }
+        public async Task<List<CityTableResponseForDropdown>> GetTableForDropdownByConditionAsync(int countryId)
+        {
+            List<City> cities = await _cityRepository.FindByConditionAsync(c => c.EntityStatus == EntityStatus.Active && c.CountryId == countryId);
+            List<CityTableResponseForDropdown> cityTableResponseForDropdown = _mapper.Map<List<CityTableResponseForDropdown>>(cities);
+            return cityTableResponseForDropdown;
+        }
+        public async Task<List<CityTableResponseForDropdown>> GetTableForDropdownAsync()
+        {
+            List<City> cities = await _cityRepository.FindAllActiveAsync();
+            List<CityTableResponseForDropdown> cityTableResponseForDropdown = _mapper.Map<List<CityTableResponseForDropdown>>(cities);
+            return cityTableResponseForDropdown;
         }
     }
 }

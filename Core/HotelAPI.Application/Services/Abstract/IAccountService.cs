@@ -7,7 +7,7 @@ namespace HotelAPI.Application.Services.Abstract
     public interface IAccountService
     {
         Task<IdentityResult> RegisterUserAsync(UserAddRequest userAddRequest);
-        Task<LoginedUserResponse> LoginAsync(LoginRequest loginRequest); // Novbeti ders davam elemek ve JWT
+        Task<LoginedUserResponse> LoginAsync(LoginRequest loginRequest); 
         Task<UserToUpdateResponse> GetUserByIdAsync(int id);
         Task<IdentityResult> EditUserAsync(UserUpdateRequest userUpdateRequest);
         Task<List<UserTableResponse>> GetAllUsersAsync();
@@ -20,13 +20,12 @@ namespace HotelAPI.Application.Services.Abstract
         Task<IdentityResult> RemoveUserFromRoleAsync(int userId, int roleIds);
         Task<IdentityResult> RemoveUserFromRolesAsync(int userId, List<int> roleIds);
         Task<IdentityResult> DeActivateRoleAsync(int id);
-        //Task<List<RoleTableResponse>> GetAllRolesAsync();
         List<RoleTableResponse> GetAllRolesAsync();
 
 
-        Task<IdentityResult> RegisterGuestUserAsync(GuestUserAddRequest guestUserAddRequest);
-        Task<IdentityResult> EditGuestUserAsync(GuestUserUpdateRequest guestUserUpdateRequest);
-        Task<GuestUserToUpdateResponse> GetGuestUserByIdAsync(int id);
+        Task<IdentityResult> SelfRegisterUserAsync(UserRegisterRequest userRegisterRequest);
+        Task<IdentityResult> EditUserProfileAsync(UserProfileUpdateRequest userProfileUpdateRequest);
+        Task<UserProfileToUpdateResponse> GetUserProfileByIdAsync(int id);
         Task<IdentityResult> RemoveAccountAsync();
     }
 }

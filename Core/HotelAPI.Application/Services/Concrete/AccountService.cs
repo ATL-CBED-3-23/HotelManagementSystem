@@ -51,11 +51,9 @@ public class AccountService : IAccountService
     #region User
     public async Task<IdentityResult> RegisterUserAsync(UserAddRequest userAddRequest)
     {
-        foreach (var image in userAddRequest.HotelUserImages)
-        {
-            byte[] bytes = Convert.FromBase64String(image.FileBase64);
-            image.FileName = FileHelper.SavePhotoToFtp(bytes, image.FileName);
-        }
+        byte[] bytes = Convert.FromBase64String(userAddRequest.HotelUserImage.FileBase64);
+        userAddRequest.HotelUserImage.FileName = FileHelper.SavePhotoToFtp(bytes, userAddRequest.HotelUserImage.FileName);
+
 
         HotelUser user = _mapper.Map<HotelUser>(userAddRequest);
         IdentityResult result = await _userManager.CreateAsync(user, userAddRequest.Password);
@@ -86,7 +84,6 @@ public class AccountService : IAccountService
                          LastName = user.LastName,
                          Email = user.Email,
                          UserName = user.UserName,
-                         NetworkStatus = user.NetworkStatus,
                          Roles = _userManager.GetRolesAsync(user).Result.ToList(),
                          HotelUserImage = new HotelUserImageTableResponse()
                          {
@@ -228,15 +225,14 @@ public class AccountService : IAccountService
     #endregion
 
     #region Guest
-    public async Task<IdentityResult> RegisterGuestUserAsync(GuestUserAddRequest guestUserAddRequest)
+    public async Task<IdentityResult> SelfRegisterUserAsync(UserRegisterRequest userRegisterRequest)
     {
-        foreach (var image in guestUserAddRequest.HotelUserImages)
-        {
-            byte[] bytes = Convert.FromBase64String(image.FileBase64);
-            image.FileName = FileHelper.SavePhotoToFtp(bytes, image.FileName);
-        }
-        HotelUser user = _mapper.Map<HotelUser>(guestUserAddRequest);
-        IdentityResult result = await _userManager.CreateAsync(user, guestUserAddRequest.Password);
+
+        byte[] bytes = Convert.FromBase64String(userRegisterRequest.HotelUserImage.FileBase64);
+        userRegisterRequest.HotelUserImage.FileName = FileHelper.SavePhotoToFtp(bytes, userRegisterRequest.HotelUserImage.FileName);
+
+        HotelUser user = _mapper.Map<HotelUser>(userRegisterRequest);
+        IdentityResult result = await _userManager.CreateAsync(user, userRegisterRequest.Password);
 
         if (result.Succeeded)
         {
@@ -246,7 +242,7 @@ public class AccountService : IAccountService
         }
         return result;
     }
-    public async Task<GuestUserToUpdateResponse> GetGuestUserByIdAsync(int id)
+    public async Task<UserProfileToUpdateResponse> GetUserProfileByIdAsync(int id)
     {
         List<HotelUser> users = _userManager.Users.ToList();
         List<HotelUserImage> images = await _userImageRepository.FindAllActiveAsync();
@@ -254,7 +250,7 @@ public class AccountService : IAccountService
         var result = from user in users
                      join image in images on user.Id equals image.HotelUserId
                      where user.Id == id
-                     select new GuestUserToUpdateResponse
+                     select new UserProfileToUpdateResponse
                      {
                          Id = user.Id,
                          FirstName = user.FirstName,
@@ -273,18 +269,18 @@ public class AccountService : IAccountService
         return result.FirstOrDefault();
 
     }
-    public async Task<IdentityResult> EditGuestUserAsync(GuestUserUpdateRequest guestUserUpdateRequest)
+    public async Task<IdentityResult> EditUserProfileAsync(UserProfileUpdateRequest userProfileUpdateRequest)
     {
 
-        byte[] bytes = Convert.FromBase64String(guestUserUpdateRequest.HotelUserImage.FileBase64);
-        guestUserUpdateRequest.HotelUserImage.FileName = FileHelper.SavePhotoToFtp(bytes, guestUserUpdateRequest.HotelUserImage.FileName);
+        byte[] bytes = Convert.FromBase64String(userProfileUpdateRequest.HotelUserImage.FileBase64);
+        userProfileUpdateRequest.HotelUserImage.FileName = FileHelper.SavePhotoToFtp(bytes, userProfileUpdateRequest.HotelUserImage.FileName);
 
-        HotelUser user = await _userManager.Users.SingleOrDefaultAsync(u => u.Id == guestUserUpdateRequest.Id && u.EntityStatus == EntityStatus.Active);
-        user.FirstName = guestUserUpdateRequest.FirstName;
-        user.LastName = guestUserUpdateRequest.LastName;
-        user.Email = guestUserUpdateRequest.Email;
-        user.UserName = guestUserUpdateRequest.UserName;
-        user.HotelUserImage = _mapper.Map<HotelUserImage>(guestUserUpdateRequest.HotelUserImage);
+        HotelUser user = await _userManager.Users.SingleOrDefaultAsync(u => u.Id == userProfileUpdateRequest.Id && u.EntityStatus == EntityStatus.Active);
+        user.FirstName = userProfileUpdateRequest.FirstName;
+        user.LastName = userProfileUpdateRequest.LastName;
+        user.Email = userProfileUpdateRequest.Email;
+        user.UserName = userProfileUpdateRequest.UserName;
+        user.HotelUserImage = _mapper.Map<HotelUserImage>(userProfileUpdateRequest.HotelUserImage);
 
 
         IdentityResult result = await _userManager.UpdateAsync(user);
