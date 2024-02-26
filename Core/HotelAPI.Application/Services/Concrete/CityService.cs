@@ -126,5 +126,6 @@ namespace HotelAPI.Application.Services.Concrete
             List<CityTableResponseForDropdown> cityTableResponseForDropdown = _mapper.Map<List<CityTableResponseForDropdown>>(cities);
             return cityTableResponseForDropdown;
         }
+
     }
 }
